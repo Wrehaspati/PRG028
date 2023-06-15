@@ -59,5 +59,6 @@
         <x-primary-button class="ml-4" class="btn btn-primary">
             {{ __('Register') }}
         </x-primary-button>
+        <br>
     </form>
 </x-guest-layout>
