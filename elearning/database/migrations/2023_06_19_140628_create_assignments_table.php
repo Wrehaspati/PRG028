@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('assignments', function (Blueprint $table) {
             $table->id();
+            $table->string('assignment_title');
+            $table->text('description');
+            $table->datetime('from_date');
+            $table->datetime('due_date');
+            $table->integer('result')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
