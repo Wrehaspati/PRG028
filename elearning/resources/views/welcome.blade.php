@@ -12,7 +12,7 @@
 <body>
     <section>
 
-        <title>Elearning</title>
+        <title>E-learning</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
