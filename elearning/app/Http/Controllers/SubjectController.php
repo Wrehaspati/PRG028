@@ -15,10 +15,17 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $student_id = Student::where('user_id', Auth::user()->id)->first()->id;
-        $student = Student::find($student_id)->grade()->first();
-        
-        $subject = Subject::where('grade_id', $student->id)->get();
+        $student_id = Student::where('user_id', Auth::user()->id)->first();
+        if($student_id == null)
+        {
+            $subject = null;
+        }
+        else
+        {
+            $student = Student::find($student_id->id)->grade()->first();
+            
+            $subject = Subject::where('grade_id', $student->id)->get();
+        }
 
         return view('dashboard', ['courses' => $subject]);
     }
