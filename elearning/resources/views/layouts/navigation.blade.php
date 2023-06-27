@@ -91,7 +91,7 @@
             <div class="flex">
 
                 <!--Hamburger menu sliding-->
-                <div class="hamburger-menu">
+                <div class="hamburger-menu hidden md:block">
                     <input id="menu__toggle" type="checkbox" />
                     <label class="menu__btn" for="menu__toggle">
                         <span></span>
