@@ -54,92 +54,19 @@
     <div style="background-color: #FFFF">
 
         <!--Card kelas-->
-        <section class="container" style="padding-left: 80px;">
-            <div style="display: flex; padding-left: 100px; padding-top: 100px;">
-                <div style="flex: 1;">
-                    <a href="{{ Route('dashboard.matematika') }}">
-                        <div class="card-box1">
-                            <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">Matematika</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card" style="width: 18rem; border: 0;">
-                                <img src="https://ouch-cdn2.icons8.com/-JpvKrmYor_iTQt6MJ62qwiumoO07rsjuIHXoC9zdDQ/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODk5/L2ZkOGRlOWI5LTcx/MDgtNGZiNi05YmNm/LTcyMmU3Yzc3YzY4/Ni5wbmc.png"
-                                    class="card-img-top" alt="gambar"
-                                    style="float: left; margin-right: 20px; padding-left: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                            </div>
-                        </div>
-                    </a>
+        <div class="w-full flex justify-center">
+            <section class="container w-full">
+                <div class="flex flex-wrap justify-start gap-5">
+                    @foreach ($courses as $subject) 
+                        @php
+                            $arr = ['rgb(239 68 68)','rgb(249 115 22)','rgb(245 158 11)','rgb(234 179 8)','rgb(132 204 22)','rgb(132 204 22)','rgb(16 185 129)','rgb(20 184 166)','rgb(6 182 212)','rgb(14 165 233)','rgb(59 130 246)','rgb(99 102 241)','rgb(124 58 237)','rgb(168 85 247)','rgb(217 70 239)','rgb(236 72 153)','rgb(244 63 94)'];
+                            $color = $arr[rand(0,16)];
+                        @endphp
+                        <x-grade-card :$subject class="pb-4" style="background-color: {{ $color }}" />
+                    @endforeach
                 </div>
-
-                <div style="flex: 1;">
-                    <div class="card" style="width: 18rem; border: 0;">
-                        <a href="{{ Route('dashboard.fisika') }}">
-                            <div class="card-box2">
-                                <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">Fisika</p>
-                            </div>
-                            <img src="https://ouch-cdn2.icons8.com/-JpvKrmYor_iTQt6MJ62qwiumoO07rsjuIHXoC9zdDQ/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODk5/L2ZkOGRlOWI5LTcx/MDgtNGZiNi05YmNm/LTcyMmU3Yzc3YzY4/Ni5wbmc.png"
-                                class="card-img-top" alt="gambar"
-                                style="float: left; margin-right: 20px; padding-left: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                        </a>
-                    </div>
-                </div>
-
-                <div style="flex: 1;">
-                    <div class="card" style="width: 18rem; border: 0;">
-                        <a href="{{ Route('dashboard.senibudaya') }}">
-                            <div class="card-box3">
-                                <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">Seni Budaya</p>
-                            </div>
-                            <img src="https://ouch-cdn2.icons8.com/-JpvKrmYor_iTQt6MJ62qwiumoO07rsjuIHXoC9zdDQ/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODk5/L2ZkOGRlOWI5LTcx/MDgtNGZiNi05YmNm/LTcyMmU3Yzc3YzY4/Ni5wbmc.png"
-                                class="card-img-top" alt="gambar"
-                                style="float: left; margin-right: 20px; padding-left: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div style="display: flex; padding-left: 100px; padding-top: 100px;">
-                <div style="flex: 1;">
-                    <div class="card" style="width: 18rem; border: 0;">
-                        <a href="{{ Route('dashboard.kimia') }}"">
-                            <div class="card-box4">
-                                <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">Kimia</p>
-                            </div>
-                            <img src="https://ouch-cdn2.icons8.com/-JpvKrmYor_iTQt6MJ62qwiumoO07rsjuIHXoC9zdDQ/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODk5/L2ZkOGRlOWI5LTcx/MDgtNGZiNi05YmNm/LTcyMmU3Yzc3YzY4/Ni5wbmc.png"
-                                class="card-img-top" alt="gambar"
-                                style="float: left; margin-right: 20px; padding-left: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                        </a>
-                    </div>
-                </div>
-
-                <div style="flex: 1;">
-                    <div class="card" style="width: 18rem; border: 0;">
-                        <a href="{{ Route('dashboard.kewirausahaan') }}">
-                            <div class="card-box5">
-                                <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">Kewirausahaan</p>
-                            </div>
-                            <img src="https://ouch-cdn2.icons8.com/-JpvKrmYor_iTQt6MJ62qwiumoO07rsjuIHXoC9zdDQ/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODk5/L2ZkOGRlOWI5LTcx/MDgtNGZiNi05YmNm/LTcyMmU3Yzc3YzY4/Ni5wbmc.png"
-                                class="card-img-top" alt="gambar"
-                                style="float: left; margin-right: 20px; padding-left: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                        </a>
-                    </div>
-                </div>
-                <div style="flex: 1;">
-                    <div class="card" style="width: 18rem; border: 0;">
-                        <a href="{{ Route('dashboard.PPKN') }}"">
-                            <div class="card-box6">
-                                <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">PPKN</p>
-                            </div>
-                            <img src="https://ouch-cdn2.icons8.com/-JpvKrmYor_iTQt6MJ62qwiumoO07rsjuIHXoC9zdDQ/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODk5/L2ZkOGRlOWI5LTcx/MDgtNGZiNi05YmNm/LTcyMmU3Yzc3YzY4/Ni5wbmc.png"
-                                class="card-img-top" alt="gambar"
-                                style="float: left; margin-right: 20px; padding-left: 20px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <hr style="margin-top: 50px">
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained();
-            $table->enum('role', ['teacher','administator']);
+            $table->enum('role', ['teacher','administrator']);
             $table->timestamps();
         });
     }

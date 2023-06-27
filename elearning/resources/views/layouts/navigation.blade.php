@@ -98,7 +98,7 @@
                     </label>
 
                     <ul class="menu__box" style="background-color : #ffff">
-                        <li style="padding-left : 40px;"><a class="menu__item" href="{{ Route('dashboard') }}">Dashboard
+                        <li style="padding-left : 40px;"><a class="menu__item" href="{{ Route('course.index') }}">Dashboard
                             </a></li>
                         <br>
                         <li style="font-size :25px; text-align : center"><a>
@@ -106,21 +106,21 @@
                             </a></li>
 
                         <li style="padding-left : 40px;"><a class="menu__item"
-                                href="{{ Route('dashboard.matematika') }}">Matematika <br>
+                                href="">Matematika <br>
                                 Senin 8:00 - 10:00 </a></li>
                         <li style="padding-left : 40px;"><a class="menu__item"
-                                href="{{ Route('dashboard.fisika') }}">Fisika <br>
+                                href="">Fisika <br>
                                 Selasa 8:00 - 10:00 </a></li>
                         <li style="padding-left : 40px;"><a class="menu__item"
-                                href="{{ Route('dashboard.senibudaya') }}">Seni Budaya <br>
+                                href="">Seni Budaya <br>
                                 Rabu 8:00 - 10:00 </a></li>
                         <li style="padding-left : 40px;"><a class="menu__item"
-                                href="{{ Route('dashboard.kimia') }}">Kimia <br>
+                                href="">Kimia <br>
                                 Kamis 8:00 - 10:00</a></li>
                         <li style="padding-left : 40px;"><a class="menu__item"
-                                href="{{ Route('dashboard.kewirausahaan') }}">Kewirausahaan <br>
+                                href="">Kewirausahaan <br>
                                 Jumat 8:00 - 10:00 </a></li>
-                        <li style="padding-left : 40px;"><a class="menu__item" href="{{ Route('dashboard.PPKN') }}">PPKN
+                        <li style="padding-left : 40px;"><a class="menu__item" href="">PPKN
                                 <br>
                                 Sabtu 8:00 - 10:00 </a></li>
                     </ul>
@@ -128,7 +128,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-0 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" style="color: #fff;">
+                    <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')" style="color: #fff;">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
@@ -154,6 +154,11 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @if (Auth::user()->role) 
+                            <x-dropdown-link :href="route('profile.edit')">
+                                    halo {{ Auth::user()->role->role }}
+                            </x-dropdown-link>
+                        @endif
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -191,7 +196,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
