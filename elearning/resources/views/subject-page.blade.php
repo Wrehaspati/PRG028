@@ -21,7 +21,7 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Matematika  Senin 8:00 - 10:00') }}
+                {{ __('E-Learning | '.$subject->subject_name) }}
             </h2>
         </x-slot>
 
@@ -31,21 +31,21 @@
             <section class="container" style="padding-left: 80px;">
                 <div style="display: flex; padding-left: 100px; padding-top: 100px; padding-right : 100px"">
                     <div style="flex: 1;">
-                        <a href="{{ Route('dashboard.filematematika') }}">
-                            <div class="card-body">
-                                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                                    <p style="padding: 20px; border-radius: 8px; ">
-                                        Tugas 1 | Menghitung Volume Kubus
-                                    </p>
-                                </div>
+                        @if ($assignments != null && count($assignments) > 0)  
+                            @foreach ($assignments as $assignment) 
+                                <x-assignment-card :$assignment />
+                            @endforeach
+                        @else
+                            <p style="text-decoration: padding-top: 20px">
+                                Belum ada file tugas atau materi diberikan dari guru...
+                            </p>
+                        @endif
 
-                            </div>
-                        </a>
-                        <p style="text-decoration: underline; padding-top: 20px">
+                        {{-- <p style="text-decoration: underline; padding-top: 20px">
                             <a href="{{ Route('dashboard.filematematika') }}"> Silahkan buatlah tugas berikut kerjakan
                                 format pdf.</a>
 
-                        </p>
+                        </p> --}}
                     </div>
 
 

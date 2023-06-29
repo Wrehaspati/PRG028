@@ -1,5 +1,9 @@
 <div class="py-3 max-w-[23rem]" style="flex: 1;">
-    <a href="{{ url('/course'.'/'.$subject->id) }}">
+    @if (Auth::user()->role) 
+        <a href="{{ Route('course.show', [Str::slug($subject->grade_id),Str::slug($subject->subject_name)]) }}">
+    @else
+        <a href="{{ Route('course.show', [Str::slug($grade->id),Str::slug($subject->subject_name)]) }}">
+    @endif
         <div {{ $attributes }}>
             <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">{{ $subject->subject_name }}</p>
         </div>
