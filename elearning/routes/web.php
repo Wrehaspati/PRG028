@@ -29,6 +29,30 @@ Route::get('/dashboard/file/matematika', function () {
 })->name('dashboard.filematematika');
 
 
+Route::get('/management/kelas', function () {
+    return view('ManagementKelas');
+})->name('management.kelas');
+
+Route::get('/management/siswa', function () {
+    return view('ManagementSiswa');
+})->name('management.siswa');
+
+Route::get('/management/guru', function () {
+    return view('ManagementGuru');
+})->name('management.guru');
+
+Route::get('/management/mata/pembelajaran', function () {
+    return view('ManagementMataPembelajaran');
+})->name('management.matapembelajaran');
+
+Route::get('/file/tersimpan', function () {
+    return view('FileTersimpan');
+})->name('file.tersimpan');
+
+
+
+
+
 Route::middleware('auth')->group(function () {
     
     Route::controller(SubjectController::class)->group(function () {
