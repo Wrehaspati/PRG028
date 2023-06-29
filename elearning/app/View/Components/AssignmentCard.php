@@ -6,13 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class GradeCard extends Component
+class AssignmentCard extends Component
 {
     /**
      * Create a new component instance.
      */
-
-    public function __construct(public $subject, public $grade)
+    public function __construct(public $assignment)
     {
         //
     }
@@ -22,6 +21,6 @@ class GradeCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.grade-card');
+        return view('components.assignment-card');
     }
 }
