@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
@@ -18,15 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-Route::get('/dashboard/matematika', function () {
-    return view('dashboardMatematika');
-})->name('dashboard.matematika');
-
-Route::get('/dashboard/file/matematika', function () {
-    return view('dashboardFileMatematika');
-})->name('dashboard.filematematika');
 
 
 Route::get('/management/kelas', function () {
@@ -50,9 +42,6 @@ Route::get('/file/tersimpan', function () {
 })->name('file.tersimpan');
 
 
-
-
-
 Route::middleware('auth')->group(function () {
     
     Route::controller(SubjectController::class)->group(function () {
@@ -61,6 +50,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/{grade}/subject/{subject}', 'show')->name('course.show');
         });
     });
+
+    Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

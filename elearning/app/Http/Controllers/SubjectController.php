@@ -17,7 +17,7 @@ class SubjectController extends Controller
     /**
      * Slug name conversion
      */
-    private function urlConvertion($name)
+    private function urlConvertion($name, $grade)
     {
         $result = null;
         $unslug_name = str_replace('-', ' ', $name);
@@ -36,7 +36,7 @@ class SubjectController extends Controller
             abort(401);
         endif;
 
-        $id = Subject::where('subject_name', $result)->first();
+        $id = Subject::where('subject_name', $result)->where('grade_id', $grade)->first();
 
         return $id;
     }
@@ -47,7 +47,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role == null || Auth::user()->role == ''):
+        if(Auth::user()->role == null && Auth::user()->role == ''):
             $student_id = Student::where('user_id', Auth::user()->id)->first();
             if($student_id != null):
                 $student_grade = Student::find($student_id->id)->grade()->first();
@@ -56,7 +56,7 @@ class SubjectController extends Controller
 
                 return view('dashboard', ['courses' => $subject, 'grade' => $student_grade]);
             else:
-                abort(400);
+                abort(401);
             endif;
         elseif(Auth::user()->role->role == 'teacher'):
             $teacher_id = Teacher::where('user_id', Auth::user()->id)->first();
@@ -65,12 +65,13 @@ class SubjectController extends Controller
 
                 return view('dashboard', ['courses' => $subject, 'grade' => null]);
             else:
-                abort(400);
+                abort(401);
             endif;
         elseif(Auth::user()->role->role == 'administrator'):
             return view('dashboard-admin');
         endif;
 
+        abort(401);
     }
 
     /**
@@ -96,13 +97,11 @@ class SubjectController extends Controller
     {
         $assignments = null;
 
-        $subject_id = $this->urlConvertion($subject);
+        $subject_id = $this->urlConvertion($subject, $grade);
 
         $subject = Subject::find($subject_id->id);
 
         $assignments = Subject::find($subject_id->id)->assignments;
-
-        Log::debug($assignments);
 
         return view('subject-page', ['subject' => $subject, 'assignments' => $assignments ]);
     }

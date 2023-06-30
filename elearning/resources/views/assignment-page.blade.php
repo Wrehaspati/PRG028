@@ -128,7 +128,7 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Matematika  Senin 8:00 - 10:00') }} </h2>
+                {{ __('E-Learning | '.$subject->subject_name.' | '.$assignment->assignment_title) }} </h2>
         </x-slot>
         <div style="background-color: #FFFF">
             {{--  tombol di dashboard file matematika --}}

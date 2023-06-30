@@ -11,7 +11,7 @@ class AssignmentCard extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public $assignment)
+    public function __construct(public $assignment, public $subject)
     {
         //
     }

@@ -33,7 +33,7 @@
                     <div style="flex: 1;">
                         @if ($assignments != null && count($assignments) > 0)  
                             @foreach ($assignments as $assignment) 
-                                <x-assignment-card :$assignment />
+                                <x-assignment-card :$assignment :$subject />
                             @endforeach
                         @else
                             <p style="text-decoration: padding-top: 20px">
