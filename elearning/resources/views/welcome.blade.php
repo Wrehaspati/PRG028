@@ -21,10 +21,41 @@
         <style>
             .card {
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
             }
 
             .bg-custom {
                 background-color: #19A7CE !important;
+            }
+
+            /* Tambahkan class "card-animation" pada elemen kartu */
+            .card-animation {
+                transition: transform 0.4s;
+                display: flex;
+
+            }
+
+            .card-animation:hover {
+                transform: translateY(-5px);
+            }
+
+            .profile-pic img {
+                border-radius: 10%;
+                animation: float 3s ease-in-out infinite;
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(0);
+                }
+
+                50% {
+                    transform: translateY(-2.5rem);
+                }
+
+                100% {
+                    transform: translateY(0);
+                }
             }
         </style>
 
@@ -76,7 +107,7 @@
                             dan kondisi.
                         </p>
                     </div>
-                    <div>
+                    <div class="profile-pic">
                         <img src="https://ouch-cdn2.icons8.com/OQ3yuVTnKqAb4khnDpO7_KBTgYEZFOxQQSTIg3787mg/rs:fit:256:458/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTYz/L2Q3ZTAzZDAzLWIw/MGQtNDgyMi05OWQ1/LTMxMmVhMTJkNTY3/My5wbmc.png"
                             style="margin-left: 20px; width: 256px; height: 458px; margin-top: 100px; margin-right: 110px">
                     </div>
@@ -86,42 +117,53 @@
 
             <!--Card informasi-->
             <section class="container">
+
                 <div style="display: flex; padding-left: 100px; padding-top: 100px;">
                     <div style="flex: 1;">
-                        <div class="card" style="width: 18rem; border: 0;">
-                            <img src="https://ouch-cdn2.icons8.com/c8X8JV_FXP35_r0FcqHwwkfGgUxlgZW1ezLDO1_P2aM/rs:fit:256:167/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjcw/L2RjOWU5ODFmLTc2/OTEtNDhjMC1iOGE1/LTE3YTc5OWU0Y2Fm/My5wbmc.png"
-                                class="card-img-top" alt="gambar" style="float: left; margin-right: 20px;">
-                            <div class="card-body" style="text-align: center;">
-                                <p class="card-text"> <b>DI MANA PUN - KAPAN PUN</b><br>
-                                    Tidak terhalang waktu dan jarak, pengajar maupun peserta didik dapat mengakses
-                                    kegiatan
-                                    pembelajaran dengan bebas</p>
+                        <div class="card-animation">
+                            <div class="card" style="width: 18rem; border: 0;">
+                                <img src="https://ouch-cdn2.icons8.com/c8X8JV_FXP35_r0FcqHwwkfGgUxlgZW1ezLDO1_P2aM/rs:fit:256:167/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjcw/L2RjOWU5ODFmLTc2/OTEtNDhjMC1iOGE1/LTE3YTc5OWU0Y2Fm/My5wbmc.png"
+                                    class="card-img-top" alt="gambar" style="float: left; margin-right: 20px;">
+                                <div class="card-body" style="text-align: center;">
+                                    <p class="card-text"> <b>DI MANA PUN - KAPAN PUN</b><br>
+                                        Tidak terhalang waktu dan jarak, pengajar maupun peserta didik dapat mengakses
+                                        kegiatan
+                                        pembelajaran dengan bebas</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div style="flex: 1;">
-                        <div class="card" style="width: 18rem; border: 0;">
-                            <img src="https://ouch-cdn2.icons8.com/ksrMREdD0FKcX6FhoIhIDQQ3xziwiehnzqEwZ85ROOo/rs:fit:256:178/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTk4/LzFjMTQzYjJjLTFl/MzEtNDFhZS1hNzU4/LTA5MmEzOTdhYmNj/Mi5wbmc.png"
-                                class="card-img-top" alt="gambar"
-                                style="float: left; margin-right: 20px; width: 17rem">
-                            <div class="card-body" style="text-align: center;">
-                                <p class="card-text"><b>AKSES MUDAH</b> <br>
-                                    Tanpa halangan, peserta didik maupun pengajar dapat melaksanakan kegiatan
-                                    pembelajaran
-                                    dalam
-                                    situasi apapun</p>
+                        <div class="card-animation">
+                            <div class="card" style="width: 18rem; border: 0;">
+                                <img src="https://ouch-cdn2.icons8.com/ksrMREdD0FKcX6FhoIhIDQQ3xziwiehnzqEwZ85ROOo/rs:fit:256:178/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTk4/LzFjMTQzYjJjLTFl/MzEtNDFhZS1hNzU4/LTA5MmEzOTdhYmNj/Mi5wbmc.png"
+                                    class="card-img-top" alt="gambar"
+                                    style="float: left; margin-right: 20px; width: 17rem">
+                                <div class="card-body" style="text-align: center;">
+                                    <p class="card-text"><b>AKSES MUDAH</b> <br>
+                                        Tanpa halangan, peserta didik maupun pengajar dapat melaksanakan kegiatan
+                                        pembelajaran
+                                        dalam
+                                        situasi apapun</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
                     <div style="flex: 1;">
-                        <div class="card" style="width: 18rem; border: 0;">
-                            <img src="https://ouch-cdn2.icons8.com/-vVVU0ytD19Goilrknwy2AvD8Hdl5hOd0QA_Dfj18ds/rs:fit:256:162/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNzE3/LzQ4NmM0ZmJmLTQ0/MWItNDlkOS05NzE1/LTJmYjgxNzQ5Zjg4/OS5wbmc.png"
-                                class="card-img-top" alt="gambar" style="float: left; margin-right: 20px;">
-                            <div class="card-body" style="text-align: center;">
-                                <p class="card-text"><b>TERPADU</b><br>
-                                    Bukti dan hasil kegiatan pembelajaran dikelola secara otentik dan obyektif sehingga
-                                    mudah
-                                    diaudit</p>
+                        <div class="card-animation">
+                            <div class="card" style="width: 18rem; border: 0;">
+                                <img src="https://ouch-cdn2.icons8.com/-vVVU0ytD19Goilrknwy2AvD8Hdl5hOd0QA_Dfj18ds/rs:fit:256:162/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNzE3/LzQ4NmM0ZmJmLTQ0/MWItNDlkOS05NzE1/LTJmYjgxNzQ5Zjg4/OS5wbmc.png"
+                                    class="card-img-top" alt="gambar" style="float: left; margin-right: 20px;">
+                                <div class="card-body" style="text-align: center;">
+                                    <p class="card-text"><b>TERPADU</b><br>
+                                        Bukti dan hasil kegiatan pembelajaran dikelola secara otentik dan obyektif
+                                        sehingga
+                                        mudah
+                                        diaudit</p>
+                                </div>
                             </div>
                         </div>
                     </div>
