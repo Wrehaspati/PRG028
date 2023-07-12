@@ -128,13 +128,15 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | '.$subject->subject_name.' | '.$assignment->assignment_title) }} </h2>
+                {{ __('E-Learning | ' . $subject->subject_name . ' | ' . $assignment->assignment_title) }} </h2>
         </x-slot>
         <div style="background-color: #FFFF">
+
             {{--  tombol di dashboard file matematika --}}
             @if (Auth::user()->role)
                 <div class="kanan">
                     <button class="button" onclick="openModal()">Create</button>
+                    <button class="button" onclick="openModal()">Edit</button>
                 </div>
                 <div id="myModal" class="modal">
                     <div class="modal-content">
@@ -148,11 +150,16 @@
                         <div class="kanan">
                             <button class="button-delete" onclick="deleteTask()">Delete</button>
                             <button class="button" onclick="saveTask()">OK</button>
+
+
                         </div>
                     </div>
                 </div>
-                <div id="card" style="display: none;"></div>
+
+                {{-- buat naruh hasil/tulisan dari tombol create --}}
+                <div id="card" style="display: none;"> </div>
             @endif
+
             {{-- < !--Card kelas--> --}}
             <section style="padding-left: 80px;">
                 <div class="teks">
