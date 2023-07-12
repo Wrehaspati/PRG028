@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -12,7 +13,13 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $students = DB::table('students as a')
+                    ->select('a.id', 'a.student_name','a.user_id' , 'c.grade_name', 'a.created_at', 'a.updated_at')
+                    ->leftJoin('student_grades as b', 'a.id', '=', 'b.student_id')
+                    ->leftJoin('grades as c', 'b.grade_id', '=', 'c.id')
+                    ->get();
+
+        return view('management/students', ['students' => $students]);
     }
 
     /**

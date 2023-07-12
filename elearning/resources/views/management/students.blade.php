@@ -65,7 +65,7 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Guru | Halo Admin !') }}
+                {{ __('E-Learning | Management Siswa | Halo Admin !') }}
             </h2>
         </x-slot>
 
@@ -76,60 +76,32 @@
                 <tr>
                     <th>Id</th>
                     <th>Nama</th>
-                    <th>Mata Pelajaran Yang Diajar</th>
+                    <th>Kelas</th>
+                    <th>Id User</th>
+                    <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Andika Perkasa</td>
-                    <td>Matematika</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Andika Perkasa</td>
-                    <td>Matematika</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Andika Perkasa</td>
-                    <td>Matematika</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Andika Perkasa</td>
-                    <td>Matematika</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Andika Perkasa</td>
-                    <td>Matematika</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <!-- Tambahkan baris untuk kelas lainnya -->
+
+                @forelse ($students as $student) 
+                    <tr>
+                        <td>{{ $student->id }}</td>
+                        <td>{{ $student->student_name }}</td>
+                        <td>{{ $student->grade_name}}</td>
+                        <td>{{ $student->user_id }}</td>
+                        <td>{{ $student->updated_at }}</td>
+                        <td>
+                            <!-- Tombol aksi -->
+                            <button class="edit-button">Edit</button>
+                            <button class="delete-button">Hapus</button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
+                    </tr>
+                @endforelse
+                
+                
             </table>
 
             <hr style="margin-top: 200px">

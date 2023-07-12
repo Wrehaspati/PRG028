@@ -65,7 +65,7 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Mata Pembelajaran | Halo Admin !') }}
+                {{ __('E-Learning | Management Kelas | Halo '.Auth::user()->name.' !') }}
             </h2>
         </x-slot>
 
@@ -74,44 +74,31 @@
             <!--Tabel-->
             <table class="tengah">
                 <tr>
-                    <th>id</th>
-                    <th>Nama Mata Pembelajaran</th>
-                    <th>Nama Guru Yang Mengajar</th>
+                    <th>Id</th>
+                    <th>Kelas</th>
+                    <th>Jumlah Siswa</th>
+                    <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Matematika</td>
-                    <td>Andika Perkasa Spd.Mpd</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Matematika</td>
-                    <td>Andika Perkasa Spd.Mpd</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Matematika</td>
-                    <td>Andika Perkasa Spd.Mpd</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
 
+                @forelse ($grades as $grade) 
+                    <tr>
+                        <td>{{ $grade->id }}</td>
+                        <td>{{ $grade->grade_name }}</td>
+                        <td>{{ $grade->jumlah_siswa }}</td>
+                        <td>{{ $grade->updated_at }}</td>
+                        <td>
+                            <!-- Tombol aksi -->
+                            <button class="edit-button">Edit</button>
+                            <button class="delete-button">Hapus</button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
+                    </tr>
+                @endforelse
 
-                <!-- Tambahkan baris untuk kelas lainnya -->
             </table>
 
             <hr style="margin-top: 200px">

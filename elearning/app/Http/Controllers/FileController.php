@@ -12,7 +12,8 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
+        $files = File::all();
+        return view('management/files', ['files' => $files]);
     }
 
     /**
@@ -37,6 +38,7 @@ class FileController extends Controller
     public function show(file $file)
     {
         //
+        echo "lol";
     }
 
     /**
@@ -60,6 +62,7 @@ class FileController extends Controller
      */
     public function destroy(file $file)
     {
-        //
+        file::destroy($file->id);
+        return back();
     }
 }

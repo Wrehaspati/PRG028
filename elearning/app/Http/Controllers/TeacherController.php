@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -12,7 +13,12 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
+        $teachers = DB::table('teachers as a')
+                    ->select('a.*', 'b.role')
+                    ->leftJoin('roles as b', 'a.user_id', '=', 'b.user_id')
+                    ->get();
+
+        return view('management/teachers', ['teachers' => $teachers]);
     }
 
     /**

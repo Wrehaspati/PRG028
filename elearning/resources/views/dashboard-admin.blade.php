@@ -72,7 +72,7 @@
                     alt="Management Guru">
                 <h3>Management Mata Pembelajaran</h3>
             </a>
-            <a href="{{ Route('file.tersimpan') }}" class="card">
+            <a href="{{ Route('file.index') }}" class="card">
                 <img src="https://ouch-cdn2.icons8.com/-ndYHeBSrcrOouvEnXsy6uOKNWSLihJ2STG50VGMI1Q/rs:fit:256:182/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU3/L2FhODZlY2RjLTdi/NGItNDA2YS04MTZh/LTQ2NTk5NDk4ZmEx/MC5wbmc.png"
                     alt="Management Guru">
                 <h3>File Tersimpan</h3>

@@ -65,7 +65,7 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | File Tersimpan | Halo Admin !') }}
+                {{ __('E-Learning | Management Mata Pembelajaran | Halo Admin !') }}
             </h2>
         </x-slot>
 
@@ -75,23 +75,28 @@
             <table class="tengah">
                 <tr>
                     <th>id</th>
-                    <th>Nama File</th>
-                    <th>File</th>
+                    <th>Nama Mata Pembelajaran</th>
+                    <th>Nama Guru Yang Mengajar</th>
+                    <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Diah Maharani_Tugas Matematika</td>
-                    <td>.pdf</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-
-
-                <!-- Tambahkan baris untuk kelas lainnya -->
+                @forelse ($subjects as $subject) 
+                    <tr>
+                        <td>{{ $subject->id }}</td>
+                        <td>{{ $subject->subject_name }}</td>
+                        <td>{{ $subject->teacher_name }}</td>
+                        <td>{{ $subject->updated_at }}</td>
+                        <td>
+                            <!-- Tombol aksi -->
+                            <button class="edit-button">Edit</button>
+                            <button class="delete-button">Hapus</button>
+                        </td>
+                    </tr>
+                @empty 
+                    <tr>
+                        <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
+                    </tr>
+                @endforelse
             </table>
 
             <hr style="margin-top: 200px">

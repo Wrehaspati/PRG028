@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\grade;
+use App\Models\Grade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GradeController extends Controller
 {
@@ -12,7 +13,13 @@ class GradeController extends Controller
      */
     public function index()
     {
-        //
+        $grades = DB::table('grades as a')
+                    ->select('a.*', DB::raw('COUNT(b.student_id) as jumlah_siswa'))
+                    ->join('student_grades as b', 'a.id', '=', 'b.grade_id')
+                    ->groupBy('a.id', 'a.grade_name', 'a.created_at', 'a.updated_at')
+                    ->get();
+
+        return view('management/grades', ['grades' => $grades]);
     }
 
     /**

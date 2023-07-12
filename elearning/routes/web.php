@@ -1,8 +1,14 @@
 <?php
 
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,35 +26,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/management/kelas', function () {
-    return view('ManagementKelas');
-})->name('management.kelas');
-
-Route::get('/management/siswa', function () {
-    return view('ManagementSiswa');
-})->name('management.siswa');
-
-Route::get('/management/guru', function () {
-    return view('ManagementGuru');
-})->name('management.guru');
-
-Route::get('/management/mata/pembelajaran', function () {
-    return view('ManagementMataPembelajaran');
-})->name('management.matapembelajaran');
-
-Route::get('/file/tersimpan', function () {
-    return view('FileTersimpan');
-})->name('file.tersimpan');
-
-
 Route::middleware('auth')->group(function () {
     
-    Route::controller(SubjectController::class)->group(function () {
-        Route::prefix('/course')->group(function () {
-            Route::get('/', 'index')->name('course.index');
-            Route::get('/{grade}/subject/{subject}', 'show')->name('course.show');
-        });
+    
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', [DashboardController::class,'index'])->name('course.index');
+        Route::get('/{grade}/subject/{subject}', [SubjectController::class, 'show'])->name('course.show');
     });
 
     Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
@@ -56,6 +39,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('/manage')->group(function () {
+        Route::get('grades', [GradeController::class, 'index'])->name('management.kelas');
+        
+        Route::get('students', [StudentController::class, 'index'])->name('management.siswa');
+        
+        Route::get('teachers', [TeacherController::class, 'index'])->name('management.guru');
+        
+        Route::get('subjects', [SubjectController::class, 'index'])->name('management.matapembelajaran');
+        
+        Route::resource('file', FileController::class);
+    });
 });
 
 require __DIR__.'/auth.php';

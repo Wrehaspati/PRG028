@@ -65,7 +65,7 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Siswa | Halo Admin !') }}
+                {{ __('E-Learning | File Tersimpan | Halo Admin !') }}
             </h2>
         </x-slot>
 
@@ -75,96 +75,33 @@
             <table class="tengah">
                 <tr>
                     <th>id</th>
-                    <th>Nama</th>
-                    <th>Kelas</th>
+                    <th>Nama File</th>
+                    <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>3</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>4</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>5</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>6</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>7</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>8</td>
-                    <td>Diah Maharani</td>
-                    <td>Kelas 10</td>
-                    <td>
-                        <!-- Tombol aksi -->
-                        <button class="edit-button">Edit</button>
-                        <button class="delete-button">Hapus</button>
-                    </td>
-                </tr>
+                @forelse ($files as $file) 
+                    <tr>
+                        <td>{{ $file->id }}</td>
+                        <td>{{ $file->filename }}</td>
+                        <td>{{ $file->updated_at }}</td>
+                        <td>
+                            <div class="flex justify-center gap-2">
+                                <!-- Tombol aksi -->
+                                <button class="edit-button">Edit</button>
+                                <form action="{{ Route('file.destroy', $file->id) }}" method="POST">
+                                    @csrf   
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                </form>
+                            </div>   
+                        </td>
+                    </tr>
+                @empty 
+                    <tr>
+                        <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
+                    </tr>
+                @endforelse
+                
 
 
                 <!-- Tambahkan baris untuk kelas lainnya -->
