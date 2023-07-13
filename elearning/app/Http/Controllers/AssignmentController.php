@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\assignment;
 use App\Models\Subject;
+use App\View\Components\AssignmentCard;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AssignmentController extends Controller
 {
@@ -49,7 +51,7 @@ class AssignmentController extends Controller
      */
     public function create()
     {
-        //
+        return "lol";
     }
 
     /**
@@ -57,7 +59,13 @@ class AssignmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $assignment = new Assignment;
+        $assignment->assignment_title = $request->title;
+        $assignment->subject_id = $request->subject;
+        $assignment->description = $request->description;
+        $assignment->save();
+
+        return back();
     }
 
     /**

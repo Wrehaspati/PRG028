@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('subject_id');
             $table->string('assignment_title');
             $table->text('description');
-            $table->datetime('from_date');
-            $table->datetime('due_date');
+            $table->datetime('from_date')->nullable();
+            $table->datetime('due_date')->nullable();
             $table->integer('result')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();

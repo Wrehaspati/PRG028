@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Models\Assignment;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
+    Route::resource('assignment', AssignmentController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
