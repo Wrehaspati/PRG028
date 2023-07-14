@@ -132,10 +132,13 @@
         </x-slot>
         <div style="background-color: #FFFF">
 
-            {{--  tombol di dashboard file matematika --}}
             @if (Auth::user()->role)
-                <div class="kanan">
-                    <button class="button" onclick="openModal()">Create</button>
+                <div class="flex justify-end gap-2 pr-20">
+                    <form action="{{ Route('assignment.destroy', $assignment->id) }}" method="POST">
+                        @csrf   
+                        @method('DELETE')        
+                        <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
+                    </form>
                     <button class="button" onclick="openModal()">Edit</button>
                 </div>
                 <div id="myModal" class="modal">

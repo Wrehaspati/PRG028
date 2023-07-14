@@ -103,6 +103,7 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        Subject::destroy($subject->id);
+        return back();
     }
 }

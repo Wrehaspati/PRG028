@@ -103,6 +103,7 @@ class AssignmentController extends Controller
      */
     public function destroy(assignment $assignment)
     {
-        //
+        assignment::destroy($assignment->id);
+        return redirect('dashboard/');
     }
 }
