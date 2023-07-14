@@ -66,6 +66,7 @@ class TeacherController extends Controller
      */
     public function destroy(teacher $teacher)
     {
-        //
+        teacher::destroy($teacher->id);
+        return back();
     }
 }

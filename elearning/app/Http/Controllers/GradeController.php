@@ -67,6 +67,7 @@ class GradeController extends Controller
      */
     public function destroy(grade $grade)
     {
-        //
+        Grade::destroy($grade->id);
+        return back();
     }
 }

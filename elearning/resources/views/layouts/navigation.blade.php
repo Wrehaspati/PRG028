@@ -9,11 +9,13 @@
 
     #menu__toggle:checked+.menu__btn>span::before {
         top: 0;
+        background-color: #494646;
         transform: rotate(0deg);
     }
 
     #menu__toggle:checked+.menu__btn>span::after {
         top: 0;
+        background-color: #494646;
         transform: rotate(90deg);
     }
 
@@ -38,8 +40,10 @@
         position: absolute;
         width: 100%;
         height: 2px;
-        background-color: #100f0f;
+        top: 10px;
+        background-color: #fff;
         transition-duration: .25s;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
     }
 
     .menu__btn>span::before {
@@ -105,29 +109,19 @@
                                 <h1>My Class</h1>
                             </a></li>
 
-                        <li style="padding-left : 40px;"><a class="menu__item"
-                                href="">Matematika <br>
-                                Senin 8:00 - 10:00 </a></li>
-                        <li style="padding-left : 40px;"><a class="menu__item"
-                                href="">Fisika <br>
-                                Selasa 8:00 - 10:00 </a></li>
-                        <li style="padding-left : 40px;"><a class="menu__item"
-                                href="">Seni Budaya <br>
-                                Rabu 8:00 - 10:00 </a></li>
-                        <li style="padding-left : 40px;"><a class="menu__item"
-                                href="">Kimia <br>
-                                Kamis 8:00 - 10:00</a></li>
-                        <li style="padding-left : 40px;"><a class="menu__item"
-                                href="">Kewirausahaan <br>
-                                Jumat 8:00 - 10:00 </a></li>
-                        <li style="padding-left : 40px;"><a class="menu__item" href="">PPKN
-                                <br>
-                                Sabtu 8:00 - 10:00 </a></li>
+                        @if (isset($courses))
+                            @foreach ($courses as $subject)
+                                <li style="padding-left : 40px;"><a class="menu__item"
+                                    href="">{{ $subject->subject_name }} <br>
+                                    Fitur jam belum ditambahkan </a></li>
+                            @endforeach
+                        @endif
+
                     </ul>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-0 sm:flex">
+                <div class="hidden pl-5 space-x-8 sm:-my-px sm:ml-0 sm:flex">
                     <x-nav-link :href="route('course.index')" :active="request()->routeIs('course.index')" style="color: #fff;">
                         {{ __('Dashboard') }}
                     </x-nav-link>
@@ -182,7 +176,7 @@
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                    class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

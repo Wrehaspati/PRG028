@@ -140,7 +140,7 @@
                 <div id="myModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <form action="{{ route('assignment.store') }}" method="POST">
+                        <form action="{{ route('assignments.store') }}" method="POST">
                             @csrf
                             <h2>Title / Judul</h2>
                             <input type="hidden" name="subject" value="{{ $subject->id }}">

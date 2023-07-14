@@ -165,9 +165,9 @@
         <div style="background-color: #FFFF">
             @if (Auth::user()->role)
                 <div class="flex justify-end gap-2 pr-20">
-                    <form action="{{ Route('assignment.destroy', $assignment->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
+                    <form action="{{ Route('assignments.destroy', $assignment->id) }}" method="POST">
+                        @csrf   
+                        @method('DELETE')        
                         <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
                     </form>
                     <button class="button" onclick="openModal()">Edit</button>
@@ -192,17 +192,14 @@
 
             <section style="padding-left: 80px;">
                 <div class="teks">
-                    <p>Silahkan kerjakan tugas, soal nya ada di flie pdf berikut:</p>
+                    <p>{{ $assignment->description }} </p>
                 </div>
                 <div class="teks">
                     <p> // pada tempat ini harusnya berisi file soal, ketika guru mengupload
                         soal dalam bentuk pdf/file
                     </p>
                 </div>
-                <div class="teks">
-                    <p>kumpulkan dalam bentuk PDF ya</p>
-                </div>
-                <div style="display: flex; padding-left: 50px; padding-top: 50px; padding-right : 100px">
+                <div style="display: flex; padding-left: 50px; padding-top: 10px; padding-right : 100px">
                     <div style="flex: 1;">
                         <div class="card-body">
                             <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">

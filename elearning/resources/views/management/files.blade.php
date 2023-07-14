@@ -88,7 +88,7 @@
                             <div class="flex justify-center gap-2">
                                 <!-- Tombol aksi -->
                                 <button class="edit-button">Edit</button>
-                                <form action="{{ Route('file.destroy', $file->id) }}" method="POST">
+                                <form action="{{ Route('files.destroy', $file->id) }}" method="POST">
                                     @csrf   
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>

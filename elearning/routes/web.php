@@ -37,8 +37,14 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
-    Route::resource('assignment', AssignmentController::class);
-    Route::resource('subject', SubjectController::class);
+
+    Route::resources([
+        'assignments' => AssignmentController::class,
+        'subjects' => SubjectController::class,
+        'teachers' => TeacherController::class,
+        'grades' => GradeController::class,
+        'students' => StudentController::class,
+    ]);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

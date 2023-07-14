@@ -232,9 +232,16 @@
 
                         <td>{{ $teacher->updated_at }}</td>
                         <td>
-                            <!-- Tombol aksi -->
-                            <button class="edit-button">Edit</button>
-                            <button class="delete-button">Hapus</button>
+                            <div class="flex justify-center gap-2">
+                                <!-- Tombol aksi -->
+                                <button class="edit-button">Edit</button>
+                                <form action="{{ Route('teachers.destroy', $teacher->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="hidden bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty
