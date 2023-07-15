@@ -166,8 +166,8 @@
             @if (Auth::user()->role)
                 <div class="flex justify-end gap-2 pr-20">
                     <form action="{{ Route('assignments.destroy', $assignment->id) }}" method="POST">
-                        @csrf   
-                        @method('DELETE')        
+                        @csrf
+                        @method('DELETE')
                         <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
                     </form>
                     <button class="button" onclick="openModal()">Edit</button>
@@ -227,41 +227,42 @@
             <div id="upload-success"
                 style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
             </div>
-            <br>
-            <hr>
-            <br><br>
 
-            <table class="tengah">
-                <tr>
-                    <th>No</th>
-                    <th>Nim</th>
-                    <th>Nama</th>
-                    <th>Filename (click to view)</th>
-                    <th>Grades</th>
-                    <th>Action Grade</th>
-                </tr>
 
-                @forelse ($files as $file) 
+            @if (Auth::user()->role)
+                <br>
+                <hr> <br><br>
+                <table class="tengah">
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $file->id }}</td>
-                        <td>{{ $file->student_name }}</td>
-                        <td>{{ $file->filename }}</td>
-                        <td id="grade-1">
-                            @if ($file->grade && $file->grade != '') 
-                                {{ $file->grade }}
-                            @else 
-                                {{ __('Belum dinilai') }}
-                            @endif
-                        </td>
-                        <td>
-                            <button class="grade-button" onclick="showGradeModal()">Grades</button>
-                        </td>
+                        <th>No</th>
+                        <th>Nim</th>
+                        <th>Nama</th>
+                        <th>Filename (click to view)</th>
+                        <th>Grades</th>
+                        <th>Action Grade</th>
                     </tr>
-                @empty 
-                
-                @endforelse
-                
+                    @forelse ($files as $file)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $file->id }}</td>
+                            <td>{{ $file->student_name }}</td>
+                            <td>{{ $file->filename }}</td>
+                            <td id="grade-1">
+                                @if ($file->grade && $file->grade != '')
+                                    {{ $file->grade }}
+                                @else
+                                    {{ __('Belum dinilai') }}
+                                @endif
+                            </td>
+                            <td>
+                                <button class="grade-button" onclick="showGradeModal()">Grades</button>
+                            </td>
+                        </tr>
+                    @empty
+                    @endforelse
+            @endif
+
+
             </table>
             <div id="grade-modal" class="modal">
                 <div class="modal-content">
