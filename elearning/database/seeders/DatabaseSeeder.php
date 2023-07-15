@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             DummySubjects::class,
             DummyStudentGrades::class,
             DummyAssignments::class,
+            DummyFiles::class,
         ]);
     }
 }

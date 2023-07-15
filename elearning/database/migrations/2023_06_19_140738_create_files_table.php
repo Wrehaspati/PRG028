@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('filename');
             $table->string('path')->nullable();
             $table->foreignId('assignment_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->enum('assign_by', ['student','teacher']);
+            $table->integer('grade')->nullable();
             $table->timestamps();
         });
     }

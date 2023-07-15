@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\assignment;
+use App\Models\File;
 use App\Models\Subject;
 use App\View\Components\AssignmentCard;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class AssignmentController extends Controller
@@ -79,7 +81,13 @@ class AssignmentController extends Controller
 
         $assignments = Assignment::find($assigment_id);
 
-        return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments]);
+        $files = DB::table('files as a')
+            ->select('a.*', 'b.student_name', 'b.id')
+            ->leftJoin('students as b', 'a.user_id', '=', 'b.user_id')
+            ->where('a.assign_by', 'student')
+            ->get();
+
+        return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files]);
     }
 
     /**

@@ -236,33 +236,32 @@
                     <th>No</th>
                     <th>Nim</th>
                     <th>Nama</th>
-                    <th>Task</th>
-                    <th>Status</th>
+                    <th>Filename (click to view)</th>
                     <th>Grades</th>
                     <th>Action Grade</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>22099134</td>
-                    <td>Diah Maharani</td>
-                    <td>Tugas_Matematika.pdf</td>
-                    <td>Turn-in</td>
-                    <td id="grade-1"></td>
-                    <td>
-                        <button class="grade-button" onclick="showGradeModal(1)">Grades</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>230089837</td>
-                    <td>Cahca Juliana</td>
-                    <td>Tugas_Matematika.pdf</td>
-                    <td>Turn-in</td>
-                    <td id="grade-2"></td>
-                    <td>
-                        <button class="grade-button" onclick="showGradeModal(2)">Grades</button>
-                    </td>
-                </tr>
+
+                @forelse ($files as $file) 
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $file->id }}</td>
+                        <td>{{ $file->student_name }}</td>
+                        <td>{{ $file->filename }}</td>
+                        <td id="grade-1">
+                            @if ($file->grade && $file->grade != '') 
+                                {{ $file->grade }}
+                            @else 
+                                {{ __('Belum dinilai') }}
+                            @endif
+                        </td>
+                        <td>
+                            <button class="grade-button" onclick="showGradeModal()">Grades</button>
+                        </td>
+                    </tr>
+                @empty 
+                
+                @endforelse
+                
             </table>
             <div id="grade-modal" class="modal">
                 <div class="modal-content">
