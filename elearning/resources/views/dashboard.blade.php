@@ -46,10 +46,10 @@
 <x-app-layout>
     <x-slot name="navigation">
     @if (isset($courses)) 
-            @include('layouts.navigation', ['courses' => $courses])
-        @else 
-            @include('layouts.navigation')
-        @endif
+        @include('layouts.navigation', ['courses' => $courses])
+    @else 
+        @include('layouts.navigation')
+    @endif
     </x-slot>
 
     <div class="color"></div>

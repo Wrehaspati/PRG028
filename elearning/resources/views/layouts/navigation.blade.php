@@ -94,31 +94,31 @@
         <div class="flex justify-between h-16">
             <div class="flex">
 
-                <!--Hamburger menu sliding-->
-                <div class="hamburger-menu hidden md:block">
-                    <input id="menu__toggle" type="checkbox" />
-                    <label class="menu__btn" for="menu__toggle">
-                        <span></span>
-                    </label>
 
-                    <ul class="menu__box" style="background-color : #ffff">
-                        <li style="padding-left : 40px;"><a class="menu__item" href="{{ Route('course.index') }}">Dashboard
-                            </a></li>
-                        <br>
-                        <li style="font-size :25px; text-align : center"><a>
-                                <h1>My Class</h1>
-                            </a></li>
+                @if (isset($courses))
+                    <!--Hamburger menu sliding-->
+                    <div class="hamburger-menu hidden md:block">
+                        <input id="menu__toggle" type="checkbox" />
+                        <label class="menu__btn" for="menu__toggle">
+                            <span></span>
+                        </label>
 
-                        @if (isset($courses))
+                        <ul class="menu__box" style="background-color : #ffff">
+                            <li style="padding-left : 40px;"><a class="menu__item"
+                                    href="{{ Route('course.index') }}">Dashboard
+                                </a></li>
+                            <br>
+                            <li style="font-size :25px; text-align : center"><a>
+                                    <h1>My Class</h1>
+                                </a></li>
                             @foreach ($courses as $subject)
                                 <li style="padding-left : 40px;"><a class="menu__item"
-                                    href="">{{ $subject->subject_name }} <br>
-                                    Fitur jam belum ditambahkan </a></li>
+                                        href="">{{ $subject->subject_name }} <br>
+                                        Fitur jam belum ditambahkan </a></li>
                             @endforeach
-                        @endif
-
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
+                @endif
 
                 <!-- Navigation Links -->
                 <div class="hidden pl-5 space-x-8 sm:-my-px sm:ml-0 sm:flex">
@@ -135,10 +135,10 @@
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div>
-                                @if (Auth::user()->role) 
+                                @if (Auth::user()->role)
                                     Hello {{ Auth::user()->role->role }},
                                 @else
-                                    Hello, 
+                                    Hello,
                                 @endif
                                 {{ Auth::user()->name }}
                             </div>
