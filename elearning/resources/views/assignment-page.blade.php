@@ -29,7 +29,7 @@
             border: none;
             cursor: pointer;
             font-size: 16px;
-            border-radius: 10px;
+            border-radius: 5px;
         }
 
         .upload-button:hover,
@@ -171,7 +171,7 @@
                         @method('DELETE')
                         <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
                     </form>
-                    <button class="button" onclick="openModal()">Upload</button>
+                    <a class="button m-0" href="/edit-assignment">Edit</a>
                 </div>
                 <div id="myModal" class="modal">
                     <div class="modal-content">
@@ -227,13 +227,13 @@
 
             @if (Auth::user()->role)
                 <div class="container">
-                    <button><a class="upload-button" href="/edit-assignment">Edit</a></button>
+                    <button class="button" onclick="openModal()">Upload</button>
+                    <button class="remove-button" disabled>Remove</button>
                 </div>
             @else
                 <div class="container">
                     <input type="file" id="file-input" style="display: none;">
                     <button class="upload-button">Upload</button>
-                    <button class="remove-button" disabled>Remove</button>
                 </div>
                 <div id="upload-success"
                     style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
@@ -256,7 +256,7 @@
                     @forelse ($files as $file)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $file->student_id }}</td>
+                            <td>{{ $file->id }}</td>
                             <td>{{ $file->student_name }}</td>
                             <td>{{ $file->filename }}</td>
                             <td id="grade-1">
@@ -267,17 +267,10 @@
                                 @endif
                             </td>
                             <td>
-                                @if ($file->grade && $file->grade != '')
-                                    <button class="grade-button" onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit nilai</button>
-                                @else
-                                    <button class="grade-button" onclick="showGradeModal({{ $file->id }})">Beri nilai</button>
-                                @endif
+                                <button class="grade-button" onclick="showGradeModal()">Grades</button>
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="6">Belum ada file yang terkirim</td>
-                        </tr>
                     @endforelse
             @endif
 
@@ -332,29 +325,29 @@
         const uploadSuccess = document.getElementById('upload-success');
 
         // Mengatur event untuk tombol Upload
-        uploadButton.addEventListener('click', function() {
-            fileInput.click();
-        });
+        // uploadButton.addEventListener('click', function() {
+        //     fileInput.click();
+        // });
 
         // Mengatur event listener untuk perubahan input file
-        fileInput.addEventListener('change', function() {
-            const selectedFile = fileInput.files[0];
+        // fileInput.addEventListener('change', function() {
+        //     const selectedFile = fileInput.files[0];
 
-            if (selectedFile) {
-                // Proses upload file di sini
-                console.log('File yang dipilih:', selectedFile);
+        //     if (selectedFile) {
+        //         // Proses upload file di sini
+        //         console.log('File yang dipilih:', selectedFile);
 
-                // Menampilkan nama file pada kotak bayangan
-                fileName.textContent = `File Upload | ${selectedFile.name}`;
+        //         // Menampilkan nama file pada kotak bayangan
+        //         fileName.textContent = `File Upload | ${selectedFile.name}`;
 
-                // Mengaktifkan tombol Remove setelah berhasil upload
-                removeButton.disabled = false;
+        //         // Mengaktifkan tombol Remove setelah berhasil upload
+        //         removeButton.disabled = false;
 
-                // Menampilkan notifikasi file berhasil diunggah
-                uploadSuccess.textContent = 'File berhasil diunggah.';
-                uploadSuccess.style.display = 'block';
-            }
-        });
+        //         // Menampilkan notifikasi file berhasil diunggah
+        //         uploadSuccess.textContent = 'File berhasil diunggah.';
+        //         uploadSuccess.style.display = 'block';
+        //     }
+        // });
 
         // Mengatur event listener untuk tombol Remove
         removeButton.addEventListener('click', function() {

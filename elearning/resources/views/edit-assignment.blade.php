@@ -80,26 +80,26 @@
                 E-Learning | Edit Assignment</h2>
         </x-slot>
         <div style="background-color: #FFFF">
-
-
-            <div class="container">
-                <h2><b>Form Edit Assignment</b></h2><br>
-
-                <label for="judul">Judul Tugas</label>
-                <input type="text" id="judul" name="judul"><br>
-
-                <label for="deskripsi">Deskripsi</label>
-                <textarea id="deskripsi" name="deskripsi" rows="8"></textarea><br>
-
-                <label for="file">File </label>
-                <input type="file" id="file" name="file"><br>
-
-                <div class="button-container">
-                    <button class="save-button">Save</button>
-                    <button class="button-delete" onclick="resetForm()">Reset</button>
-                </div>
+            <div class="w-100 flex justify-center">
+                <div class="container">
+                    <h2><b>Form Edit Assignment</b></h2><br>
+    
+                    <label for="judul">Judul Tugas</label>
+                    <input type="text" id="judul" name="judul"><br>
+    
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea id="deskripsi" name="deskripsi" rows="8"></textarea><br>
+    
+                    <label for="file">File </label>
+                    <input type="file" id="file" name="file"><br>
+    
+                    <div class="button-container">
+                        <button class="save-button">Save</button>
+                        <button class="button-delete" onclick="resetForm()">Reset</button>
+                    </div>
+                </div>    
             </div>
-
+            
             <hr style="margin-top: 200px">
             <section style="padding-bottom: 50px; padding-top : 30px; padding-left : 110px;">
                 <div class="d-flex align-items-center">

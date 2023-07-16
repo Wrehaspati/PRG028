@@ -104,7 +104,7 @@ class AssignmentController extends Controller
      */
     public function update(Request $request, assignment $assignment)
     {
-        Log::debug("message");
+        //
     }
 
     /**

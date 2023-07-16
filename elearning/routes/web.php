@@ -29,7 +29,10 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-
+    
+    Route::get('/admin', function () {
+        return view('welcome');
+    });
 
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', [DashboardController::class,'index'])->name('course.index');
