@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\file;
+use Faker\Core\File as CoreFile;
 use Illuminate\Http\Request;
 
 class FileController extends Controller
@@ -38,7 +39,6 @@ class FileController extends Controller
     public function show(file $file)
     {
         //
-        echo "lol";
     }
 
     /**
@@ -47,6 +47,18 @@ class FileController extends Controller
     public function edit(file $file)
     {
         //
+    }
+
+    /**
+     * Update the grade of student
+     */
+    public function grade(Request $request)
+    {
+        $file = file::find($request->file_id);
+        $file->grade = $request->grade;
+        $file->save();
+
+        return back();
     }
 
     /**

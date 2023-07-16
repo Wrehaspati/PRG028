@@ -256,7 +256,7 @@
                     @forelse ($files as $file)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $file->id }}</td>
+                            <td>{{ $file->student_id }}</td>
                             <td>{{ $file->student_name }}</td>
                             <td>{{ $file->filename }}</td>
                             <td id="grade-1">
@@ -267,10 +267,17 @@
                                 @endif
                             </td>
                             <td>
-                                <button class="grade-button" onclick="showGradeModal()">Grades</button>
+                                @if ($file->grade && $file->grade != '')
+                                    <button class="grade-button" onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit nilai</button>
+                                @else
+                                    <button class="grade-button" onclick="showGradeModal({{ $file->id }})">Beri nilai</button>
+                                @endif
                             </td>
                         </tr>
                     @empty
+                        <tr>
+                            <td colspan="6">Belum ada file yang terkirim</td>
+                        </tr>
                     @endforelse
             @endif
 
@@ -278,11 +285,14 @@
             </table>
             <div id="grade-modal" class="modal">
                 <div class="modal-content">
-                    <span class="close" onclick="closeGradeModal()">&times;</span>
-                    <h2>Grades</h2>
-                    <input type="number" id="grade-input" class="grade-input" placeholder="Enter grade" />
-                    <button class="button" onclick="saveGrade()">OK</button>
-
+                    <form action="{{ route('file.grade') }}" method="POST">
+                        @csrf
+                        <span class="close" onclick="closeGradeModal()">&times;</span>
+                        <h2>Grades</h2>
+                        <input type="number" max="100" min="0" class="w-1/5" id="grade-input" name="grade" class="grade-input" placeholder="Enter grade" />
+                        <input type="hidden" id="form-hidden-id" name="file_id">
+                        <button class="button" onclick="saveGrade()">OK</button>
+                    </form>
                 </div>
             </div>
 
@@ -422,11 +432,15 @@
         }
 
         //input nilai
-        var selectedGradeId;
+        var selectedGradeId, hasGrade;
 
-        function showGradeModal(gradeId) {
+        function showGradeModal(gradeId, hasGrade) {
             selectedGradeId = gradeId;
             var gradeModal = document.getElementById("grade-modal");
+            var hasGradeInput = document.getElementById("grade-input");
+            var hiddeninput = document.getElementById("form-hidden-id");
+            hasGradeInput.value = hasGrade
+            hiddeninput.value = selectedGradeId;
             gradeModal.style.display = "block";
         }
 

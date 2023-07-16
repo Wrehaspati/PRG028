@@ -53,7 +53,7 @@ class AssignmentController extends Controller
      */
     public function create()
     {
-        return "lol";
+        //
     }
 
     /**
@@ -82,9 +82,10 @@ class AssignmentController extends Controller
         $assignments = Assignment::find($assigment_id);
 
         $files = DB::table('files as a')
-            ->select('a.*', 'b.student_name', 'b.id')
+            ->select('a.*', 'b.student_name', 'b.id as student_id')
             ->leftJoin('students as b', 'a.user_id', '=', 'b.user_id')
             ->where('a.assign_by', 'student')
+            ->where('a.assignment_id', $assigment_id)
             ->get();
 
         return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files]);
@@ -103,7 +104,7 @@ class AssignmentController extends Controller
      */
     public function update(Request $request, assignment $assignment)
     {
-        //
+        Log::debug("message");
     }
 
     /**
