@@ -321,7 +321,7 @@
         const fileName = document.getElementById('file-name');
         const uploadSuccess = document.getElementById('upload-success');
 
-        // Mengatur event listener untuk tombol Upload
+        // Mengatur event untuk tombol Upload
         uploadButton.addEventListener('click', function() {
             fileInput.click();
         });

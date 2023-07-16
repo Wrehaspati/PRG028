@@ -128,7 +128,7 @@
     </x-app-layout>
 
     <script>
-        // Function to reset the form
+        // Function to reset the form edit
         function resetForm() {
             document.getElementById("judul").value = "";
             document.getElementById("deskripsi").value = "";
