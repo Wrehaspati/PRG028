@@ -113,7 +113,8 @@
             cursor: pointer;
         }
 
-        .modal-content textarea {
+        .modal-content textarea,
+        .judul {
             box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
             border: 0;
         }
@@ -170,11 +171,15 @@
                         @method('DELETE')
                         <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
                     </form>
-                    <button class="button" onclick="openModal()">Edit</button>
+                    <button class="button" onclick="openModal()">Upload</button>
                 </div>
                 <div id="myModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
+
+                        <h2>Judul Tugas</h2>
+                        <input class="judul" type="text" id="judul" name="judul"
+                            placeholder="Enter Judul Task"><br><br>
 
                         <h2>Description Task</h2>
                         <textarea id="taskDescription" name="task_description" rows="4" cols="50"
@@ -219,14 +224,21 @@
                     </div>
                 </div>
             </section>
-            <div class="container">
-                <input type="file" id="file-input" style="display: none;">
-                <button class="upload-button">Upload</button>
-                <button class="remove-button" disabled>Remove</button>
-            </div>
-            <div id="upload-success"
-                style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
-            </div>
+
+            @if (Auth::user()->role)
+                <div class="container">
+                    <button><a class="upload-button" href="/edit-assignment">Edit</a></button>
+                </div>
+            @else
+                <div class="container">
+                    <input type="file" id="file-input" style="display: none;">
+                    <button class="upload-button">Upload</button>
+                    <button class="remove-button" disabled>Remove</button>
+                </div>
+                <div id="upload-success"
+                    style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
+                </div>
+            @endif
 
 
             @if (Auth::user()->role)

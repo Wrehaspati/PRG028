@@ -29,8 +29,8 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    
-    
+
+
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', [DashboardController::class,'index'])->name('course.index');
         Route::get('/{grade}/subject/{subject}', [SubjectController::class, 'show'])->name('course.show');
@@ -52,15 +52,23 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('/manage')->group(function () {
         Route::get('grades', [GradeController::class, 'index'])->name('management.kelas');
-        
+
         Route::get('students', [StudentController::class, 'index'])->name('management.siswa');
-        
+
         Route::get('teachers', [TeacherController::class, 'index'])->name('management.guru');
-        
+
         Route::get('subjects', [SubjectController::class, 'index'])->name('management.matapembelajaran');
-        
+
         Route::resource('file', FileController::class);
     });
+
+
 });
+
+Route::get('/edit-assignment' , function () {
+    return view('edit-assignment');
+});
+
+
 
 require __DIR__.'/auth.php';
