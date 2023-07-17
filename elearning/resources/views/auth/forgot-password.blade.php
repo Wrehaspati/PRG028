@@ -1,16 +1,41 @@
 <title>E-learning</title>
+<style>
+    span {
+        color: #19A7CE;
+    }
 
+    .profile-pic img {
+        border-radius: 10%;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-1.0rem);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+</style>
 <x-guest-layout>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <div class="row d-flex justify-content-center align-items-center h-100"
         style="width : 150px; margin-left : 8rem; margin-bottom : 0rem;">
-        <img src="https://ouch-cdn2.icons8.com/QoHUrcO9_hEI_12K14-Pgzn9WLXMCurJFFBriPEyv80/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTgx/LzUwMmFiNDc0LTZh/MzAtNDAzZS05NDBi/LTZiMGRmMGRiMWJi/NS5wbmc.png"
-            alt="Sample image">
+        <div class="profile-pic">
+            <img src="https://ouch-cdn2.icons8.com/QoHUrcO9_hEI_12K14-Pgzn9WLXMCurJFFBriPEyv80/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTgx/LzUwMmFiNDc0LTZh/MzAtNDAzZS05NDBi/LTZiMGRmMGRiMWJi/NS5wbmc.png"
+                alt="Sample image">
+        </div>
     </div>
     <br>
-    <h3>Forgot Password?</h3>
+    <h3>Forgot <span>Password ?</span></h3>
 
     <div class="mb-4 text-sm text-gray-600">
         {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}

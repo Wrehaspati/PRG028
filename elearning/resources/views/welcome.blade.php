@@ -50,12 +50,16 @@
                 }
 
                 50% {
-                    transform: translateY(-2.5rem);
+                    transform: translateY(-2.1rem);
                 }
 
                 100% {
                     transform: translateY(0);
                 }
+            }
+
+            .biru {
+                color: #19A7CE;
             }
         </style>
 
@@ -94,7 +98,8 @@
             <section>
                 <div style="display: flex; align-items: flex-start;">
                     <div style="flex: 1;">
-                        <h2 style="padding-top: 100px; padding-left: 100px;">E-learning SMK Antartika</h2>
+                        <h2 style="padding-top: 100px; padding-left: 100px;">E-learning <span class="biru">SMK
+                                Antartika</span></h2>
                         <p style="padding-top: 40px; padding-left: 180px; padding-right: 300px; text-align: justify;">
                             E-Learning merupakan Learning Management System (LMS) untuk menjalankan perkuliahan secara
                             online
