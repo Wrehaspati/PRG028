@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>E-learning</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -169,17 +170,19 @@
                             @forelse ($teacher_files as $file)
                                 @if ($file->assign_by == 'teacher') 
                                     <div class="py-2 mt-5 px-10 w-fit bg-gray-100 rounded-lg text-md">
-                                        <a class="text-blue-700 hover:text-blue-900 underline" href="">{{ $file->filename }}</a>
+                                        <a class="text-blue-700 hover:text-blue-900 underline" href="{{ asset($file->path.$file->filename) }}">{{ $file->filename }}</a>
                                     </div>
                                 @endif
                             @empty
-                                // pada tempat ini harusnya berisi file soal, ketika guru mengupload
-                                soal dalam bentuk pdf/file
+                                <p class="text-green-600">
+                                    // pada tempat ini harusnya berisi file soal, ketika guru mengupload
+                                    soal dalam bentuk pdf/file
+                                </p>
                             @endforelse
                         </div>
                         <br>
                         <p class="text-sm">Max upload size : 2 MB</p>
-                        <p class="text-sm text-red-500">* Harap hubungi guru yang mengajar atau BK jika file tidak dapat diunduh/bermasalah.</p>
+                        <p class="text-sm text-red-500">* Harap hubungi guru yang mengajar atau BK jika file tidak dapat diunduh / bermasalah.</p>
                     </section>
                     <div class="flex justify-end gap-2 h-fit">
                     @if (Auth::user()->role)
@@ -189,12 +192,14 @@
                                 @method('DELETE')
                                 <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
                             </form>
+                        @else
+                            <button class="button bg-green-500 hover:bg-green-700" onclick="">Mark as Completed</button>
                         @endif
     
                         @if (count($teacher_files) == 0) 
-                            <a class="button m-0" onclick="openModal()">Upload</a>
+                            <a class="button m-0" onclick="openModal()">Upload Files</a>
                         @else 
-                            <a class="button m-0" href="/edit-assignment">Edit</a>
+                            <a class="button m-0" href="/edit-assignment">Edit Assignment</a>
                         @endif
                     @endif
                     </div>
@@ -226,23 +231,37 @@
                 <div id="card" style="display: none;"></div>
             @else
                 <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
+                    <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <h2>Materials/Files</h2>
+                            
+                            <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
+                            <input type="hidden" name="assign_by" value="teacher">
+  
+                            <div class="input-group hdtuto control-group lst increment" >
+                                <input type="file" name="filenames[]" class="myfrm form-control">
+                                <div class="input-group-btn"> 
+                                    <button class="btn-success button bg-green-500 my-2 px-4 py-2" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>Add More Files</button>
+                                </div>
+                            </div>
+                            <div class="clone hidden">
+                                <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                                    <input type="file" name="filenames[]" class="myfrm form-control">
+                                    <div class="input-group-btn"> 
+                                        <button class="button bg-red-500 hover:bg-red-800 my-2 px-4 py-2 btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <h2>Judul Tugas</h2>
-                        <input class="judul" type="text" id="judul" name="judul"
-                            placeholder="Enter Judul Task"><br><br>
-
-                        <h2>Description Task</h2>
-                        <textarea id="taskDescription" name="task_description" rows="4" cols="50"
-                            placeholder="Enter task description here..."></textarea>
-                        <br><br><br>
-                        <input type="file" id="fileInput" name="file_upload">
-                        <div class="kanan">
-                            <button class="button-delete" onclick="deleteTask()">Delete</button>
-                            <button class="button" onclick="saveTask()">OK</button>
+                            {{-- <input type="file" id="fileInput" name="file_upload"> --}}
+                            <div class="kanan">
+                                <button class="button-delete" onclick="deleteTask()">Delete</button>
+                                <button class="button" onclick="saveTask()">Upload</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div id="card" style="display: none;"></div>
             @endif
@@ -331,6 +350,18 @@
     </x-app-layout>
 
     <script>
+        // Script untuk Multiple input file
+        $(document).ready(function() {
+            $(".btn-success").click(function(){ 
+                var lsthmtl = $(".clone").html();
+                $(".increment").after(lsthmtl);
+            });
+            $("body").on("click",".btn-danger",function(){ 
+                $(this).parents(".hdtuto").remove();
+            });
+        });
+
+
         // Memilih elemen tombol dan input file
         const uploadButton = document.querySelector('.upload-button');
         const removeButton = document.querySelector('.remove-button');
@@ -363,23 +394,23 @@
         //     }
         // });
 
-        // Mengatur event listener untuk tombol Remove
-        removeButton.addEventListener('click', function() {
-            // Proses penghapusan file di sini
-            console.log('File dihapus.');
+        // // Mengatur event listener untuk tombol Remove
+        // removeButton.addEventListener('click', function() {
+        //     // Proses penghapusan file di sini
+        //     console.log('File dihapus.');
 
-            // Mengosongkan nilai input file
-            fileInput.value = '';
+        //     // Mengosongkan nilai input file
+        //     fileInput.value = '';
 
-            // Menonaktifkan tombol Remove
-            removeButton.disabled = true;
+        //     // Menonaktifkan tombol Remove
+        //     removeButton.disabled = true;
 
-            // Mengembalikan teks pada kotak bayangan ke keadaan semula
-            fileName.textContent = 'File Upload |';
+        //     // Mengembalikan teks pada kotak bayangan ke keadaan semula
+        //     fileName.textContent = 'File Upload |';
 
-            // Menghilangkan notifikasi file berhasil diunggah
-            uploadSuccess.style.display = 'none';
-        });
+        //     // Menghilangkan notifikasi file berhasil diunggah
+        //     uploadSuccess.style.display = 'none';
+        // });
 
         // js tombol create
         function openModal() {

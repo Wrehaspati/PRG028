@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\file;
 use Faker\Core\File as CoreFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class FileController extends Controller
 {
@@ -30,7 +32,34 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+                'filenames' => 'required',
+                'filenames.*' => 'required'
+        ]);
+
+        $files = [];
+        if($request->hasfile('filenames'))
+        {
+            foreach($request->file('filenames') as $file)
+            {
+                // $name = time().rand(1,100).'.'.$file->extension();
+                $name = $file->getClientOriginalName();
+                $file->storeAs('files', $name, 'public');  
+                $files[] = $name;  
+            }
+        }
+
+        foreach($files as $file_data):
+            $file = new File;
+            $file->filename = $file_data;
+            $file->path = 'storage/files/';
+            $file->assignment_id = $request->assignment_id;
+            $file->assign_by = $request->assign_by;
+            $file->user_id = Auth::user()->id;
+            $file->save();
+        endforeach;
+
+        return back()->with('success', 'Data Your files has been successfully added');
     }
 
     /**

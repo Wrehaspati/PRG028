@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         'teachers' => TeacherController::class,
         'grades' => GradeController::class,
         'students' => StudentController::class,
+        'files'  => FileController::class
     ]);
 
     Route::post('file/grade', [FileController::class, 'grade'])->name('file.grade');
@@ -64,8 +65,6 @@ Route::middleware('auth')->group(function () {
         Route::get('teachers', [TeacherController::class, 'index'])->name('management.guru');
 
         Route::get('subjects', [SubjectController::class, 'index'])->name('management.matapembelajaran');
-
-        Route::resource('file', FileController::class);
     });
 
 

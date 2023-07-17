@@ -1,4 +1,4 @@
-<div class="py-3 max-w-[23rem]" style="flex: 1;">
+<div class="py-3 max-w-[23rem] min-w-[23rem]" style="flex: 1;">
     @if (Auth::user()->role) 
         <a href="{{ Route('course.show', [Str::slug($subject->grade_id),Str::slug($subject->subject_name)]) }}">
     @else

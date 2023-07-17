@@ -65,7 +65,7 @@
 
         <div class="w-full flex justify-center">
             <section class="container w-full">
-                <div class="flex flex-wrap gap-5" style="padding-right: 30px; padding-left: 30px;">
+                <div class="flex flex-wrap gap-5 justify-center" style="padding-right: 30px; padding-left: 30px;">
                     <!-- Tambahkan margin-left dan margin-right negatif -->
                     @if ($courses != null || $courses != '')
                         @foreach ($courses as $subject)

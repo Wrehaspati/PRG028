@@ -142,10 +142,10 @@
                         <span class="close" onclick="closeModal()">&times;</span>
                         <form action="{{ route('assignments.store') }}" method="POST">
                             @csrf
-                            <h2>Title / Judul</h2>
+                            <h2>Title / Judul <span class="text-red-500">*</span></h2>
                             <input type="hidden" name="subject" value="{{ $subject->id }}">
                             <input type="text" required name="title" class="w-2/3 mb-10">
-                            <h2>Description Task</h2>
+                            <h2>Description Task <span class="text-red-500">*</span></h2>
                             <textarea id="taskDescription" class="w-2/3 mb-10" name="description" required rows="4" cols="50"
                                 placeholder="Enter task description here..."></textarea>
                             {{-- <br><br><br> --}}
