@@ -5,7 +5,15 @@
         <a href="{{ Route('course.show', [Str::slug($grade->id),Str::slug($subject->subject_name)]) }}">
     @endif
         <div {{ $attributes }}>
-            <p style="color: #FFFF; padding-top: 20px; padding-left: 20px;">{{ $subject->subject_name }}</p>
+            <div class="flex justify-between text-white pt-4 px-4">
+                <div>{{ $subject->subject_name }}</div>
+                <div class="flex justify-end">
+                    <div>{{ $subject->day."" }}</div>
+                    <div> 
+                        {{ ". | ".Str::substr($subject->time_start, 0, 5)." - ".Str::substr($subject->time_end, 0, 5) }} 
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="{{-- card-body --}} flex w-full justify-center" style="/* float: left; margin-right: 20px; padding-left: 20px; */ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
             <div class="{{-- card --}}" style="width: 19rem; border: 0;">

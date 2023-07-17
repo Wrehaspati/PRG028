@@ -37,11 +37,6 @@
             background-color: #00A6B5;
         }
 
-        .teks {
-            padding-top: 50px;
-            padding-left: 100px;
-        }
-
         .card {
             display: none;
             padding: 20px;
@@ -164,15 +159,72 @@
                 {{ __('E-Learning | ' . $subject->subject_name . ' | ' . $assignment->assignment_title) }} </h2>
         </x-slot>
         <div style="background-color: #FFFF">
-            @if (Auth::user()->role)
-                <div class="flex justify-end gap-2 pr-20">
-                    <form action="{{ Route('assignments.destroy', $assignment->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
-                    </form>
-                    <a class="button m-0" href="/edit-assignment">Edit</a>
+            <div class="w-full flex justify-center">
+                <div class="flex justify-between w-4/5 pt-5">
+                    <section class="">
+                        <div class="text-lg">
+                            <p>{{ $assignment->description }} </p>
+                        </div>
+                        <div class="text-lg">
+                            @forelse ($teacher_files as $file)
+                                @if ($file->assign_by == 'teacher') 
+                                    <div class="py-2 mt-5 px-10 w-fit bg-gray-100 rounded-lg text-md">
+                                        <a class="text-blue-700 hover:text-blue-900 underline" href="">{{ $file->filename }}</a>
+                                    </div>
+                                @endif
+                            @empty
+                                // pada tempat ini harusnya berisi file soal, ketika guru mengupload
+                                soal dalam bentuk pdf/file
+                            @endforelse
+                        </div>
+                        <br>
+                        <p class="text-sm">Max upload size : 2 MB</p>
+                        <p class="text-sm text-red-500">* Harap hubungi guru yang mengajar atau BK jika file tidak dapat diunduh/bermasalah.</p>
+                    </section>
+                    <div class="flex justify-end gap-2 h-fit">
+                    @if (Auth::user()->role)
+                        @if (count($files) == 0) 
+                            <form action="{{ Route('assignments.destroy', $assignment->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
+                            </form>
+                        @endif
+    
+                        @if (count($teacher_files) == 0) 
+                            <a class="button m-0" onclick="openModal()">Upload</a>
+                        @else 
+                            <a class="button m-0" href="/edit-assignment">Edit</a>
+                        @endif
+                    @endif
+                    </div>
                 </div>
+            </div>           
+
+
+            @if (!Auth::user()->role)
+                <div class="container pt-10">
+                    <input type="file" id="file-input" style="display: none;">
+                    <button class="upload-button" onclick="openModal()">Upload</button>
+                </div>
+                <div id="upload-success"
+                    style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
+                </div>
+
+                <div id="myModal" class="modal">
+                    <form action="">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <input type="file" id="fileInput" name="file_upload">
+                            <div class="kanan">
+                                <button class="button bg-red-500 hover:bg-red-700" type="reset">Hapus</button>
+                                <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Simpan</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="card" style="display: none;"></div>
+            @else
                 <div id="myModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
@@ -193,51 +245,6 @@
                     </div>
                 </div>
                 <div id="card" style="display: none;"></div>
-            @endif
-
-            <section style="padding-left: 80px;">
-                <div class="teks">
-                    <p>{{ $assignment->description }} </p>
-                </div>
-                <div class="teks">
-                    <p> // pada tempat ini harusnya berisi file soal, ketika guru mengupload
-                        soal dalam bentuk pdf/file
-                    </p>
-                </div>
-                <div style="display: flex; padding-left: 50px; padding-top: 10px; padding-right : 100px">
-                    <div style="flex: 1;">
-                        <div class="card-body">
-                            <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                                <p style="padding: 20px; border-radius: 8px;">Tugas | Menghitung Volume Kubus</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    style="display: flex; padding-left: 50px; padding-top: 20px; padding-bottom:50px; padding-right : 100px">
-                    <div style="flex: 1;">
-                        <div class="card-body">
-                            <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
-                                <p id="file-name" style="padding: 20px; border-radius: 8px;">File Upload |</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            @if (Auth::user()->role)
-                <div class="container">
-                    <button class="button" onclick="openModal()">Upload</button>
-                    <button class="remove-button" disabled>Remove</button>
-                </div>
-            @else
-                <div class="container">
-                    <input type="file" id="file-input" style="display: none;">
-                    <button class="upload-button">Upload</button>
-                </div>
-                <div id="upload-success"
-                    style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
-                </div>
             @endif
 
 
@@ -267,10 +274,17 @@
                                 @endif
                             </td>
                             <td>
-                                <button class="grade-button" onclick="showGradeModal()">Grades</button>
+                                @if ($file->grade && $file->grade != '')
+                                    <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit nilai</button>
+                                @else
+                                    <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }})">Beri nilai</button>
+                                @endif
                             </td>
                         </tr>
                     @empty
+                        <tr>
+                            <td colspan="6">Belum ada file yang terkirim</td>
+                        </tr>
                     @endforelse
             @endif
 

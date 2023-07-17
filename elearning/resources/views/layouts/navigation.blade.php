@@ -112,9 +112,22 @@
                                     <h1>My Class</h1>
                                 </a></li>
                             @foreach ($courses as $subject)
-                                <li style="padding-left : 40px;"><a class="menu__item"
-                                        href="">{{ $subject->subject_name }} <br>
-                                        Fitur jam belum ditambahkan </a></li>
+                                <li style="padding-left : 40px;">
+                                    @if (Auth::user()->role) 
+                                        <a class="menu__item" href="{{ Route('course.show', [Str::slug($subject->grade_id),Str::slug($subject->subject_name)]) }}">
+                                    @else
+                                        <a class="menu__item" href="{{ Route('course.show', [Str::slug($grade->id),Str::slug($subject->subject_name)]) }}">
+                                    @endif
+                                    {{ $subject->subject_name }} <br>
+                                        <div class="flex justify-end w-[11rem]">
+                                            <div>{{ $subject->day."" }}</div>
+                                            <div> 
+                                                {{ ". | ".Str::substr($subject->time_start, 0, 5)." - ".Str::substr($subject->time_end, 0, 5) }} 
+                                            </div>
+                                        </div>
+                                    </a>
+                                        
+                                </li>
                             @endforeach
                         </ul>
                     </div>

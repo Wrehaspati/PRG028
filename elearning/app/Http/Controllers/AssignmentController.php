@@ -88,7 +88,11 @@ class AssignmentController extends Controller
             ->where('a.assignment_id', $assigment_id)
             ->get();
 
-        return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files]);
+        $teacher_file = File::where('assignment_id',  $assigment_id)
+                        ->where('assign_by', 'teacher')
+                        ->get();
+
+        return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files, 'teacher_files' => $teacher_file ]);
     }
 
     /**
