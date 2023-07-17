@@ -1,11 +1,39 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <title>E-learning</title>
+
+<style>
+    .profile-pic img {
+        border-radius: 20%;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-1.1rem);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    span {
+        color: #19A7CE;
+    }
+</style>
+
 <x-guest-layout>
 
     <div class="row d-flex justify-content-center align-items-center h-100"
         style="width : 150px; margin-left : 8rem; margin-bottom : 1rem;">
-        <img src="https://ouch-cdn2.icons8.com/aVubHyBkWOEPF713Wh-CdQFQzUl-4dxFWyJTSIUS9E0/rs:fit:256:307/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzY0/L2Y2NzRiZjM0LTI4/OTEtNGM5Ni04OGVm/LWJiYzM3YTY1MzUw/MS5wbmc.png"
-            alt="Sample image">
+        <div class="profile-pic">
+            <img src="https://ouch-cdn2.icons8.com/aVubHyBkWOEPF713Wh-CdQFQzUl-4dxFWyJTSIUS9E0/rs:fit:256:307/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzY0/L2Y2NzRiZjM0LTI4/OTEtNGM5Ni04OGVm/LWJiYzM3YTY1MzUw/MS5wbmc.png"
+                alt="Sample image">
+        </div>
     </div>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -18,7 +46,7 @@
         <section class="row g-0" class="card">
             <!-- Email Address -->
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <h1 style="text-align : center;">Log in <i class='bx bx-id-card bx-tada' style='color:#35addf'></i></h1>
+                <h1 style="text-align : center;">Log<span>in</span> </h1>
                 <p style="text-align: center">Hello Admin <i class='bx bx-code-alt bx-tada' style='color:#35addf'></i>
                 </p>
             </div>

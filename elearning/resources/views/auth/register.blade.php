@@ -1,20 +1,44 @@
 <title>E-learning</title>
+<style>
+    span {
+        color: #19A7CE;
+    }
 
+    .profile-pic img {
+        border-radius: 10%;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-1.0rem);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+</style>
 <x-guest-layout>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <div class="row d-flex justify-content-center align-items-center h-100"
         style="width : 150px; margin-left : 8rem; margin-bottom : 0rem;">
-        <img src="https://ouch-cdn2.icons8.com/tMtb69n_mzdN3lhgC2TydznG4gJBVssmZaF3GfvCnRE/rs:fit:256:211/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTg3/Lzk3OTkyOTNkLWVi/ODMtNGU5Ny1iZDdl/LTMwNGMyMmQ2MTUz/MS5wbmc.png"
-            alt="Sample image">
+        <div class="profile-pic">
+            <img src="https://ouch-cdn2.icons8.com/tMtb69n_mzdN3lhgC2TydznG4gJBVssmZaF3GfvCnRE/rs:fit:256:211/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTg3/Lzk3OTkyOTNkLWVi/ODMtNGU5Ny1iZDdl/LTMwNGMyMmQ2MTUz/MS5wbmc.png"
+                alt="Sample image">
+        </div>
     </div>
-
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <!-- Name -->
         <div>
-            <h1 style="text-align : center;">Register</h1>
+            <h1 style="text-align : center;">Regi<span>ster</span></h1>
             <br>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
