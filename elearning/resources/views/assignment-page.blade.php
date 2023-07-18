@@ -151,6 +151,57 @@
         .grade-button:focus {
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
+
+        /* Drop and Drag CSS */
+
+        .file-drop-area {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 450px;
+        max-width: 100%;
+        padding: 25px;
+        border: 1px dashed rgba(255, 255, 255, 0.4);
+        border-radius: 3px;
+        transition: 0.2s;
+        &.is-active {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        }
+
+        .fake-btn {
+        flex-shrink: 0;
+        background-color: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        padding: 8px 15px;
+        margin-right: 10px;
+        font-size: 12px;
+        text-transform: uppercase;
+        }
+
+        .file-msg {
+        font-size: small;
+        font-weight: 300;
+        line-height: 1.4;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        }
+
+        .file-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        opacity: 0;
+        &:focus {
+            outline: none;
+        }
+        }
+
     </style>
 
     <x-app-layout>
@@ -183,6 +234,19 @@
                         <br>
                         <p class="text-sm">Max upload size : 2 MB</p>
                         <p class="text-sm text-red-500">* Harap hubungi guru yang mengajar atau BK jika file tidak dapat diunduh / bermasalah.</p>
+                        
+                        @if (isset($files))  
+                            @foreach ($files as $file) 
+                                @if ($file->user_id == Auth::user()->id) 
+                                    <div class="px-10 py-4 mt-4 bg-cyan-100 rounded w-fit">
+                                        File yang diajukan : {{ $file->filename }} (<a href="{{ asset($file->path.$file->filename) }}" class="text-blue-500 underline">click to view</a>)
+                                    </div>
+                                    @php
+                                        $isNotNull = true;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        @endif
                     </section>
                     <div class="flex justify-end gap-2 h-fit">
                     @if (Auth::user()->role)
@@ -195,7 +259,7 @@
                         @else
                             <button class="button bg-green-500 hover:bg-green-700" onclick="">Mark as Completed</button>
                         @endif
-    
+                        
                         @if (count($teacher_files) == 0) 
                             <a class="button m-0" onclick="openModal()">Upload Files</a>
                         @else 
@@ -208,27 +272,47 @@
 
 
             @if (!Auth::user()->role)
-                <div class="container pt-10">
-                    <input type="file" id="file-input" style="display: none;">
-                    <button class="upload-button" onclick="openModal()">Upload</button>
-                </div>
+                @if (isset($isNotNull) && $assignment->status != 'closed') 
+                    <div class="container pt-5">
+                        <button class="upload-button" onclick="openModal()">Edit Pengajuan</button>
+                    </div>
+                @else
+                    <div class="container pt-5">
+                        <button class="upload-button" onclick="openModal()">Upload</button>
+                    </div>
+                @endif
+
                 <div id="upload-success"
                     style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
                 </div>
 
-                <div id="myModal" class="modal">
-                    <form action="">
-                        <div class="modal-content">
+                <div id="myModal" class="modal overflow-hidden">
+                    <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-content w-2/5">
                             <span class="close" onclick="closeModal()">&times;</span>
-                            <input type="file" id="fileInput" name="file_upload">
-                            <div class="kanan">
+                            
+                            <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
+                            <input type="hidden" name="assign_by" value="student">
+                            <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
+                            <input type="hidden" name="unique_subject_name" value="{{ $subject->subject_name }}">
+                            <input type="hidden" name="unique_id" value="{{ Auth::user()->studentData->id }}">
+
+                            <div class="w-full flex justify-center">
+                                <div class="file-drop-area border-2 border-gray-300 border-dashed rounded-md min-h-[14rem] w-fit px-10 pr-20 hover:border-gray-400 focus:outline-none">
+                                    <span class="fake-btn text-small">Choose files</span>
+                                    <span class="file-msg">or drag and drop files here</span>
+                                    <input class="file-input" name="filenames[]" type="file" multiple>
+                                </div>
+                            </div>
+
+                            <div class="w-full flex justify-center gap-3 pt-10">
                                 <button class="button bg-red-500 hover:bg-red-700" type="reset">Hapus</button>
                                 <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Simpan</button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div id="card" style="display: none;"></div>
             @else
                 <div id="myModal" class="modal">
                     <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
@@ -239,6 +323,8 @@
                             
                             <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
                             <input type="hidden" name="assign_by" value="teacher">
+                            <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
+                            <input type="hidden" name="unique_subject_name" value="{{ $subject->subject_name }}">
   
                             <div class="input-group hdtuto control-group lst increment" >
                                 <input type="file" name="filenames[]" class="myfrm form-control">
@@ -255,7 +341,6 @@
                                 </div>
                             </div>
 
-                            {{-- <input type="file" id="fileInput" name="file_upload"> --}}
                             <div class="kanan">
                                 <button class="button-delete" onclick="deleteTask()">Delete</button>
                                 <button class="button" onclick="saveTask()">Upload</button>
@@ -286,8 +371,8 @@
                             <td>{{ $file->student_name }}</td>
                             <td>{{ $file->filename }}</td>
                             <td id="grade-1">
-                                @if ($file->grade && $file->grade != '')
-                                    {{ $file->grade }}
+                                @if ($file->grade && $file->grade != '' || $file->grade == 0)
+                                    {{ $file->grade }}/100
                                 @else
                                     {{ __('Belum dinilai') }}
                                 @endif
@@ -508,6 +593,35 @@
                 gradeModal.style.display = "none";
             }
         }
+
+        // drag and drop file input
+        var $fileInput = $('.file-input');
+        var $droparea = $('.file-drop-area');
+
+        // highlight drag area
+        $fileInput.on('dragenter focus click', function() {
+        $droparea.addClass('is-active');
+        });
+
+        // back to normal state
+        $fileInput.on('dragleave blur drop', function() {
+        $droparea.removeClass('is-active');
+        });
+
+        // change inner text
+        $fileInput.on('change', function() {
+        var filesCount = $(this)[0].files.length;
+        var $textContainer = $(this).prev();
+
+        if (filesCount === 1) {
+            // if single file is selected, show file name
+            var fileName = $(this).val().split('\\').pop();
+            $textContainer.text(fileName);
+        } else {
+            // otherwise show number of files
+            $textContainer.text(filesCount + ' files selected');
+        }
+        });
     </script>
 </body>
 

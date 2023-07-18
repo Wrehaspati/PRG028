@@ -42,9 +42,18 @@ class FileController extends Controller
         {
             foreach($request->file('filenames') as $file)
             {
-                // $name = time().rand(1,100).'.'.$file->extension();
-                $name = $file->getClientOriginalName();
-                $file->storeAs('files', $name, 'public');  
+                
+                if($request->assign_by == 'teacher'):
+                    $uniqueName = $request->unique_subject_name.'-'.$request->assignment_id.'_'.$file->getClientOriginalName();
+                else:
+                    $uniqueName = $request->unique_id.'_'.$file->getClientOriginalName();
+                endif;
+
+                $custom_path = $request->unique_grade_id.'_'.$request->unique_subject_name;
+
+                // $random_name = time().rand(1,100).'.'.$file->extension();
+                $name = $uniqueName;
+                $file->storeAs($custom_path, $name, 'public');  
                 $files[] = $name;  
             }
         }
@@ -52,7 +61,7 @@ class FileController extends Controller
         foreach($files as $file_data):
             $file = new File;
             $file->filename = $file_data;
-            $file->path = 'storage/files/';
+            $file->path = 'storage/'.$custom_path.'/';
             $file->assignment_id = $request->assignment_id;
             $file->assign_by = $request->assign_by;
             $file->user_id = Auth::user()->id;
