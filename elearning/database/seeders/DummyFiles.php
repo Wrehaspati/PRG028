@@ -14,6 +14,7 @@ class DummyFiles extends Seeder
     {
         \App\Models\File::factory()->create([
             'filename' => 'tugas_1.pdf',
+            'path' => 'dummy_files/',
             'assignment_id' => '1',
             'user_id' => '1',
             'assign_by' => 'teacher',

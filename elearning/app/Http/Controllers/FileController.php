@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\file;
+use App\Models\file as FileModel;
 use Faker\Core\File as CoreFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class FileController extends Controller
@@ -15,7 +16,7 @@ class FileController extends Controller
      */
     public function index()
     {
-        $files = File::all();
+        $files = FileModel::all();
         return view('management/files', ['files' => $files]);
     }
 
@@ -40,16 +41,17 @@ class FileController extends Controller
         $files = [];
         if($request->hasfile('filenames'))
         {
+            date_default_timezone_set('Asia/Makassar');
             foreach($request->file('filenames') as $file)
             {
                 
                 if($request->assign_by == 'teacher'):
-                    $uniqueName = $request->unique_subject_name.'-'.$request->assignment_id.'_'.$file->getClientOriginalName();
+                    $uniqueName = $request->unique_subject_name.'-'.date("his").'_'.$request->assignment_id.'_'.$file->getClientOriginalName();
                 else:
-                    $uniqueName = $request->unique_id.'_'.$file->getClientOriginalName();
+                    $uniqueName = $request->unique_id.'_'.date("his").'_'.$file->getClientOriginalName();
                 endif;
 
-                $custom_path = $request->unique_grade_id.'_'.$request->unique_subject_name;
+                $custom_path = $request->unique_grade_id.'_'.$request->unique_subject_name.'_'.$request->unique_subject_id;
 
                 // $random_name = time().rand(1,100).'.'.$file->extension();
                 $name = $uniqueName;
@@ -58,8 +60,17 @@ class FileController extends Controller
             }
         }
 
+        if(isset($request->type)):
+            if($request->type == 'replace'):
+                $deletedFiles = FileModel::where('assignment_id', $request->assignment_id)->where('user_id', Auth::user()->id)->get();
+                foreach($deletedFiles as $file):
+                    $this->destroy($file);
+                endforeach;
+            endif;
+        endif;
+
         foreach($files as $file_data):
-            $file = new File;
+            $file = new FileModel;
             $file->filename = $file_data;
             $file->path = 'storage/'.$custom_path.'/';
             $file->assignment_id = $request->assignment_id;
@@ -74,7 +85,7 @@ class FileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(file $file)
+    public function show(FileModel $file)
     {
         //
     }
@@ -82,7 +93,7 @@ class FileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(file $file)
+    public function edit(FileModel $file)
     {
         //
     }
@@ -92,7 +103,7 @@ class FileController extends Controller
      */
     public function grade(Request $request)
     {
-        $file = file::find($request->file_id);
+        $file = FileModel::find($request->file_id);
         $file->grade = $request->grade;
         $file->save();
 
@@ -110,9 +121,15 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(file $file)
+    public function destroy(FileModel $file)
     {
-        file::destroy($file->id);
+        $temp = FileModel::find($file->id);
+
+        if(File::exists(public_path($temp->path.$temp->filename))){
+            File::delete(public_path($temp->path.$temp->filename));
+        }
+
+        FileModel::destroy($file->id);
         return back();
     }
 }

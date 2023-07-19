@@ -57,6 +57,24 @@ class AssignmentController extends Controller
     }
 
     /**
+     * close an assignment. mark it as a completed
+     */
+    public function close($assigment_id)
+    {
+        $assignment = Assignment::find($assigment_id);
+
+        if($assignment->status == 'closed'):
+            $assignment->status = 'open';
+        else:
+            $assignment->status = 'closed'; 
+        endif;
+
+        $assignment->save();
+
+        return back();
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

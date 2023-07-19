@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
+    Route::post('course/{assignment_id}', [AssignmentController::class, 'close'])->name('assignment.close');
 
     Route::resources([
         'assignments' => AssignmentController::class,
