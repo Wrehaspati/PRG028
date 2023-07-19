@@ -144,13 +144,15 @@
                             @csrf
                             <h2>Title / Judul <span class="text-red-500">*</span></h2>
                             <input type="hidden" name="subject" value="{{ $subject->id }}">
-                            <input type="text" required name="title" class="w-2/3 mb-10">
+                            <input type="text" required name="title" class="w-2/3 mb-5">
                             <h2>Description Task <span class="text-red-500">*</span></h2>
-                            <textarea id="taskDescription" class="w-2/3 mb-10" name="description" required rows="4" cols="50"
+                            <textarea id="taskDescription" class="w-2/3 mb-5" name="description" required rows="4" cols="50"
                                 placeholder="Enter task description here..."></textarea>
-                            {{-- <br><br><br> --}}
-                            {{-- <input type="file" id="fileInput" name="file_upload"> --}}
-                            <div class="kanan">
+                            <div>
+                                <input type="checkbox" id="class_material" name="class_material" value="closed">
+                                <label for="class_material" class="ml-2">Buat Sebagai Materi Pertemuan / Bahan Ajaran (opsional)</label>
+                            </div>
+                            <div class="kanan mt-10">
                                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="reset">Delete</button>
                                 <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit">OK</button>
                         </form>

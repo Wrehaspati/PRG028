@@ -240,7 +240,21 @@
                             @foreach ($files as $file) 
                                 @if ($file->user_id == Auth::user()->id) 
                                     <div class="px-10 py-4 mt-4 bg-cyan-100 rounded w-fit">
-                                        File yang diajukan : {{ $file->filename }} (<a href="{{ asset($file->path.$file->filename) }}" target="_blank" class="text-blue-500 underline">click to view</a>)
+                                        <div>
+                                            File yang diajukan : {{ $file->filename }} 
+                                            (<a href="{{ asset($file->path.$file->filename) }}" target="_blank" class="text-blue-500 underline">click to view</a>)
+                                            @if ($assignment->status == 'closed')
+                                                @if ($file->grade > 50) 
+                                                    <span class="bg-green-500 px-2 py-1 rounded-lg font-bold ml-5 text-white">
+                                                        {{ $file->grade }}
+                                                    </span>
+                                                @elseif ($file->grade <= 50 && $file->grade != 0)
+                                                    <span class="bg-red-500 px-2 py-1 rounded-lg font-bold ml-5 text-white">
+                                                        {{ $file->grade }}
+                                                    </span>
+                                                @endif
+                                            @endif
+                                        </div>
                                         @if ($assignment->status != 'closed') 
                                             <form action="{{ Route('files.destroy', $file->id) }}" method="POST">
                                                 @csrf
@@ -258,7 +272,7 @@
                     </section>
                     <div class="flex flex-col">
                         <div class="flex">
-                            @if ($assignment->status != '' && $assignment->status == 'closed') 
+                            @if ($assignment->status == 'closed') 
                                 <svg class="inline-block" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="20px" height="20px">
                                     <path d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"/>
                                 </svg>
@@ -278,7 +292,7 @@
                                 @endif
                                     <form action="{{ Route('assignment.close', $assignment->id) }}" method="POST">
                                         @csrf
-                                            @if ($assignment->status != '' && $assignment->status == 'closed') 
+                                            @if ($assignment->status == 'closed') 
                                                 <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">
                                                     Buka Kunci Pengajuan
                                                 </button>
@@ -303,7 +317,7 @@
 
             @if (!Auth::user()->role)
                 @if ($assignment->status != 'closed') 
-                    @if (isset($isNotNull) && $assignment->status != 'closed')
+                    @if (isset($isNotNull))
                         <div class="pt-5 flex w-full justify-center">
                             <button class="upload-button" onclick="openModal()">Edit Pengajuan</button>
                         </div>

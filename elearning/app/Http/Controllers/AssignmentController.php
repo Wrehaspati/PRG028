@@ -83,6 +83,9 @@ class AssignmentController extends Controller
         $assignment->assignment_title = $request->title;
         $assignment->subject_id = $request->subject;
         $assignment->description = $request->description;
+        if($request->class_material):
+            $assignment->status = $request->class_material;
+        endif;  
         $assignment->save();
 
         return back();
