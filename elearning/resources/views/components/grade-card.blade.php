@@ -20,11 +20,20 @@
         @endif
         <div {{ $attributes }}>
             <div class="flex justify-between text-white pt-4 px-4">
-                <div>{{ $subject->subject_name }}</div>
-                <div class="flex justify-end">
-                    <div>{{ $subject->day . '' }}</div>
-                    <div>
-                        {{ '. | ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }}
+                <div class="flex flex-col w-full">
+                    <div class="flex flex-row justify-between">
+                        <div>
+                            {{ $subject->subject_name }}
+                        </div>
+                        <div class="flex justify-end">
+                            <div>{{ $subject->day . '' }}</div>
+                            <div>
+                                {{ '. | ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-sm">
+                        {{ $subject->grade_name }}
                     </div>
                 </div>
             </div>
