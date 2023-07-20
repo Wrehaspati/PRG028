@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\file as FileModel;
 use Faker\Core\File as CoreFile;
 use Illuminate\Http\Request;
@@ -33,6 +34,16 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
+        $checkDeadline = Assignment::find($request->assignment_id);
+
+        AssignmentController::checkDeadline($checkDeadline->due_date, $request->assignment_id);
+
+        $checkDeadline = Assignment::find($request->assignment_id);
+
+        if($checkDeadline->status == 'closed'):
+            return redirect()->back()->with('error', 'Waktu pengajuan telah berakhir.');
+        endif;
+
         $this->validate($request, [
                 'filenames' => 'required',
                 'filenames.*' => 'required'
@@ -79,7 +90,7 @@ class FileController extends Controller
             $file->save();
         endforeach;
 
-        return back()->with('success', 'Data Your files has been successfully added');
+        return back()->with('success', 'Pengajuan berhasil');
     }
 
     /**

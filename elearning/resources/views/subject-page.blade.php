@@ -138,27 +138,50 @@
                     {{-- <button class="button" onclick="openModal()">Edit</button> --}}
                 </div>
                 <div id="myModal" class="modal">
-                    <div class="modal-content">
+                    <div class="modal-content select-none">
                         <span class="close" onclick="closeModal()">&times;</span>
                         <form action="{{ route('assignments.store') }}" method="POST">
                             @csrf
-                            <h2>Title / Judul <span class="text-red-500">*</span></h2>
+                            <h2>Judul <span class="text-red-500">*</span></h2>
                             <input type="hidden" name="subject" value="{{ $subject->id }}">
-                            <input type="text" required name="title" class="w-2/3 mb-5">
-                            <h2>Description Task <span class="text-red-500">*</span></h2>
+                            <input type="text" required name="title" placeholder="Tambahkan judul..." class="w-2/3 mb-5 shadow-md rounded border border-gray-200">
+                            <h2>Deskripsi atau Petunjuk <span class="text-red-500">*</span></h2>
                             <textarea id="taskDescription" class="w-2/3 mb-5" name="description" required rows="4" cols="50"
-                                placeholder="Enter task description here..."></textarea>
-                            <div>
-                                <input type="checkbox" id="class_material" name="class_material" value="closed">
-                                <label for="class_material" class="ml-2">Buat Sebagai Materi Pertemuan / Bahan Ajaran (opsional)</label>
+                                placeholder="Tambahkan teks deskripsi ataupun petunjuk..."></textarea>
+                            <div class="flex flex-row gap-10">
+                                <div>
+                                    <h2>Waktu Dibukanya Pengajuan</h2>
+                                    <input type="datetime-local" class="shadow-md rounded border border-gray-200" name="from_date">
+                                </div>
+                                <div>
+                                    <h2>Waktu Ditutupnya Pengajuan</h2>
+                                    <input type="datetime-local" class="shadow-md rounded border border-gray-200" name="due_date">
+                                </div>
                             </div>
+                            <div class="mt-5">
+                                <input type="radio" id="class_material" name="class_material" checked value="hasDeadline">
+                                <label for="class_material" class="ml-2">Penugasan dengan batasan waktu diatas</label>
+                            </div>
+                            <div class="mt-2">
+                                <input type="radio" id="class_material" name="class_material" checked value="open">
+                                <label for="class_material" class="ml-2">Penugasan tanpa batasan waktu / deadline</label>
+                            </div>
+                            <div class="mt-2">
+                                <input type="radio" id="class_material" name="class_material" value="reserve">
+                                <label for="class_material" class="ml-2">Sembunyikan penugasan hingga batas waktu yang telah ditentukan ('kuis / ulangan')</label>
+                            </div>
+                            <div class="mt-2">
+                                <input type="radio" id="class_material" name="class_material" value="closed">
+                                <label for="class_material" class="ml-2">Kunci pengajuan ('materi pertemuan / bahan ajaran')</label>
+                            </div>
+                            <p class="mt-5"><span class="text-red-500">*</span> wajib untuk diisi</p>
                             <div class="kanan mt-10">
                                 <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" type="reset">Delete</button>
                                 <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit">OK</button>
+                            </div>
                         </form>
                     </div>
                 </div>
-        </div>
 
         {{-- buat naruh hasil/tulisan dari tombol create --}}
         <div id="card" style="display: none;"> </div>

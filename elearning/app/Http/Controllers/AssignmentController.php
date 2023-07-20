@@ -6,6 +6,7 @@ use App\Models\assignment;
 use App\Models\File;
 use App\Models\Subject;
 use App\View\Components\AssignmentCard;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,24 @@ use Illuminate\Support\Facades\Log;
 
 class AssignmentController extends Controller
 {
+    /**
+     *  Checking deadline of the assignment
+     */
+    public static function checkDeadline($deadline, $id)
+    {
+        $end_time = strtotime($deadline); // Countdown end time
+        $current_time = time(); // Current timestamp
+        $time_left = $end_time - $current_time; // Time remaining in seconds
+        $assignment = assignment::find($id);
+
+        if($time_left <= 0 && $assignment->status != 'closed'):
+            $assignment->status = 'closed';
+            $assignment->save();
+        endif;
+
+        return $time_left;
+    }
+
     /**
      * Slug name conversion
      */
@@ -71,7 +90,7 @@ class AssignmentController extends Controller
 
         $assignment->save();
 
-        return back();
+        return redirect()->back();
     }
 
     /**
@@ -83,9 +102,9 @@ class AssignmentController extends Controller
         $assignment->assignment_title = $request->title;
         $assignment->subject_id = $request->subject;
         $assignment->description = $request->description;
-        if($request->class_material):
-            $assignment->status = $request->class_material;
-        endif;  
+        $assignment->from_date = $request->from_date;
+        $assignment->due_date = $request->due_date;
+        $assignment->status = $request->class_material;
         $assignment->save();
 
         return back();
@@ -113,7 +132,9 @@ class AssignmentController extends Controller
                         ->where('assign_by', 'teacher')
                         ->get();
 
-        return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files, 'teacher_files' => $teacher_file ]);
+        $remain_time = $this->checkDeadline($assignments->due_date, $assigment_id);
+
+        return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files, 'teacher_files' => $teacher_file, 'remain_time' => $remain_time ]);
     }
 
     /**

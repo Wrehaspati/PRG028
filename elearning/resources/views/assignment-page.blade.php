@@ -233,8 +233,9 @@
                         </div>
                         <br>
                         <p class="text-sm">Max upload size : 2 MB</p>
-                        <p class="text-sm text-red-500">* Harap hubungi guru yang mengajar atau BK jika file tidak dapat diunduh / bermasalah.</p>
-                        <div class="text-sm">lampiran dibuat pada {{ $assignment->created_at }}</div>
+                        <p class="text-sm text-red-500">* Dihimbau untuk kirim/ajukan file 10 menit sebelum berakhirnya waktu yang diberikan</p>
+                        <p class="text-sm text-red-500">** Harap hubungi guru yang mengajar atau BK jika file tidak dapat diunduh / bermasalah.</p>
+                        <div class="text-sm">lampiran ini dibuat pada {{ $assignment->created_at }}</div>
                         
                         @if (isset($files))  
                             @foreach ($files as $file) 
@@ -277,8 +278,47 @@
                                     <path d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"/>
                                 </svg>
                                 <p class="pl-2">
-                                    Pengajuan dikunci pada {{ $assignment->updated_at }}
+                                    Pengajuan dikunci pada {{ date('h:i:s - d M Y', strtotime($assignment->updated_at)); }}
                                 </p>
+                            @elseif($assignment->status == 'hasDeadline')
+                                <div class="flex flex-col">
+                                    <div class="block">
+                                        Pengajuan akan dikunci pada pukul
+                                        <p class="inline underline font-bold">{{ date('h:i', strtotime($assignment->due_date)); }}</p>
+                                        tanggal
+                                        <p class="inline underline font-bold">{{ date('d M Y', strtotime($assignment->due_date)); }}</p> 
+                                    </div>
+                                    <div>
+                                        Waktu yang tersisa adalah 
+                                        <p class="inline underline font-bold">
+                                            @php
+                                                if ($remain_time >= 0) {
+                                                    $time_left = $remain_time;
+
+                                                    $days = floor($time_left / 86400); // 86400 seconds in a day
+                                                    $time_left = $time_left % 86400;
+
+                                                    $hours = floor($time_left / 3600); // 3600 seconds in an hour
+                                                    $time_left = $time_left % 3600;
+
+                                                    $minutes = floor($time_left / 60); // 60 seconds in a minute
+                                                    $seconds = $time_left % 60;
+
+                                                    if($days != 0):
+                                                        echo $days.' Hari ';
+                                                    endif;
+                                                    if($hours != 0):
+                                                        echo $hours.' Jam ';
+                                                    endif;
+                                                    echo $minutes.' Menit '.$seconds.' Detik';
+                                                }
+                                                else {
+                                                    echo '0. Pengajuan akan segera ditutup...';
+                                                }
+                                            @endphp
+                                        </p>
+                                    </div>
+                                </div>
                             @endif
                         </div>
                         <div class="flex justify-end gap-2 h-fit">
@@ -324,6 +364,14 @@
                     @else
                         <div class="container pt-5">
                             <button class="upload-button" onclick="openModal()">Ajukan File</button>
+                        </div>
+                    @endif
+                @else
+                    @if (\Session::has('error'))
+                        <div class="bg-red-500 px-4 py-2 text-white mt-2">
+                            <ul>
+                                <li>{!! \Session::get('error') !!}</li>
+                            </ul>
                         </div>
                     @endif
                 @endif
@@ -420,9 +468,9 @@
                     @forelse ($files as $file)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $file->id }}</td>
+                            <td>{{ $file->student_id }}</td>
                             <td>{{ $file->student_name }}</td>
-                            <td>{{ $file->filename }}</td>
+                            <td><a class="text-blue-500 underline" href="{{ asset($file->path.$file->filename) }}" target="_blank">{{ $file->filename }}</a></td>
                             <td id="grade-1">
                                 @if ($file->grade && $file->grade != '' || $file->grade === 0)
                                     {{ $file->grade }}/100
