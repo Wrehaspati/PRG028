@@ -9,6 +9,7 @@ use App\View\Components\AssignmentCard;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -135,6 +136,24 @@ class AssignmentController extends Controller
         $remain_time = $this->checkDeadline($assignments->due_date, $assigment_id);
 
         return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files, 'teacher_files' => $teacher_file, 'remain_time' => $remain_time ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function editAsTeacher($grade, $subject, $assigment_id)
+    {
+        $subject_id = $this->urlConvertion($subject, $grade);
+        
+        $subject = Subject::find($subject_id->id);
+
+        $teacher = Auth::user()->teacherData;
+        
+        if($subject->teacher_id != $teacher->id):
+            abort(401);
+        endif;
+
+        // $assignments = Assignment::find($assigment_id);
     }
 
     /**

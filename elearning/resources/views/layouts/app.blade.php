@@ -36,9 +36,10 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="pb-40 bg-white">
             {{ $slot }}
         </main>
+        @include('layouts/footer')
     </div>
 </body>
 

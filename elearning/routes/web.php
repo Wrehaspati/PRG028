@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
+    Route::get('course/{grade}/subject/{subject}/{assignment_id}/edit', [AssignmentController::class, 'editAsTeacher'])->name('course.edit');
     Route::post('course/{assignment_id}', [AssignmentController::class, 'close'])->name('assignment.close');
 
     Route::resources([
@@ -70,12 +71,5 @@ Route::middleware('auth')->group(function () {
 
 
 });
-
-//route edit
-Route::get('/edit-assignment' , function () {
-    return view('edit-assignment');
-});
-
-
 
 require __DIR__.'/auth.php';

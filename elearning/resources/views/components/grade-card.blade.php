@@ -33,7 +33,11 @@
                         </div>
                     </div>
                     <div class="text-sm">
-                        {{ $subject->grade_name }}
+                        @if ($subject->grade_name) 
+                            {{ $subject->grade_name }}
+                        @else 
+                            {{ $grade->grade_name }}
+                        @endif
                     </div>
                 </div>
             </div>

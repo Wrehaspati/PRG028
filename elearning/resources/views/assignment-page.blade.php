@@ -205,15 +205,18 @@
     </style>
 
     <x-app-layout>
-        <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | ' . $subject->subject_name . ' | ' . $assignment->assignment_title) }} </h2>
+                {{ __('E-Learning | ' . $subject->subject_name ) }}{{ ' | ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }} </h2>
         </x-slot>
+
         <div style="background-color: #FFFF">
             <div class="w-full flex justify-center">
                 <div class="flex justify-between w-4/5 pt-5">
-                    <section class="">
+                    <section class="w-3/5">
+                        <div class="text-lg font-bold">
+                            <p>{{ $assignment->assignment_title }} </p>
+                        </div>
                         <div class="text-lg">
                             <p>{{ $assignment->description }} </p>
                         </div>
@@ -271,267 +274,16 @@
                             @endforeach
                         @endif
                     </section>
-                    <div class="flex flex-col">
-                        <div class="flex">
-                            @if ($assignment->status == 'closed') 
-                                <svg class="inline-block" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="20px" height="20px">
-                                    <path d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"/>
-                                </svg>
-                                <p class="pl-2">
-                                    Pengajuan dikunci pada {{ date('h:i:s - d M Y', strtotime($assignment->updated_at)); }}
-                                </p>
-                            @elseif($assignment->status == 'hasDeadline')
-                                <div class="flex flex-col">
-                                    <div class="block">
-                                        Pengajuan akan dikunci pada pukul
-                                        <p class="inline underline font-bold">{{ date('h:i', strtotime($assignment->due_date)); }}</p>
-                                        tanggal
-                                        <p class="inline underline font-bold">{{ date('d M Y', strtotime($assignment->due_date)); }}</p> 
-                                    </div>
-                                    <div>
-                                        Waktu yang tersisa adalah 
-                                        <p class="inline underline font-bold">
-                                            @php
-                                                if ($remain_time >= 0) {
-                                                    $time_left = $remain_time;
+                    
+                    @include('assignments/partials/top-right-button')
 
-                                                    $days = floor($time_left / 86400); // 86400 seconds in a day
-                                                    $time_left = $time_left % 86400;
-
-                                                    $hours = floor($time_left / 3600); // 3600 seconds in an hour
-                                                    $time_left = $time_left % 3600;
-
-                                                    $minutes = floor($time_left / 60); // 60 seconds in a minute
-                                                    $seconds = $time_left % 60;
-
-                                                    if($days != 0):
-                                                        echo $days.' Hari ';
-                                                    endif;
-                                                    if($hours != 0):
-                                                        echo $hours.' Jam ';
-                                                    endif;
-                                                    echo $minutes.' Menit '.$seconds.' Detik';
-                                                }
-                                                else {
-                                                    echo '0. Pengajuan akan segera ditutup...';
-                                                }
-                                            @endphp
-                                        </p>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="flex justify-end gap-2 h-fit">
-                            @if (Auth::user()->role)
-                                @if (count($files) == 0) 
-                                    <form action="{{ Route('assignments.destroy', $assignment->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
-                                    </form>
-                                @endif
-                                    <form action="{{ Route('assignment.close', $assignment->id) }}" method="POST">
-                                        @csrf
-                                            @if ($assignment->status == 'closed') 
-                                                <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">
-                                                    Buka Kunci Pengajuan
-                                                </button>
-                                            @else 
-                                                <button class="button bg-green-500 hover:bg-green-700" type="submit">
-                                                    Kunci Pengajuan
-                                                </button>
-                                            @endif
-                                    </form>
-                                
-                                @if (count($teacher_files) == 0) 
-                                    <a class="button m-0" onclick="openModal()">Upload Files</a>
-                                @else 
-                                    <a class="button m-0" href="/edit-assignment">Edit Assignment</a>
-                                @endif
-                            @endif
-                        </div>
-                    </div>
                 </div>
-            </div>           
+            </div>        
+            
+            @include('assignments/partials/upload-modal')
 
+            @include('assignments/partials/datatable')
 
-            @if (!Auth::user()->role)
-                @if ($assignment->status != 'closed') 
-                    @if (isset($isNotNull))
-                        <div class="pt-5 flex w-full justify-center">
-                            <button class="upload-button" onclick="openModal()">Edit Pengajuan</button>
-                        </div>
-                    @else
-                        <div class="container pt-5">
-                            <button class="upload-button" onclick="openModal()">Ajukan File</button>
-                        </div>
-                    @endif
-                @else
-                    @if (\Session::has('error'))
-                        <div class="bg-red-500 px-4 py-2 text-white mt-2">
-                            <ul>
-                                <li>{!! \Session::get('error') !!}</li>
-                            </ul>
-                        </div>
-                    @endif
-                @endif
-
-                <div id="upload-success"
-                    style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-top: 10px;">
-                </div>
-                {{-- Modal milik roles students --}}
-                <div id="myModal" class="modal overflow-hidden">
-                    <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-content w-2/5">
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            
-                            <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
-                            <input type="hidden" name="assign_by" value="student">
-                            <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
-                            <input type="hidden" name="unique_subject_name" value="{{ $subject->subject_name }}">
-                            <input type="hidden" name="unique_id" value="{{ Auth::user()->studentData->id }}">
-                            <input type="hidden" name="unique_subject_id" value="{{ $subject->id }}">
-
-                            <div class="w-full flex justify-center">
-                                <div class="file-drop-area border-2 border-gray-300 border-dashed rounded-md min-h-[14rem] w-fit px-10 pr-20 hover:border-gray-400 focus:outline-none">
-                                    <span class="fake-btn text-small">Choose files</span>
-                                    <span class="file-msg">or drag and drop files here</span>
-                                    <input class="file-input" name="filenames[]" type="file" {{-- multiple --}} required>
-                                </div>
-                            </div>
-
-                            <div class="w-full flex justify-center gap-3 pt-10">
-                                <button class="button bg-red-500 hover:bg-red-700" type="reset" onclick="resetInput()">Batal</button>
-                                @if (count($files) == 0) 
-                                    <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Upload</button>
-                                @else
-                                    <input type="hidden" name="type" value="replace">
-                                    <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Simpan Perubahan</button>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            @else
-                {{-- Modal milik roles guru --}}
-                <div id="myModal" class="modal">
-                    <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            <h2>Materials/Files</h2>
-                            <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
-                            <input type="hidden" name="assign_by" value="teacher">
-                            <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
-                            <input type="hidden" name="unique_subject_name" value="{{ $subject->subject_name }}">
-                            <input type="hidden" name="unique_subject_id" value="{{ $subject->id }}">
-  
-                            <div class="input-group hdtuto control-group lst increment" >
-                                <input type="file" name="filenames[]" class="myfrm form-control">
-                                <div class="input-group-btn"> 
-                                    <button class="btn-success button bg-green-500 my-2 px-4 py-2" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>Add More Files</button>
-                                </div>
-                            </div>
-                            <div class="clone hidden">
-                                <div class="hdtuto control-group lst input-group" style="margin-top:10px">
-                                    <input type="file" name="filenames[]" class="myfrm form-control">
-                                    <div class="input-group-btn"> 
-                                        <button class="button bg-red-500 hover:bg-red-800 my-2 px-4 py-2 btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="kanan">
-                                <button class="button-delete" onclick="deleteTask()">Delete</button>
-                                <button class="button" onclick="saveTask()">Upload</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div id="card" style="display: none;"></div>
-            @endif
-
-
-            @if (Auth::user()->role)
-                <br>
-                <hr> <br><br>
-                <table class="tengah">
-                    <tr>
-                        <th>No</th>
-                        <th>Nim</th>
-                        <th>Nama</th>
-                        <th>Filename (click to view)</th>
-                        <th>Grades</th>
-                        <th>Action Grade</th>
-                    </tr>
-                    @forelse ($files as $file)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $file->student_id }}</td>
-                            <td>{{ $file->student_name }}</td>
-                            <td><a class="text-blue-500 underline" href="{{ asset($file->path.$file->filename) }}" target="_blank">{{ $file->filename }}</a></td>
-                            <td id="grade-1">
-                                @if ($file->grade && $file->grade != '' || $file->grade === 0)
-                                    {{ $file->grade }}/100
-                                @else
-                                    {{ __('Belum dinilai') }}
-                                @endif
-                            </td>
-                            <td>
-                                @if ($file->grade && $file->grade != '')
-                                    <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit nilai</button>
-                                @else
-                                    <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }})">Beri nilai</button>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6">Belum ada file yang terkirim</td>
-                        </tr>
-                    @endforelse
-            @endif
-
-
-            </table>
-            <div id="grade-modal" class="modal">
-                <div class="modal-content">
-                    <form action="{{ route('file.grade') }}" method="POST">
-                        @csrf
-                        <span class="close" onclick="closeGradeModal()">&times;</span>
-                        <h2>Grades</h2>
-                        <input type="number" max="100" min="0" class="w-1/5" id="grade-input" name="grade" class="grade-input" placeholder="Enter grade" />
-                        <input type="hidden" id="form-hidden-id" name="file_id">
-                        <button class="button" onclick="saveGrade()">OK</button>
-                    </form>
-                </div>
-            </div>
-
-            <hr style="margin-top: 200px">
-            <section style="padding-bottom: 50px; padding-top : 30px; padding-left : 110px;">
-                <div class="d-flex align-items-center">
-                    <span class="me-4">Connect with us:</span>
-                    <a href="https://www.instagram.com/akun_instagram" target="_blank">
-                        <i class="fab fa-instagram fa-2x" style="color: #ac2bac; margin-right: 20px;"></i>
-                    </a>
-                    <a href="https://www.facebook.com/akun_facebook" target="_blank">
-                        <i class="fab fa-facebook-f fa-2x" style="color: #3b5998; margin-right: 20px;"></i>
-                    </a>
-                    <a href="https://www.youtube.com/akun_youtube" target="_blank">
-                        <i class="fab fa-youtube fa-2x" style="color: #ed302f; margin-right: 20px;"></i>
-                    </a>
-                    <a href="https://www.twitter.com/akun_twitter" target="_blank">
-                        <i class="fab fa-twitter fa-2x" style="color: #55acee; margin-right: 20px;"></i>
-                    </a>
-                </div>
-            </section>
-            <footer style="background-color: #F2F2F2; padding: 40px;">
-                <div style="text-align: center;">
-                    <span>@elearning2023</span> <br>
-                    <span>You are logged in.</span>
-                </div>
-            </footer>
         </div>
     </x-app-layout>
 

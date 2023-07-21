@@ -80,50 +80,33 @@
                 E-Learning | Edit Assignment</h2>
         </x-slot>
         <div style="background-color: #FFFF">
-            <div class="w-100 flex justify-center">
-                <div class="container">
-                    <h2><b>Form Edit Assignment</b></h2><br>
-    
-                    <label for="judul">Judul Tugas</label>
-                    <input type="text" id="judul" name="judul"><br>
-    
-                    <label for="deskripsi">Deskripsi</label>
-                    <textarea id="deskripsi" name="deskripsi" rows="8"></textarea><br>
-    
-                    <label for="file">File </label>
-                    <input type="file" id="file" name="file"><br>
-    
-                    <div class="button-container">
-                        <button class="save-button">Save</button>
-                        <button class="button-delete" onclick="resetForm()">Reset</button>
-                    </div>
-                </div>    
+            <div class="w-full flex justify-center">
+                <div class="flex justify-between w-4/5 pt-5">
+                    <section class="w-3/5">
+                        <div class="text-lg font-bold">
+                            <p>{{ $assignment->assignment_title }} </p>
+                        </div>
+                        <div class="text-lg">
+                            <p>{{ $assignment->description }} </p>
+                        </div>
+                        <div class="text-lg">
+                            {{-- @forelse ($teacher_files as $file)
+                                @if ($file->assign_by == 'teacher') 
+                                    <div class="py-2 mt-5 px-10 w-fit bg-gray-100 rounded-lg text-md">
+                                        <a class="text-blue-700 hover:text-blue-900 underline" target="_blank" href="{{ asset($file->path.$file->filename) }}">{{ $file->filename }}</a>
+                                    </div>
+                                @endif
+                            @empty
+                                <p class="text-green-600">
+                                    // pada tempat ini harusnya berisi file soal, ketika guru mengupload
+                                    soal dalam bentuk pdf/file
+                                </p>
+                            @endforelse --}}
+                            ditutup sementara waktu
+                        </div>
+                    </section>
+                </div>
             </div>
-            
-            <hr style="margin-top: 200px">
-            <section style="padding-bottom: 50px; padding-top : 30px; padding-left : 110px;">
-                <div class="d-flex align-items-center">
-                    <span class="me-4">Connect with us:</span>
-                    <a href="https://www.instagram.com/akun_instagram" target="_blank">
-                        <i class="fab fa-instagram fa-2x" style="color: #ac2bac; margin-right: 20px;"></i>
-                    </a>
-                    <a href="https://www.facebook.com/akun_facebook" target="_blank">
-                        <i class="fab fa-facebook-f fa-2x" style="color: #3b5998; margin-right: 20px;"></i>
-                    </a>
-                    <a href="https://www.youtube.com/akun_youtube" target="_blank">
-                        <i class="fab fa-youtube fa-2x" style="color: #ed302f; margin-right: 20px;"></i>
-                    </a>
-                    <a href="https://www.twitter.com/akun_twitter" target="_blank">
-                        <i class="fab fa-twitter fa-2x" style="color: #55acee; margin-right: 20px;"></i>
-                    </a>
-                </div>
-            </section>
-            <footer style="background-color: #F2F2F2; padding: 40px;">
-                <div style="text-align: center;">
-                    <span>@elearning2023</span> <br>
-                    <span>You are logged in.</span>
-                </div>
-            </footer>
         </div>
     </x-app-layout>
 
