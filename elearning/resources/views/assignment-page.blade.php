@@ -155,53 +155,54 @@
         /* Drop and Drag CSS */
 
         .file-drop-area {
-        position: relative;
-        display: flex;
-        align-items: center;
-        width: 450px;
-        max-width: 100%;
-        padding: 25px;
-        border: 1px dashed rgba(255, 255, 255, 0.4);
-        border-radius: 3px;
-        transition: 0.2s;
-        &.is-active {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 450px;
+            max-width: 100%;
+            padding: 25px;
+            border: 1px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 3px;
+            transition: 0.2s;
+
+            &.is-active {
+                background-color: rgba(255, 255, 255, 0.05);
+            }
         }
 
         .fake-btn {
-        flex-shrink: 0;
-        background-color: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-        padding: 8px 15px;
-        margin-right: 10px;
-        font-size: 12px;
-        text-transform: uppercase;
+            flex-shrink: 0;
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            padding: 8px 15px;
+            margin-right: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
         }
 
         .file-msg {
-        font-size: small;
-        font-weight: 300;
-        line-height: 1.4;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+            font-size: small;
+            font-weight: 300;
+            line-height: 1.4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .file-input {
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        cursor: pointer;
-        opacity: 0;
-        &:focus {
-            outline: none;
-        }
-        }
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+            opacity: 0;
 
+            &:focus {
+                outline: none;
+            }
+        }
     </style>
 
     <x-app-layout>
@@ -219,9 +220,10 @@
                         </div>
                         <div class="text-lg">
                             @forelse ($teacher_files as $file)
-                                @if ($file->assign_by == 'teacher') 
+                                @if ($file->assign_by == 'teacher')
                                     <div class="py-2 mt-5 px-10 w-fit bg-gray-100 rounded-lg text-md">
-                                        <a class="text-blue-700 hover:text-blue-900 underline" target="_blank" href="{{ asset($file->path.$file->filename) }}">{{ $file->filename }}</a>
+                                        <a class="text-blue-700 hover:text-blue-900 underline" target="_blank"
+                                            href="{{ asset($file->path . $file->filename) }}">{{ $file->filename }}</a>
                                     </div>
                                 @endif
                             @empty
@@ -233,34 +235,40 @@
                         </div>
                         <br>
                         <p class="text-sm">Max upload size : 2 MB</p>
-                        <p class="text-sm text-red-500">* Dihimbau untuk kirim/ajukan file 10 menit sebelum berakhirnya waktu yang diberikan</p>
-                        <p class="text-sm text-red-500">** Harap hubungi guru yang mengajar atau BK jika file tidak dapat diunduh / bermasalah.</p>
+                        <p class="text-sm text-red-500">* Dihimbau untuk kirim/ajukan file 10 menit sebelum berakhirnya
+                            waktu yang diberikan</p>
+                        <p class="text-sm text-red-500">** Harap hubungi guru yang mengajar atau BK jika file tidak
+                            dapat diunduh / bermasalah.</p>
                         <div class="text-sm">lampiran ini dibuat pada {{ $assignment->created_at }}</div>
-                        
-                        @if (isset($files))  
-                            @foreach ($files as $file) 
-                                @if ($file->user_id == Auth::user()->id) 
+
+                        @if (isset($files))
+                            @foreach ($files as $file)
+                                @if ($file->user_id == Auth::user()->id)
                                     <div class="px-10 py-4 mt-4 bg-cyan-100 rounded w-fit">
                                         <div>
-                                            File yang diajukan : {{ $file->filename }} 
-                                            (<a href="{{ asset($file->path.$file->filename) }}" target="_blank" class="text-blue-500 underline">click to view</a>)
+                                            File yang diajukan : {{ $file->filename }}
+                                            (<a href="{{ asset($file->path . $file->filename) }}" target="_blank"
+                                                class="text-blue-500 underline">click to view</a>)
                                             @if ($assignment->status == 'closed')
-                                                @if ($file->grade > 50) 
-                                                    <span class="bg-green-500 px-2 py-1 rounded-lg font-bold ml-5 text-white">
+                                                @if ($file->grade > 50)
+                                                    <span
+                                                        class="bg-green-500 px-2 py-1 rounded-lg font-bold ml-5 text-white">
                                                         {{ $file->grade }}
                                                     </span>
                                                 @elseif ($file->grade <= 50 && $file->grade != 0)
-                                                    <span class="bg-red-500 px-2 py-1 rounded-lg font-bold ml-5 text-white">
+                                                    <span
+                                                        class="bg-red-500 px-2 py-1 rounded-lg font-bold ml-5 text-white">
                                                         {{ $file->grade }}
                                                     </span>
                                                 @endif
                                             @endif
                                         </div>
-                                        @if ($assignment->status != 'closed') 
+                                        @if ($assignment->status != 'closed')
                                             <form action="{{ Route('files.destroy', $file->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="mt-2 button bg-red-500 hover:bg-red-700" onclick="">Batalkan Pengajuan</button>
+                                                <button class="mt-2 button bg-red-500 hover:bg-red-700"
+                                                    onclick="">Batalkan Pengajuan</button>
                                             </form>
                                         @endif
                                     </div>
@@ -273,46 +281,50 @@
                     </section>
                     <div class="flex flex-col">
                         <div class="flex">
-                            @if ($assignment->status == 'closed') 
-                                <svg class="inline-block" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="20px" height="20px">
-                                    <path d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"/>
+                            @if ($assignment->status == 'closed')
+                                <svg class="inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"
+                                    width="20px" height="20px">
+                                    <path
+                                        d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z" />
                                 </svg>
                                 <p class="pl-2">
-                                    Pengajuan dikunci pada {{ date('h:i:s - d M Y', strtotime($assignment->updated_at)); }}
+                                    Pengajuan dikunci pada
+                                    {{ date('h:i:s - d M Y', strtotime($assignment->updated_at)) }}
                                 </p>
                             @elseif($assignment->status == 'hasDeadline')
                                 <div class="flex flex-col">
                                     <div class="block">
                                         Pengajuan akan dikunci pada pukul
-                                        <p class="inline underline font-bold">{{ date('h:i', strtotime($assignment->due_date)); }}</p>
+                                        <p class="inline underline font-bold">
+                                            {{ date('h:i', strtotime($assignment->due_date)) }}</p>
                                         tanggal
-                                        <p class="inline underline font-bold">{{ date('d M Y', strtotime($assignment->due_date)); }}</p> 
+                                        <p class="inline underline font-bold">
+                                            {{ date('d M Y', strtotime($assignment->due_date)) }}</p>
                                     </div>
                                     <div>
-                                        Waktu yang tersisa adalah 
+                                        Waktu yang tersisa adalah
                                         <p class="inline underline font-bold">
                                             @php
                                                 if ($remain_time >= 0) {
                                                     $time_left = $remain_time;
-
+                                                
                                                     $days = floor($time_left / 86400); // 86400 seconds in a day
                                                     $time_left = $time_left % 86400;
-
+                                                
                                                     $hours = floor($time_left / 3600); // 3600 seconds in an hour
                                                     $time_left = $time_left % 3600;
-
+                                                
                                                     $minutes = floor($time_left / 60); // 60 seconds in a minute
                                                     $seconds = $time_left % 60;
-
-                                                    if($days != 0):
-                                                        echo $days.' Hari ';
+                                                
+                                                    if ($days != 0):
+                                                        echo $days . ' Hari ';
                                                     endif;
-                                                    if($hours != 0):
-                                                        echo $hours.' Jam ';
+                                                    if ($hours != 0):
+                                                        echo $hours . ' Jam ';
                                                     endif;
-                                                    echo $minutes.' Menit '.$seconds.' Detik';
-                                                }
-                                                else {
+                                                    echo $minutes . ' Menit ' . $seconds . ' Detik';
+                                                } else {
                                                     echo '0. Pengajuan akan segera ditutup...';
                                                 }
                                             @endphp
@@ -323,40 +335,41 @@
                         </div>
                         <div class="flex justify-end gap-2 h-fit">
                             @if (Auth::user()->role)
-                                @if (count($files) == 0) 
+                                @if (count($files) == 0)
                                     <form action="{{ Route('assignments.destroy', $assignment->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
+                                        <button class="button bg-red-500 hover:bg-red-700"
+                                            onclick="">Delete</button>
                                     </form>
                                 @endif
-                                    <form action="{{ Route('assignment.close', $assignment->id) }}" method="POST">
-                                        @csrf
-                                            @if ($assignment->status == 'closed') 
-                                                <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">
-                                                    Buka Kunci Pengajuan
-                                                </button>
-                                            @else 
-                                                <button class="button bg-green-500 hover:bg-green-700" type="submit">
-                                                    Kunci Pengajuan
-                                                </button>
-                                            @endif
-                                    </form>
-                                
-                                @if (count($teacher_files) == 0) 
+                                <form action="{{ Route('assignment.close', $assignment->id) }}" method="POST">
+                                    @csrf
+                                    @if ($assignment->status == 'closed')
+                                        <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">
+                                            Buka Kunci Pengajuan
+                                        </button>
+                                    @else
+                                        <button class="button bg-green-500 hover:bg-green-700" type="submit">
+                                            Kunci Pengajuan
+                                        </button>
+                                    @endif
+                                </form>
+
+                                @if (count($teacher_files) == 0)
                                     <a class="button m-0" onclick="openModal()">Upload Files</a>
-                                @else 
+                                @else
                                     <a class="button m-0" href="/edit-assignment">Edit Assignment</a>
                                 @endif
                             @endif
                         </div>
                     </div>
                 </div>
-            </div>           
+            </div>
 
 
             @if (!Auth::user()->role)
-                @if ($assignment->status != 'closed') 
+                @if ($assignment->status != 'closed')
                     @if (isset($isNotNull))
                         <div class="pt-5 flex w-full justify-center">
                             <button class="upload-button" onclick="openModal()">Edit Pengajuan</button>
@@ -385,7 +398,7 @@
                         @csrf
                         <div class="modal-content w-2/5">
                             <span class="close" onclick="closeModal()">&times;</span>
-                            
+
                             <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
                             <input type="hidden" name="assign_by" value="student">
                             <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
@@ -394,20 +407,25 @@
                             <input type="hidden" name="unique_subject_id" value="{{ $subject->id }}">
 
                             <div class="w-full flex justify-center">
-                                <div class="file-drop-area border-2 border-gray-300 border-dashed rounded-md min-h-[14rem] w-fit px-10 pr-20 hover:border-gray-400 focus:outline-none">
+                                <div
+                                    class="file-drop-area border-2 border-gray-300 border-dashed rounded-md min-h-[14rem] w-fit px-10 pr-20 hover:border-gray-400 focus:outline-none">
                                     <span class="fake-btn text-small">Choose files</span>
                                     <span class="file-msg">or drag and drop files here</span>
-                                    <input class="file-input" name="filenames[]" type="file" {{-- multiple --}} required>
+                                    <input class="file-input" name="filenames[]" type="file" {{-- multiple --}}
+                                        required>
                                 </div>
                             </div>
 
                             <div class="w-full flex justify-center gap-3 pt-10">
-                                <button class="button bg-red-500 hover:bg-red-700" type="reset" onclick="resetInput()">Batal</button>
-                                @if (count($files) == 0) 
-                                    <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Upload</button>
+                                <button class="button bg-red-500 hover:bg-red-700" type="reset"
+                                    onclick="resetInput()">Batal</button>
+                                @if (count($files) == 0)
+                                    <button class="button bg-cyan-500 hover:bg-cyan-700"
+                                        type="submit">Upload</button>
                                 @else
                                     <input type="hidden" name="type" value="replace">
-                                    <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Simpan Perubahan</button>
+                                    <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Simpan
+                                        Perubahan</button>
                                 @endif
                             </div>
                         </div>
@@ -426,18 +444,21 @@
                             <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
                             <input type="hidden" name="unique_subject_name" value="{{ $subject->subject_name }}">
                             <input type="hidden" name="unique_subject_id" value="{{ $subject->id }}">
-  
-                            <div class="input-group hdtuto control-group lst increment" >
+
+                            <div class="input-group hdtuto control-group lst increment">
                                 <input type="file" name="filenames[]" class="myfrm form-control">
-                                <div class="input-group-btn"> 
-                                    <button class="btn-success button bg-green-500 my-2 px-4 py-2" type="button"><i class="fldemo glyphicon glyphicon-plus"></i>Add More Files</button>
+                                <div class="input-group-btn">
+                                    <button class="btn-success button bg-green-500 my-2 px-4 py-2" type="button"><i
+                                            class="fldemo glyphicon glyphicon-plus"></i>Add More Files</button>
                                 </div>
                             </div>
                             <div class="clone hidden">
                                 <div class="hdtuto control-group lst input-group" style="margin-top:10px">
                                     <input type="file" name="filenames[]" class="myfrm form-control">
-                                    <div class="input-group-btn"> 
-                                        <button class="button bg-red-500 hover:bg-red-800 my-2 px-4 py-2 btn-danger" type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                                    <div class="input-group-btn">
+                                        <button class="button bg-red-500 hover:bg-red-800 my-2 px-4 py-2 btn-danger"
+                                            type="button"><i class="fldemo glyphicon glyphicon-remove"></i>
+                                            Remove</button>
                                     </div>
                                 </div>
                             </div>
@@ -470,9 +491,10 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $file->student_id }}</td>
                             <td>{{ $file->student_name }}</td>
-                            <td><a class="text-blue-500 underline" href="{{ asset($file->path.$file->filename) }}" target="_blank">{{ $file->filename }}</a></td>
+                            <td><a class="text-blue-500 underline" href="{{ asset($file->path . $file->filename) }}"
+                                    target="_blank">{{ $file->filename }}</a></td>
                             <td id="grade-1">
-                                @if ($file->grade && $file->grade != '' || $file->grade === 0)
+                                @if (($file->grade && $file->grade != '') || $file->grade === 0)
                                     {{ $file->grade }}/100
                                 @else
                                     {{ __('Belum dinilai') }}
@@ -480,9 +502,12 @@
                             </td>
                             <td>
                                 @if ($file->grade && $file->grade != '')
-                                    <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit nilai</button>
+                                    <button class="grade-button rounded"
+                                        onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit
+                                        nilai</button>
                                 @else
-                                    <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }})">Beri nilai</button>
+                                    <button class="grade-button rounded"
+                                        onclick="showGradeModal({{ $file->id }})">Beri nilai</button>
                                 @endif
                             </td>
                         </tr>
@@ -501,7 +526,8 @@
                         @csrf
                         <span class="close" onclick="closeGradeModal()">&times;</span>
                         <h2>Grades</h2>
-                        <input type="number" max="100" min="0" class="w-1/5" id="grade-input" name="grade" class="grade-input" placeholder="Enter grade" />
+                        <input type="number" max="100" min="0" class="w-1/5" id="grade-input"
+                            name="grade" class="grade-input" placeholder="Enter grade" />
                         <input type="hidden" id="form-hidden-id" name="file_id">
                         <button class="button" onclick="saveGrade()">OK</button>
                     </form>
@@ -538,11 +564,11 @@
     <script>
         // Script untuk Multiple input file
         $(document).ready(function() {
-            $(".btn-success").click(function(){ 
+            $(".btn-success").click(function() {
                 var lsthmtl = $(".clone").html();
                 $(".increment").after(lsthmtl);
             });
-            $("body").on("click",".btn-danger",function(){ 
+            $("body").on("click", ".btn-danger", function() {
                 $(this).parents(".hdtuto").remove();
             });
         });
@@ -555,10 +581,10 @@
         const fileName = document.getElementById('file-name');
         const uploadSuccess = document.getElementById('upload-success');
 
-        // Mengatur event untuk tombol Upload
-        // uploadButton.addEventListener('click', function() {
-        //     fileInput.click();
-        // });
+        // Mengatur event listener untuk tombol Upload
+        uploadButton.addEventListener('click', function() {
+            fileInput.click();
+        });
 
         // Mengatur event listener untuk perubahan input file
         // fileInput.addEventListener('change', function() {
@@ -701,31 +727,30 @@
 
         // highlight drag area
         $fileInput.on('dragenter focus click', function() {
-        $droparea.addClass('is-active');
+            $droparea.addClass('is-active');
         });
 
         // back to normal state
         $fileInput.on('dragleave blur drop', function() {
-        $droparea.removeClass('is-active');
+            $droparea.removeClass('is-active');
         });
 
         // change inner text
         $fileInput.on('change', function() {
-        var filesCount = $(this)[0].files.length;
-        var $textContainer = $(this).prev();
+            var filesCount = $(this)[0].files.length;
+            var $textContainer = $(this).prev();
 
-        if (filesCount === 1) {
-            // if single file is selected, show file name
-            var fileName = $(this).val().split('\\').pop();
-            $textContainer.text(fileName);
-        } else {
-            // otherwise show number of files
-            $textContainer.text(filesCount + ' files selected');
-        }
+            if (filesCount === 1) {
+                // if single file is selected, show file name
+                var fileName = $(this).val().split('\\').pop();
+                $textContainer.text(fileName);
+            } else {
+                // otherwise show number of files
+                $textContainer.text(filesCount + ' files selected');
+            }
         });
 
-        function resetInput()
-        {
+        function resetInput() {
             $('.file-msg').text('or drag and drop files here');
         }
     </script>
