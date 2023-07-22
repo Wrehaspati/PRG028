@@ -40,7 +40,7 @@ class FileController extends Controller
 
         $checkDeadline = Assignment::find($request->assignment_id);
 
-        if($checkDeadline->status == 'closed'):
+        if($checkDeadline->status == 'closed' && $request->assign_by != 'teacher'):
             return redirect()->back()->with('error', 'Waktu pengajuan telah berakhir.');
         endif;
 

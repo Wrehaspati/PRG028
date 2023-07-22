@@ -96,5 +96,4 @@
             </div>
         </form>
     </div>
-    <div id="card" style="display: none;"></div>
 @endif

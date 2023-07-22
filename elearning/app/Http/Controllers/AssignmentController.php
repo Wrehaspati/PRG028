@@ -141,7 +141,7 @@ class AssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function editAsTeacher($grade, $subject, $assigment_id)
+    public function editAsTeacher($grade, $subject,  $assigment_id)
     {
         $subject_id = $this->urlConvertion($subject, $grade);
         
@@ -153,6 +153,13 @@ class AssignmentController extends Controller
             abort(401);
         endif;
 
+        $assignment = assignment::find($assigment_id);
+
+        $teacher_file = File::where('assignment_id',  $assigment_id)
+                            ->where('assign_by', 'teacher')
+                            ->get();
+
+        return view('edit-assignment', ['subject' => $subject, 'assignment' => $assignment, 'teacher_files' => $teacher_file, 'grade' => $grade]);
         // $assignments = Assignment::find($assigment_id);
     }
 
