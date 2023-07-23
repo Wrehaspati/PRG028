@@ -90,7 +90,7 @@ class FileController extends Controller
             $file->save();
         endforeach;
 
-        return back()->with('success', 'Pengajuan berhasil');
+        return back()->with('msg', 'Upload File');
     }
 
     /**
@@ -141,6 +141,6 @@ class FileController extends Controller
         }
 
         FileModel::destroy($file->id);
-        return back();
+        return back()->with('msg', 'Penghapusan File');
     }
 }

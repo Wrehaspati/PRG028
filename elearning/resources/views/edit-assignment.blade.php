@@ -90,15 +90,27 @@
             <div class="w-full flex justify-center">
                 <div class="flex justify-center w-4/5 pt-5">
                     <section class="w-3/5">
-                        <form action="" class="w-full border border-gray-400 rounded p-5">
+                        @if (Session::has('msg')) 
+                            <div class="bg-green-500 text-white px-5 py-2 rounded mb-2">
+                                <div>
+                                    {{ date('d M Y - h:i:s', strtotime($assignment->updated_at)) }}
+                                </div> 
+                                Perubahan '{{ Session::get('msg') }}' telah berhasil dieksekusi!
+                            </div>
+                        @else 
+                            <label for="" class="font-bold">Perubahan terakhir pada {{ date('d M Y - h:i:s', strtotime($assignment->updated_at)) }}</label>
+                        @endif
+                        <form action="{{ route('assignment.updateasteacher', $assignment->id) }}" method="POST" class="w-full border border-gray-400 rounded p-5">
+                            @csrf
+                            @method('PUT')
                             <div class="text-lg font-bold">
                                 <label for="title">Title / Judul</label>
-                                <input class="w-full border border-gray-400 rounded" type="text" name=""
+                                <input class="w-full border border-gray-400 rounded" type="text" name="title"
                                     value="{{ $assignment->assignment_title }}" id="title">
                             </div>
                             <div class="text-lg mt-5">
                                 <label for="" class="font-bold">Description / Deskripsi</label>
-                                <textarea name="" class="w-full border border-gray-400 rounded" id="" cols="30" rows="10">{{ $assignment->description }}</textarea>
+                                <textarea name="description" class="w-full border border-gray-400 rounded" id="" cols="30" rows="10">{{ $assignment->description }}</textarea>
                             </div>
                             <div class="w-full justify-end flex gap-2 mt-2">
                                 <button class="button bg-cyan-500 hover:bg-cyan-700 rounded text-white px-5 py-2" type="submit">Update</button>

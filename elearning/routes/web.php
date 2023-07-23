@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
     Route::get('course/{grade}/subject/{subject}/{assignment_id}/edit', [AssignmentController::class, 'editAsTeacher'])->name('course.edit');
+    Route::put('assignments/update/{assignment}', [AssignmentController::class, 'updateAsTeacher'])->name('assignment.updateasteacher');
     Route::post('course/{assignment_id}', [AssignmentController::class, 'close'])->name('assignment.close');
 
     Route::resources([

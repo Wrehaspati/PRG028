@@ -160,7 +160,18 @@ class AssignmentController extends Controller
                             ->get();
 
         return view('edit-assignment', ['subject' => $subject, 'assignment' => $assignment, 'teacher_files' => $teacher_file, 'grade' => $grade]);
-        // $assignments = Assignment::find($assigment_id);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function updateAsTeacher(Request $request, assignment $assignment)
+    {
+        $assignment->assignment_title = $request->title;
+        $assignment->description = $request->description;
+        $assignment->save();
+
+        return redirect()->back()->with('msg', 'Title dan/atau Description');
     }
 
     /**
