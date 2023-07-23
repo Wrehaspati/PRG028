@@ -215,6 +215,14 @@
             <div class="w-full flex justify-center">
                 <div class="flex justify-between w-4/5 pt-5">
                     <section class="w-3/5">
+                        @if (Session::has('msg')) 
+                            <div class="bg-green-500 text-white px-5 py-2 rounded mb-2">
+                                <div>
+                                    {{ date('d M Y - h:i:s', strtotime($assignment->updated_at)) }}
+                                </div> 
+                                Berhasil untuk '{{ Session::get('msg') }}'
+                            </div>
+                        @endif
                         <div class="text-lg font-bold">
                             <p>{{ $assignment->assignment_title }} </p>
                         </div>

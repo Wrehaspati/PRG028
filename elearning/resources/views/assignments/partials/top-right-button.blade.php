@@ -40,7 +40,7 @@
                                 endif;
                                 echo $minutes . ' Menit ' . $seconds . ' Detik';
                             } else {
-                                echo '0. Pengajuan akan segera ditutup...';
+                                echo '0 - Pengajuan akan segera ditutup...';
                             }
                         @endphp
                     </p>
@@ -60,10 +60,12 @@
             <form action="{{ Route('assignment.close', $assignment->id) }}" method="POST">
                 @csrf
                 @if ($assignment->status == 'closed')
+                    <input type="hidden" name="status" value="open">
                     <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">
                         Buka Kunci Pengajuan
                     </button>
                 @else
+                    <input type="hidden" name="status" value="closed">
                     <button class="button bg-green-500 hover:bg-green-700" type="submit">
                         Kunci Pengajuan
                     </button>

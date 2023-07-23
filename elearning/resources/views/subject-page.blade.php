@@ -153,7 +153,7 @@
                             <label for="class_material" class="ml-2">Penugasan dengan batasan waktu diatas</label>
                         </div>
                         <div class="mt-2">
-                            <input type="radio" id="class_material" name="class_material" checked value="open">
+                            <input type="radio" id="class_material" name="class_material" value="open">
                             <label for="class_material" class="ml-2">Penugasan tanpa batasan waktu /
                                 deadline</label>
                         </div>

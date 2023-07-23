@@ -25,8 +25,11 @@ class AssignmentController extends Controller
         $time_left = $end_time - $current_time; // Time remaining in seconds
         $assignment = assignment::find($id);
 
-        if($time_left <= 0 && $assignment->status != 'closed'):
+        if($time_left <= 0 && $assignment->status != 'closed' && $assignment->status != 'open'  && $assignment->status != 'reserve'):
             $assignment->status = 'closed';
+            $assignment->save();
+        elseif($time_left <= 0 && $assignment->status != 'closed' && $assignment->status != 'open'):
+            $assignment->status = 'hasDeadline';
             $assignment->save();
         endif;
 
@@ -79,15 +82,11 @@ class AssignmentController extends Controller
     /**
      * close an assignment. mark it as a completed
      */
-    public function close($assigment_id)
+    public function close($assignment_id, Request $request)
     {
-        $assignment = Assignment::find($assigment_id);
+        $assignment = Assignment::find($assignment_id);
 
-        if($assignment->status == 'closed'):
-            $assignment->status = 'open';
-        else:
-            $assignment->status = 'closed'; 
-        endif;
+        $assignment->status = $request->status;
 
         $assignment->save();
 
@@ -132,8 +131,11 @@ class AssignmentController extends Controller
         $teacher_file = File::where('assignment_id',  $assigment_id)
                         ->where('assign_by', 'teacher')
                         ->get();
-
+        
         $remain_time = $this->checkDeadline($assignments->due_date, $assigment_id);
+
+        if(!Auth::user()->role && $assignments->status == 'reserve')
+            abort(401);
 
         return view('assignment-page', ['subject' => $subject, 'assignment' => $assignments, 'files' => $files, 'teacher_files' => $teacher_file, 'remain_time' => $remain_time ]);
     }

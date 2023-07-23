@@ -79,6 +79,11 @@ class SubjectController extends Controller
 
         $assignments = Subject::find($subject_id->id)->assignments;
 
+        foreach($assignments as $assignment):
+            if($assignment->status == 'reserve')
+                AssignmentController::checkDeadline($assignment->from_date, $assignment->id);
+        endforeach;
+
         return view('subject-page', ['subject' => $subject, 'assignments' => $assignments ]);
     }
 
