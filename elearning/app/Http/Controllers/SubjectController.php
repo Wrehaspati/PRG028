@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\Teacher;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,10 +46,16 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = DB::table('subjects as a')
-                    ->select('a.*', 'b.teacher_name')
+                    ->select('a.*', 'b.teacher_name', 'c.grade_name', 'c.id as id_grade')
                     ->leftJoin('teachers as b', 'a.teacher_id', '=', 'b.id')
+                    ->leftjoin('grades as c', 'a.grade_id', '=', 'c.id')
                     ->get();
-        return view('management/subjects', ['subjects' => $subjects]);
+
+        $grades = Grade::all();
+
+        $teachers = Teacher::all();
+
+        return view('management/subjects', ['subjects' => $subjects, 'grades' => $grades, 'teachers' => $teachers]);
     }
 
     /**
@@ -63,7 +71,16 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subject = new Subject();
+        $subject->subject_name =  $request->name;
+        $subject->day =  $request->day;
+        $subject->time_start =  $request->time_start;
+        $subject->time_end =  $request->time_end;
+        $subject->grade_id =  $request->grade_id;
+        $subject->teacher_id =  $request->teacher_id;
+        $subject->save();
+
+        return redirect()->back()->with('msg', 'Berhasil untuk menambahkan Grade baru!');
     }
 
     /**

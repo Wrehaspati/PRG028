@@ -34,7 +34,13 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $teacher = new teacher;
+        $teacher->id = $request->id;
+        $teacher->teacher_name = $request->name;
+        $teacher->token = $request->token;
+        $teacher->save();
+
+        return redirect()->back()->with('msg', 'Berhasil untuk menambahkan Grade baru!');
     }
 
     /**

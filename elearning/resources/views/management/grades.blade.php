@@ -160,19 +160,19 @@
         <div style="background-color: #FFFF" class="min-h-screen">
             <div class="flex justify-center w-full">
                 <div class="w-[80%] flex justify-between">
-                @if (Session::has('msg'))
-                <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
-                    {{ Session::get('msg') }}
-                </div>
-                @else
-                    <div></div>
-                @endif
-                <div class="">
-                    <button class="button" onclick="openModal()">Create</button>
+                    @if (Session::has('msg'))
+                        <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
+                            {{ Session::get('msg') }}
+                        </div>
+                    @else
+                        <div></div>
+                    @endif
+                    <div class="">
+                        <button class="button" onclick="openModal()">Create</button>
+                    </div>
                 </div>
             </div>
-            </div>
-            
+
             <div id="myModal" class="modal">
                 <div class="modal-content w-fit">
                     <form action="{{ Route('grades.store') }}" method="POST">
@@ -180,13 +180,15 @@
                         <span class="close" onclick="closeModal()">&times;</span>
                         <div class="px-20 py-10">
                             <div class="" style="">
-                                <label for="id" class="block font-bold">Id Kelas <span class="text-red-500">*</span></label>
+                                <label for="id" class="block font-bold">Id Kelas <span
+                                        class="text-red-500">*</span></label>
                                 <input type="text" class="w-80 rounded focus:border-cyan-500" id="id"
                                     name="id" placeholder="Masukan ID kelas" required>
                             </div>
 
                             <div class="mt-4" style="">
-                                <label for="name" class="block font-bold">Nama Kelas <span class="text-red-500">*</span></label>
+                                <label for="name" class="block font-bold">Nama Kelas <span
+                                        class="text-red-500">*</span></label>
                                 <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
                                     name="name" placeholder="Masukan Nama Kelas" required>
                             </div>
@@ -223,7 +225,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="hidden bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                        class="{{-- hidden --}} bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
                                 </form>
                             </div>
                         </td>
@@ -235,7 +237,7 @@
                 @endforelse
             </table>
 
-            
+
         </div>
     </x-app-layout>
 

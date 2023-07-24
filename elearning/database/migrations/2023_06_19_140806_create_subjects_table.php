@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('day');
             $table->time('time_start', 0);
             $table->time('time_end', 0);
-            $table->foreignId('grade_id');
-            $table->foreignId('teacher_id');
+            $table->foreignId('grade_id')->cascadeOnUpdate();
+            $table->foreignId('teacher_id')->nullable()->nullOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

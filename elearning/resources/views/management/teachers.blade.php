@@ -162,48 +162,46 @@
             </h2>
         </x-slot>
 
-        <div style="background-color: #FFFF">
+        <div style="background-color: #FFFF" class="min-h-screen">
             @if (Auth::user()->role)
-                <div class="kanan">
-                    <button class="button" onclick="openModal()">Create</button>
-                </div>
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="form-container">
-                            <br>
-                            <div class="form-group" style="padding-left: 88px">
-                                <label for="id1">Id
-                                    <input type="text" id="id1" name="id1" placeholder="Enter ID">
-                                </label>
+                <div class="flex justify-center w-full">
+                    <div class="w-[80%] flex justify-between">
+                        @if (Session::has('msg'))
+                            <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
+                                {{ Session::get('msg') }}
                             </div>
-
-                            <div class="form-group" style="padding-left: 60px">
-                                <label for="id2">Nama
-                                    <input type="text" id="id2" name="id2" placeholder="Enter Nama">
-                                </label>
-                            </div>
-
-                            <div class="form-group" style="padding-left: 50px">
-                                <label for="id4">ID User
-                                    <input type="text" id="id4" name="id4" placeholder="Enter ID User">
-                                </label>
-                            </div>
-
-                            <div class="form-group" style="padding-left: 44px">
-                                <label for="id3">Jabatan
-                                    <input type="text" id="id3" name="id3" placeholder="Enter Jabatan">
-                                </label>
-                            </div>
-
-
-                        </div>
-                        <div class="kanan">
-                            <button class="button" onclick="saveTask()">OK</button>
-                            <button class="button-delete" onclick="deleteTulisan()">Delete</button>
+                        @else
+                            <div></div>
+                        @endif
+                        <div class="">
+                            <button class="button" onclick="openModal()">Create</button>
                         </div>
                     </div>
                 </div>
+
+                <div id="myModal" class="modal">
+                    <div class="modal-content w-fit">
+                        <form action="{{ Route('teachers.store') }}" method="POST">
+                            @csrf
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <div class="px-20 py-10">
+                                <div class="mt-4" style="">
+                                    <label for="name" class="block font-bold">Nama Guru <span
+                                            class="text-red-500">*</span></label>
+                                    <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
+                                        name="name" placeholder="Masukan Nama Guru" required>
+                                    <input type="hidden" value="{{ md5(rand(1, 10) . microtime()) }}" name="token">
+                                </div>
+                            </div>
+                            <div class="flex justify-center w-full gap-2">
+                                <button class="button bg-red-500 hover:bg-red-700 rounded" type="reset">Reset</button>
+                                <button class="button bg-green-500 hover:bg-green-700 rounded"
+                                    type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             @endif
             <br>
 
@@ -213,8 +211,8 @@
                 <tr>
                     <th>Id</th>
                     <th>Nama</th>
-                    <th>Id User</th>
-                    <th>Jabatan</th>
+                    <th>Status</th>
+                    <th>Token Verifikasi</th>
                     <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
@@ -222,13 +220,16 @@
                     <tr>
                         <td>{{ $teacher->id }}</td>
                         <td>{{ $teacher->teacher_name }}</td>
-                        <td>{{ $teacher->user_id }}</td>
-
-                        @if ($teacher->role)
-                            <td>{{ $teacher->role }}</td>
-                        @else
-                            <td>{{ __('-') }}</td>
-                        @endif
+                        <td>
+                            @if ($teacher->user_id)
+                                Terdaftar
+                            @else
+                                Belum Terverifikasi
+                            @endif
+                        </td>
+                        <td>
+                            {{ $teacher->token }}
+                        </td>
 
                         <td>{{ $teacher->updated_at }}</td>
                         <td>
@@ -239,7 +240,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="hidden bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                        class="{{-- hidden --}} bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
                                 </form>
                             </div>
                         </td>
@@ -249,42 +250,7 @@
                         <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
                     </tr>
                 @endforelse
-
-
             </table>
-
-            <hr style="margin-top: 200px">
-
-            <!--Media Sosial-->
-            <section style="padding-bottom: 50px; padding-top : 30px; padding-left : 110px;">
-                <div class="container">
-                    <div class="d-flex align-items-center">
-                        <span class="me-4">Connect with us:</span>
-                        <a href="https://www.instagram.com/akun_instagram" target="_blank">
-                            <i class="fab fa-instagram fa-2x" style="color: #ac2bac; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.facebook.com/akun_facebook" target="_blank">
-                            <i class="fab fa-facebook-f fa-2x" style="color: #3b5998; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.youtube.com/akun_youtube" target="_blank">
-                            <i class="fab fa-youtube fa-2x" style="color: #ed302f; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.twitter.com/akun_twitter" target="_blank">
-                            <i class="fab fa-twitter fa-2x" style="color: #55acee; margin-right: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!--Footer-->
-            <footer style="background-color: #F2F2F2; padding: 40px;">
-                <div style="text-align: center;">
-                    <span>@elearning2023</span>
-                    <br>
-                    <span>You are logged in.</span>
-                </div>
-            </footer>
-        </div>
         </div>
     </x-app-layout>
 

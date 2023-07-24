@@ -15,12 +15,14 @@ class DummyStudents extends Seeder
         \App\Models\Student::factory()->create([
             'id' => '220040011',
             'student_name' => 'Rai',
+            'status' => 'verified',
             'user_id' => '3'
         ]);
 
         \App\Models\Student::factory()->create([
             'id' => '220050012',
             'student_name' => 'Reyna',
+            'status' => 'verified',
             'user_id' => '4'
         ]);
 

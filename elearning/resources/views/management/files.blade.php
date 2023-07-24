@@ -69,7 +69,7 @@
             </h2>
         </x-slot>
 
-        <div style="background-color: #FFFF">
+        <div style="background-color: #FFFF" class="min-h-screen">
 
             <!--Tabel-->
             <table class="tengah">
@@ -79,7 +79,7 @@
                     <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
-                @forelse ($files as $file) 
+                @forelse ($files as $file)
                     <tr>
                         <td>{{ $file->id }}</td>
                         <td>{{ $file->filename }}</td>
@@ -89,59 +89,26 @@
                                 <!-- Tombol aksi -->
                                 <button class="edit-button">Edit</button>
                                 <form action="{{ Route('files.destroy', $file->id) }}" method="POST">
-                                    @csrf   
+                                    @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                    <button type="submit"
+                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
                                 </form>
-                            </div>   
+                            </div>
                         </td>
                     </tr>
-                @empty 
+                @empty
                     <tr>
                         <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
                     </tr>
                 @endforelse
-                
+
 
 
                 <!-- Tambahkan baris untuk kelas lainnya -->
             </table>
-
-            <hr style="margin-top: 200px">
-
-            <!--Media Sosial-->
-            <section style="padding-bottom: 50px; padding-top : 30px; padding-left : 110px;">
-                <div class="container">
-                    <div class="d-flex align-items-center">
-                        <span class="me-4">Connect with us:</span>
-                        <a href="https://www.instagram.com/akun_instagram" target="_blank">
-                            <i class="fab fa-instagram fa-2x" style="color: #ac2bac; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.facebook.com/akun_facebook" target="_blank">
-                            <i class="fab fa-facebook-f fa-2x" style="color: #3b5998; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.youtube.com/akun_youtube" target="_blank">
-                            <i class="fab fa-youtube fa-2x" style="color: #ed302f; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.twitter.com/akun_twitter" target="_blank">
-                            <i class="fab fa-twitter fa-2x" style="color: #55acee; margin-right: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!--Footer-->
-            <footer style="background-color: #F2F2F2; padding: 40px;">
-                <div style="text-align: center;">
-                    <span>@elearning2023</span>
-                    <br>
-                    <span>You are logged in.</span>
-                </div>
-            </footer>
-        </div>
         </div>
     </x-app-layout>
-
 </body>
 
 </html>

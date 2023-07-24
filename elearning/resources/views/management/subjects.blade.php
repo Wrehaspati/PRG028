@@ -162,42 +162,92 @@
             </h2>
         </x-slot>
 
-        <div style="background-color: #FFFF">
+        <div style="background-color: #FFFF" class="min-h-screen">
 
             @if (Auth::user()->role)
-                <div class="kanan">
-                    <button class="button" onclick="openModal()">Create</button>
+                <div class="flex justify-center w-full">
+                    <div class="w-[80%] flex justify-between">
+                        @if (Session::has('msg'))
+                            <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
+                                {{ Session::get('msg') }}
+                            </div>
+                        @else
+                            <div></div>
+                        @endif
+                        <div class="">
+                            <button class="button" onclick="openModal()">Create</button>
+                        </div>
+                    </div>
                 </div>
+
                 <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="form-container">
-                            <br>
-                            <div class="form-group" style="padding-left: 248px">
-                                <label for="id1">Id
-                                    <input type="text" id="id1" name="id1" placeholder="Enter ID">
-                                </label>
+                    <div class="modal-content w-fit">
+                        <form action="{{ Route('subjects.store') }}" method="POST">
+                            @csrf
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <div class="px-20 py-10 gap-2">
+                                <div class="mt-4" style="">
+                                    <label for="name" class="block font-bold">Nama Mata Pelajaran <span
+                                            class="text-red-500">*</span></label>
+                                    <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
+                                        name="name" placeholder="Masukan Nama Mata Pelajaran" required>
+                                </div>
+                                <div class="mt-2" style="">
+                                    <label for="id" class="block font-bold">Hari <span
+                                            class="text-red-500">*</span></label>
+                                    <select name="day" id="" required>
+                                        <option value="" selected disabled>--- Select Day ---</option>
+                                        <option value="Senin">Senin</option>
+                                        <option value="Selasa">Selasa</option>
+                                        <option value="Rabu">Rabu</option>
+                                        <option value="Kamis">Kamis</option>
+                                        <option value="Jumat">Jumat</option>
+                                        <option value="Sabtu">Sabtu</option>
+                                    </select>
+                                </div>
+                                <div class="mt-2" style="">
+                                    <label for="id" class="block font-bold">Jam Mulai <span
+                                            class="text-red-500">*</span></label>
+                                    <input type="time" name="time_start" id="" required>
+                                </div>
+                                <div class="mt-2" style="">
+                                    <label for="id" class="block font-bold">Jam Berakhir <span
+                                            class="text-red-500">*</span></label>
+                                    <input type="time" name="time_end" id="" required>
+                                </div>
+                                <div class="mt-2" style="">
+                                    <label for="id" class="block font-bold">Kode Kelas <span
+                                            class="text-red-500">*</span></label>
+                                    <select name="grade_id" id="" required>
+                                        <option value="" selected disabled>--- Select Grade ---</option>
+                                        @forelse ($grades as $item)
+                                            <option value="{{ $item->id }}">{{ $item->grade_name . ' | ' . $item->id }}
+                                            </option>
+                                        @empty
+                                            <option value="" disabled>Tidak ada kelas yang terdaftar</option>
+                                        @endforelse
+                                    </select>
+                                </div>
+                                <div class="mt-2" style="">
+                                    <label for="id" class="block font-bold">Kode Guru <span
+                                            class="text-red-500">*</span></label>
+                                    <select name="teacher_id" id="" required>
+                                        <option value="" selected disabled>--- Select Teacher ---</option>
+                                        @forelse ($teachers as $item)
+                                            <option value="{{ $item->id }}">
+                                                {{ $item->teacher_name . ' | ' . $item->id }}</option>
+                                        @empty
+                                            <option value="" disabled>Tidak ada guru yang terdaftar</option>
+                                        @endforelse
+                                    </select>
+                                </div>
                             </div>
-
-                            <div class="form-group" style="padding-left: 75px">
-                                <label for="id2">Nama Mata Pembelajaran
-                                    <input type="text" id="id2" name="id2"
-                                        placeholder="Enter Nama Mata Pembelajaran ">
-                                </label>
+                            <div class="flex justify-center w-full gap-2">
+                                <button class="button bg-red-500 hover:bg-red-700 rounded" type="reset">Reset</button>
+                                <button class="button bg-green-500 hover:bg-green-700 rounded"
+                                    type="submit">Submit</button>
                             </div>
-
-                            <div class="form-group" style="padding-left: 68px">
-                                <label for="id3">Nama Guru Yang Mengajar
-                                    <input type="text" id="id3" name="id3"
-                                        placeholder="Enter Nam Guru Yang Mengajar">
-                                </label>
-                            </div>
-
-                        </div>
-                        <div class="kanan">
-                            <button class="button" onclick="saveTask()">OK</button>
-                            <button class="button-delete" onclick="deleteTulisan()">Delete</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             @endif
@@ -207,8 +257,10 @@
             <table class="tengah">
                 <tr>
                     <th>id</th>
-                    <th>Nama Mata Pembelajaran</th>
-                    <th>Nama Guru Yang Mengajar</th>
+                    <th>Mata Pembelajaran</th>
+                    <th>Kelas</th>
+                    <th>Waktu</th>
+                    <th>Guru Yang Mengajar</th>
                     <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
@@ -216,6 +268,9 @@
                     <tr>
                         <td>{{ $subject->id }}</td>
                         <td>{{ $subject->subject_name }}</td>
+                        <td>{{ $subject->grade_name . ' | ' . $subject->id_grade }}</td>
+                        <td> {{ $subject->day . ' | ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }}
+                        </td>
                         <td>{{ $subject->teacher_name }}</td>
                         <td>{{ $subject->updated_at }}</td>
                         <td>
@@ -226,7 +281,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="hidden bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                        class="{{-- hidden --}} bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
                                 </form>
                             </div>
                         </td>
@@ -237,39 +292,6 @@
                     </tr>
                 @endforelse
             </table>
-
-            <hr style="margin-top: 200px">
-
-            <!--Media Sosial-->
-            <section style="padding-bottom: 50px; padding-top : 30px; padding-left : 110px;">
-                <div class="container">
-                    <div class="d-flex align-items-center">
-                        <span class="me-4">Connect with us:</span>
-                        <a href="https://www.instagram.com/akun_instagram" target="_blank">
-                            <i class="fab fa-instagram fa-2x" style="color: #ac2bac; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.facebook.com/akun_facebook" target="_blank">
-                            <i class="fab fa-facebook-f fa-2x" style="color: #3b5998; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.youtube.com/akun_youtube" target="_blank">
-                            <i class="fab fa-youtube fa-2x" style="color: #ed302f; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.twitter.com/akun_twitter" target="_blank">
-                            <i class="fab fa-twitter fa-2x" style="color: #55acee; margin-right: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!--Footer-->
-            <footer style="background-color: #F2F2F2; padding: 40px;">
-                <div style="text-align: center;">
-                    <span>@elearning2023</span>
-                    <br>
-                    <span>You are logged in.</span>
-                </div>
-            </footer>
-        </div>
         </div>
     </x-app-layout>
 

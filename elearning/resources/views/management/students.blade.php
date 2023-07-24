@@ -156,47 +156,8 @@
             </h2>
         </x-slot>
 
-        <div style="background-color: #FFFF">
-            @if (Auth::user()->role)
-                <div class="kanan">
-                    <button class="button" onclick="openModal()">Create</button>
-                </div>
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="form-container">
-                            <br>
-                            <div class="form-group" style="padding-left: 88px">
-                                <label for="id1">Id
-                                    <input type="text" id="id1" name="id1" placeholder="Enter ID">
-                                </label>
-                            </div>
-
-                            <div class="form-group" style="padding-left: 60px">
-                                <label for="id2">Nama
-                                    <input type="text" id="id2" name="id2" placeholder="Enter Nama">
-                                </label>
-                            </div>
-
-                            <div class="form-group" style="padding-left: 68px">
-                                <label for="id3">Kelas
-                                    <input type="text" id="id3" name="id3" placeholder="Enter Kelas">
-                                </label>
-                            </div>
-
-                            <div class="form-group" style="padding-left: 56px">
-                                <label for="id4">ID User
-                                    <input type="text" id="id4" name="id4" placeholder="Enter ID User">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="kanan">
-                            <button class="button" onclick="saveTask()">OK</button>
-                            <button class="button-delete" onclick="deleteTulisan()">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            @endif
+        <div style="background-color: #FFFF"  class="min-h-screen">
+         
             <br>
 
             <table class="tengah">
@@ -205,6 +166,7 @@
                     <th>Nama</th>
                     <th>Kelas</th>
                     <th>Id User</th>
+                    <th>Status</th>
                     <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
@@ -215,15 +177,35 @@
                         <td>{{ $student->student_name }}</td>
                         <td>{{ $student->grade_name }}</td>
                         <td>{{ $student->user_id }}</td>
+                        <td>
+                            @if ($student->status === 'pending') 
+                                <div class="text-white bg-red-500 px-2 rounded-lg">
+                                    {{ $student->status }}
+                                </div>
+                            @else 
+                                <div class="text-white bg-green-500 px-2 rounded-lg">
+                                    {{ $student->status }}
+                                </div>
+                            @endif
+                        </td>
                         <td>{{ $student->updated_at }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
-                                <button class="edit-button">Edit</button>
+                                @if ($student->status === 'pending') 
+                                    <form action="{{ route('verify.request', $student->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        {{-- <input type="hidden" name="id" value="{{ $student->id }}"> --}}
+                                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Approve</button>
+                                    </form>
+                                @else 
+                                    <button class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                                @endif
                                 <form action="{{ Route('students.destroy', $student->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="return confirm('Konfirmasi penghapusan?')">Hapus</button>
                                 </form>
                             </div>
                         </td>
@@ -234,39 +216,7 @@
                     </tr>
                 @endforelse
             </table>
-
-            <hr style="margin-top: 200px">
-
-            <!--Media Sosial-->
-            <section style="padding-bottom: 50px; padding-top: 30px; padding-left: 110px;">
-                <div class="container">
-                    <div class="d-flex align-items-center">
-                        <span class="me-4">Connect with us:</span>
-                        <a href="https://www.instagram.com/akun_instagram" target="_blank">
-                            <i class="fab fa-instagram fa-2x" style="color: #ac2bac; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.facebook.com/akun_facebook" target="_blank">
-                            <i class="fab fa-facebook-f fa-2x" style="color: #3b5998; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.youtube.com/akun_youtube" target="_blank">
-                            <i class="fab fa-youtube fa-2x" style="color: #ed302f; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.twitter.com/akun_twitter" target="_blank">
-                            <i class="fab fa-twitter fa-2x" style="color: #55acee; margin-right: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
         </div>
-
-        <!--Footer-->
-        <footer style="background-color: #F2F2F2; padding: 40px;">
-            <div style="text-align: center;">
-                <span>@elearning2023</span>
-                <br>
-                <span>You are logged in.</span>
-            </div>
-        </footer>
     </x-app-layout>
 
     <script>

@@ -9,9 +9,11 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Models\Assignment;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,10 @@ Route::get('/admin', function () {
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('verification', [DashboardController::class, 'verificationForm'])->name('user.verification');
+    Route::get('verification/teacher', [DashboardController::class, 'teacherVerification'])->name('teacher.verification');
+    Route::post('verification/request', [DashboardController::class, 'verificationRequest'])->name('verification.request');
+    Route::put('verification/verify/{student}', [StudentController::class, 'verify'])->name('verify.request');
 
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', [DashboardController::class,'index'])->name('course.index');
@@ -60,16 +66,18 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::prefix('/manage')->group(function () {
-        Route::get('grades', [GradeController::class, 'index'])->name('management.kelas');
+    Route::middleware('admin')->group(function () {
+        Route::prefix('/manage')->group(function () {
+            Route::get('grades', [GradeController::class, 'index'])->name('management.kelas');
 
-        Route::get('students', [StudentController::class, 'index'])->name('management.siswa');
+            Route::get('students', [StudentController::class, 'index'])->name('management.siswa');
 
-        Route::get('teachers', [TeacherController::class, 'index'])->name('management.guru');
+            Route::get('teachers', [TeacherController::class, 'index'])->name('management.guru');
 
-        Route::get('subjects', [SubjectController::class, 'index'])->name('management.matapembelajaran');
+            Route::get('subjects', [SubjectController::class, 'index'])->name('management.matapembelajaran');
+        });
+
     });
-
 
 });
 
