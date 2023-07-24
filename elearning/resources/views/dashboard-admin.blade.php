@@ -5,7 +5,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        /* height: 100vh; */
 
     }
 
@@ -47,7 +47,7 @@
             {{ __('E-Learning | Dashboard Admin') }}
         </h2>
     </x-slot>
-    <div style="background-color: #FFFF">
+    <div style="background-color: #FFFF" class="h-2/5">
 
         <div class="tengah">
             <a href="{{ Route('management.kelas') }}" class="card">

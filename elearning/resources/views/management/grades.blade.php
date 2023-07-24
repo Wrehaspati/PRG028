@@ -157,43 +157,48 @@
             </h2>
         </x-slot>
 
-        <div style="background-color: #FFFF">
-            @if (Auth::user()->role)
-                <div class="kanan">
+        <div style="background-color: #FFFF" class="min-h-screen">
+            <div class="flex justify-center w-full">
+                <div class="w-[80%] flex justify-between">
+                @if (Session::has('msg'))
+                <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
+                    {{ Session::get('msg') }}
+                </div>
+                @else
+                    <div></div>
+                @endif
+                <div class="">
                     <button class="button" onclick="openModal()">Create</button>
                 </div>
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
+            </div>
+            </div>
+            
+            <div id="myModal" class="modal">
+                <div class="modal-content w-fit">
+                    <form action="{{ Route('grades.store') }}" method="POST">
+                        @csrf
                         <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="form-container">
-                            <br>
-                            <div class="form-group" style="padding-left: 83px">
-                                <label for="id1">Id
-                                    <input type="text" id="id1" name="id1" placeholder="Enter ID">
-                                </label>
+                        <div class="px-20 py-10">
+                            <div class="" style="">
+                                <label for="id" class="block font-bold">Id Kelas <span class="text-red-500">*</span></label>
+                                <input type="text" class="w-80 rounded focus:border-cyan-500" id="id"
+                                    name="id" placeholder="Masukan ID kelas" required>
                             </div>
 
-                            <div class="form-group" style="padding-left: 60px">
-                                <label for="id2">Kelas
-                                    <input type="text" id="id2" name="id2" placeholder="Enter Kelas">
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id3">Jumlah siswa
-                                    <input type="text" id="id3" name="id3"
-                                        placeholder="Enter Jumlah Siswa">
-                                </label>
+                            <div class="mt-4" style="">
+                                <label for="name" class="block font-bold">Nama Kelas <span class="text-red-500">*</span></label>
+                                <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
+                                    name="name" placeholder="Masukan Nama Kelas" required>
                             </div>
                         </div>
-
-                        <div class="kanan">
-                            <button class="button" onclick="saveTask()">OK</button>
-                            <button class="button-delete" onclick="deleteTulisan()">Delete</button>
+                        <div class="flex justify-center w-full gap-2">
+                            <button class="button bg-red-500 hover:bg-red-700 rounded" type="reset">Reset</button>
+                            <button class="button bg-green-500 hover:bg-green-700 rounded"
+                                type="submit">Submit</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            @endif
+            </div>
 
             <br>
             <table class="tengah">
@@ -230,35 +235,7 @@
                 @endforelse
             </table>
 
-            <hr style="margin-top: 200px">
-
-            <section style="padding-bottom: 50px; padding-top: 30px; padding-left: 110px;">
-                <div class="container">
-                    <div class="d-flex align-items-center">
-                        <span class="me-4">Connect with us:</span>
-                        <a href="https://www.instagram.com/akun_instagram" target="_blank">
-                            <i class="fab fa-instagram fa-2x" style="color: #ac2bac; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.facebook.com/akun_facebook" target="_blank">
-                            <i class="fab fa-facebook-f fa-2x" style="color: #3b5998; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.youtube.com/akun_youtube" target="_blank">
-                            <i class="fab fa-youtube fa-2x" style="color: #ed302f; margin-right: 20px;"></i>
-                        </a>
-                        <a href="https://www.twitter.com/akun_twitter" target="_blank">
-                            <i class="fab fa-twitter fa-2x" style="color: #55acee; margin-right: 20px;"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <footer style="background-color: #F2F2F2; padding: 40px;">
-                <div style="text-align: center;">
-                    <span>@elearning2023</span>
-                    <br>
-                    <span>You are logged in.</span>
-                </div>
-            </footer>
+            
         </div>
     </x-app-layout>
 

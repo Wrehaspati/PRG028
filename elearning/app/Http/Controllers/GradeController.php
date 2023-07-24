@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class GradeController extends Controller
 {
@@ -15,7 +16,7 @@ class GradeController extends Controller
     {
         $grades = DB::table('grades as a')
                     ->select('a.*', DB::raw('COUNT(b.student_id) as jumlah_siswa'))
-                    ->join('student_grades as b', 'a.id', '=', 'b.grade_id')
+                    ->leftjoin('student_grades as b', 'a.id', '=', 'b.grade_id')
                     ->groupBy('a.id', 'a.grade_name', 'a.created_at', 'a.updated_at')
                     ->get();
 
@@ -35,7 +36,17 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $grade_check = Grade::find($request->id);
+        if($grade_check != null)
+            return redirect()->back()->with('msg', 'ID Terduplikasi, Mohon Masukan ID yang berbeda');
+            
+
+        $grade = new grade;
+        $grade->id = $request->id;
+        $grade->grade_name = $request->name;
+        $grade->save();
+
+        return redirect()->back()->with('msg', 'Berhasil untuk menambahkan Grade baru!');
     }
 
     /**
