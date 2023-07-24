@@ -79,6 +79,27 @@
             </a>
         </div>
     </div>
+    <hr><br>
+    <div class="tengah">
+        <a href="#" class="card">
+            <img src="https://ouch-cdn2.icons8.com/llmYu0Ej8fl5HOWBIsRfph-9YMX4F-P9q5JOR355uns/rs:fit:256:338/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjc2/L2Q1NDRiYTQxLTk3/M2MtNGMwNi04Yjlh/LWQwZmI3YThjZDg5/NC5wbmc.png"
+                alt="">
+            <h3>Diisi apa</h3>
+        </a>
+
+        <div class="tengah">
+            <a href="#" class="card">
+                <img src="https://ouch-cdn2.icons8.com/llmYu0Ej8fl5HOWBIsRfph-9YMX4F-P9q5JOR355uns/rs:fit:256:338/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjc2/L2Q1NDRiYTQxLTk3/M2MtNGMwNi04Yjlh/LWQwZmI3YThjZDg5/NC5wbmc.png"
+                    alt="">
+                <h3>Diisi apa</h3>
+            </a>
+
+            <div class="tengah">
+                <a href="#" class="card">
+                    <img src="https://ouch-cdn2.icons8.com/llmYu0Ej8fl5HOWBIsRfph-9YMX4F-P9q5JOR355uns/rs:fit:256:338/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNjc2/L2Q1NDRiYTQxLTk3/M2MtNGMwNi04Yjlh/LWQwZmI3YThjZDg5/NC5wbmc.png"
+                        alt="">
+                    <h3>Diisi apa</h3>
+                </a>
 
 
 </x-app-layout>
