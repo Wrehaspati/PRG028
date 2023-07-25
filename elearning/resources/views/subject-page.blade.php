@@ -110,17 +110,24 @@
             border: 0;
         }
     </style>
-    <div class="color"></div>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-            {{ __('E-Learning | ' . $subject->subject_name) }}
+            {{ __('E-Learning | ' . $subject->subject_name.' | '.$subject->grade_name) }}
+            <div class="flex">
+                <div>{{ $subject->day }}&nbsp;</div>
+                <div>
+                    {{ ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }}
+                </div>
+            </div>
+            {{ $subject->teacher_name }}
         </h2>
     </x-slot>
 
-    <div style="background-color: #FFFF">
+    <div style="background-color: #FFFF" class="w-4/5 mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
         {{--  tombol di dashboard file matematika --}}
         @if (Auth::user()->role)
-            <div class="kanan">
+            <div class="justify-end flex w-full mb-2">
                 <button class="button" onclick="openModal()">Create</button>
                 {{-- <button class="button" onclick="openModal()">Edit</button> --}}
             </div>
@@ -183,8 +190,8 @@
         @endif
 
         <!--Card kelas-->
-        <section class="container" style="padding-left: 80px;">
-            <div style="display: flex; padding-left: 100px; padding-top: 50px; padding-right : 100px"">
+        <section class="container" style="">
+            <div style="">
                 <div style="flex: 1;">
                     @if ($assignments != null && count($assignments) > 0)
                         @foreach ($assignments as $assignment)

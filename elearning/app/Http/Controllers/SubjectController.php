@@ -88,11 +88,19 @@ class SubjectController extends Controller
      */
     public function show($grade, $subject)
     {
+
         $assignments = null;
 
         $subject_id = $this->urlConvertion($subject, $grade);
 
-        $subject = Subject::find($subject_id->id);
+        TeacherController::isTeacher($subject_id->id);
+
+        $subject = DB::table('subjects as a')
+                        ->select('a.*', 'b.teacher_name', 'c.grade_name', 'c.id as id_grade')
+                        ->leftJoin('teachers as b', 'a.teacher_id', '=', 'b.id')
+                        ->leftjoin('grades as c', 'a.grade_id', '=', 'c.id')
+                        ->where('a.id', $subject_id->id)
+                        ->first();
 
         $assignments = Subject::find($subject_id->id)->assignments;
 

@@ -30,7 +30,7 @@
         width: 26px;
         height: 26px;
         cursor: pointer;
-        z-index: 1;
+        z-index: 10;
     }
 
     .menu__btn>span,
@@ -44,6 +44,8 @@
         background-color: #fff;
         transition-duration: .25s;
         box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+        background: #000;
+        z-index: 10;
     }
 
     .menu__btn>span::before {
@@ -69,6 +71,7 @@
         background-color: #ECEFF1;
         box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
         transition-duration: .25s;
+        z-index: 5;
     }
 
     .menu__item {

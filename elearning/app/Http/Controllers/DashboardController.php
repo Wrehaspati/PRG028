@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grade;
+use App\Models\Role;
 use App\Models\Student;
 use App\Models\StudentGrade;
 use App\Models\Subject;
@@ -44,7 +45,9 @@ class DashboardController extends Controller
 
         // When role is equal to Admin
         elseif(Auth::user()->role->role == 'administrator'):
-            return view('dashboard-admin');
+            $subjects = Subject::leftjoin('grades', 'grade_id', '=', 'grades.id')->get();
+
+            return view('dashboard-admin', ['subjects' => $subjects, 'grade' => null]);
         endif;
 
         abort(401);
@@ -75,6 +78,11 @@ class DashboardController extends Controller
             if($validation == True && $validation != null):
                 $validation->user_id = Auth::user()->id;
                 $validation->save();
+
+                $role = new Role();
+                $role->user_id = Auth::user()->id;
+                $role->role = 'teacher';
+                $role->save();
                 
                 return redirect('/dashboard');
             endif;

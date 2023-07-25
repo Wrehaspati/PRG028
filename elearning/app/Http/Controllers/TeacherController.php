@@ -2,12 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\Subject;
 use App\Models\teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
+    /**
+     * Show the form for creating a new resource.
+     */
+    public static function isTeacher($subject_id)
+    {
+        if(Auth::user()->role->role == 'teacher'):
+            $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+            $subject = Subject::find($subject_id)->first();
+
+            if(!$teacher || $teacher->id != $subject->teacher_id)
+                abort(401);
+        endif;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -72,7 +89,9 @@ class TeacherController extends Controller
      */
     public function destroy(teacher $teacher)
     {
+        Role::where('user_id',$teacher->user_id)->delete();
         teacher::destroy($teacher->id);
+
         return back();
     }
 }

@@ -24,9 +24,8 @@
     .center-form label,
     .center-form select,
     .center-form input {
-        margin-bottom: 10px;
         width: 100%;
-        height: 35px;
+        height: 2rem;
     }
 
     select,
@@ -57,7 +56,7 @@
     }
 
     h2 {
-        padding-top: 20px;
+        padding-top: 2rem;
     }
 
     .profile-pic img {
@@ -86,11 +85,11 @@
 
 <div style="background-color: #FFFF" class="h-2/5 center-container">
     @if (isset($isTeacher))
-        <form action="{{ route('verification.request') }}" method="POST" class="center-form">
+        <form action="{{ route('verification.request') }}" method="POST" class="center-form px-5">
             @csrf
             <label for="">Please enter the token</label>
             <input type="text" name="token" required>
-            <button type="submit" class="btn btn-info">Submit</button>
+            <button type="submit" class="btn btn-info mt-3">Submit</button>
         </form>
     @elseif(isset($isWaiting))
         <div class="profile-pic">
@@ -100,7 +99,7 @@
         <h3>Form sedang dalam proses verifikasi oleh admin <i class='bx bx-loader-alt bx-spin'
                 style='color:#38b3dc'></i></h3>
     @else
-        <form action="{{ route('verification.request') }}" method="POST" class="center-form">
+        <form action="{{ route('verification.request') }}" method="POST" class="center-form p-5">
             @csrf
             <div class="profile-pic">
                 <img src="https://ouch-cdn2.icons8.com/rv5oyt-SmybYBzg0nzdoB-YGN0O3HED21kJRZe9Ft4o/rs:fit:256:296/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNzQ2/L2I1ZTFlZDg1LWZk/NDMtNGIzYS1hNzhm/LTk2NWMwMDhkNGI0/Yi5wbmc.png"
@@ -112,15 +111,16 @@
             <label for="nama">Nama</label>
             <input type="text" name="name" id="nama" required><br>
             <label for="grade">Kelas</label>
-            <select name="grade" id="grade" required>
-                <option value="" disabled selected>--- Pilih Kelas ---</option>
+            <select name="grade" id="grade" required class="border">
+                <option value="" class="text-center" disabled selected>--- Pilih Kelas ---</option>
                 @forelse ($grades as $grade)
                     <option value="{{ $grade->id }}">{{ $grade->id . ' | ' . $grade->grade_name }}</option>
                 @empty
                     <option value="" disabled>--- Belum ada kelas ---</option>
                 @endforelse
             </select><br>
-            <button type="submit" class="btn btn-info">Submit</button>
+            <button type="submit" class="btn btn-info mt-2">Submit</button>
+            <a href="{{ route('user.logout') }}" class="mt-3">Logout / Batalkan</a>
         </form>
     @endif
 </div>

@@ -117,6 +117,8 @@ class AssignmentController extends Controller
     {
         $subject_id = $this->urlConvertion($subject, $grade);
 
+        TeacherController::isTeacher($subject_id->id);
+
         $subject = Subject::find($subject_id->id);
 
         $assignments = Assignment::find($assigment_id);
