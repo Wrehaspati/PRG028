@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('filename');
             $table->string('path')->nullable();
-            $table->foreignId('assignment_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('assignment_id')->constrained('assignments')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('assign_by', ['student','teacher']);
             $table->integer('grade')->nullable();
             $table->timestamps();

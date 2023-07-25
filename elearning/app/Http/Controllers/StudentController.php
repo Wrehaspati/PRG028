@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,7 @@ class StudentController extends Controller
                     ->orderBy('status', 'asc')
                     ->get();
 
-        return view('management/students', ['students' => $students]);
+        return view('managements/students', ['students' => $students]);
     }
 
     /**
@@ -63,7 +64,8 @@ class StudentController extends Controller
      */
     public function edit(student $student)
     {
-        //
+        $users = User::all();
+        return view('managements/edit-pages/edit-students', ['student' => $student, 'users' => $users]);
     }
 
     /**
@@ -71,7 +73,9 @@ class StudentController extends Controller
      */
     public function update(Request $request, student $student)
     {
-        //
+        $student->update(['id' => $request->id, 'student_name' => $request->student_name, 'user_id' => $request->user_id, 'status' => $request->status]);
+
+        return redirect()->route('management.siswa')->with('msg', 'Berhasil mengedit id:'.$request->id);
     }
 
     /**

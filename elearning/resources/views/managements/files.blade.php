@@ -87,7 +87,7 @@
                         <td>
                             <div class="flex justify-center gap-2">
                                 <!-- Tombol aksi -->
-                                <button class="edit-button">Edit</button>
+                                <button class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                                 <form action="{{ Route('files.destroy', $file->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

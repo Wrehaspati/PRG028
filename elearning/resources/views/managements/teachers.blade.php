@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>E-learning</title>
+    <title>E-learning </title>
+</head>
+
+<body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         .color {
@@ -16,6 +19,7 @@
             justify-content: center;
             align-items: center;
             margin: 0 auto;
+
         }
 
         table {
@@ -23,7 +27,9 @@
             border-collapse: collapse;
             width: 80%;
             margin: 0 auto;
+
         }
+
 
         th,
         td {
@@ -52,6 +58,7 @@
             padding: 6px 12px;
             cursor: pointer;
         }
+
 
         .kanan {
             text-align: right;
@@ -145,74 +152,102 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
     </style>
-</head>
 
-<body>
-    <div class="color"></div>
+
     <x-app-layout>
+        <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Siswa') }}
+                {{ __('E-Learning | Management Guru') }}
             </h2>
         </x-slot>
 
-        <div style="background-color: #FFFF"  class="min-h-screen">
-         
+        <div style="background-color: #FFFF" class="min-h-screen">
+            @if (Auth::user()->role)
+                <div class="flex justify-center w-full">
+                    <div class="w-[80%] flex justify-between">
+                        @if (Session::has('msg'))
+                            <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
+                                {{ Session::get('msg') }}
+                            </div>
+                        @else
+                            <div></div>
+                        @endif
+                        <div class="">
+                            <button class="button" onclick="openModal()">Create</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="myModal" class="modal">
+                    <div class="modal-content w-fit">
+                        <form action="{{ Route('teacher.store') }}" method="POST">
+                            @csrf
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <div class="px-20 py-10">
+                                <div class="mt-4" style="">
+                                    <label for="name" class="block font-bold">Nama Guru <span
+                                            class="text-red-500">*</span></label>
+                                    <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
+                                        name="name" placeholder="Masukan Nama Guru" required>
+                                    <input type="hidden" value="{{ md5(rand(1, 10) . microtime()) }}" name="token">
+                                </div>
+                            </div>
+                            <div class="flex justify-center w-full gap-2">
+                                <button class="button bg-red-500 hover:bg-red-700 rounded" type="reset">Reset</button>
+                                <button class="button bg-green-500 hover:bg-green-700 rounded"
+                                    type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            @endif
             <br>
 
+
+            <!--Tabel-->
             <table class="tengah">
                 <tr>
                     <th>Id</th>
                     <th>Nama</th>
-                    <th>Kelas</th>
-                    <th>Id User</th>
                     <th>Status</th>
+                    <th>Token Verifikasi</th>
                     <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
-
-                @forelse ($students as $student)
+                @forelse ($teachers as $teacher)
                     <tr>
-                        <td>{{ $student->id }}</td>
-                        <td>{{ $student->student_name }}</td>
-                        <td>{{ $student->grade_name }}</td>
-                        <td>{{ $student->user_id }}</td>
+                        <td>{{ $teacher->id }}</td>
+                        <td>{{ $teacher->teacher_name }}</td>
                         <td>
-                            @if ($student->status === 'pending') 
-                                <div class="text-white bg-red-500 px-2 rounded-lg">
-                                    {{ $student->status }}
-                                </div>
-                            @else 
-                                <div class="text-white bg-green-500 px-2 rounded-lg">
-                                    {{ $student->status }}
-                                </div>
+                            @if ($teacher->user_id)
+                                Terdaftar
+                            @else
+                                Belum Terverifikasi
                             @endif
                         </td>
-                        <td>{{ $student->updated_at }}</td>
+                        <td>
+                            {{ $teacher->token }}
+                        </td>
+
+                        <td>{{ $teacher->updated_at }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
-                                @if ($student->status === 'pending') 
-                                    <form action="{{ route('verify.request', $student->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        {{-- <input type="hidden" name="id" value="{{ $student->id }}"> --}}
-                                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Approve</button>
-                                    </form>
-                                @else 
-                                    <button class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                                @endif
-                                <form action="{{ Route('students.destroy', $student->id) }}" method="POST">
+                                <!-- Tombol aksi -->
+                                <a href="{{ route('teacher.edit', $teacher->id) }}" class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+                                <form action="{{ Route('teacher.destroy', $teacher->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="return confirm('Konfirmasi penghapusan?')">Hapus</button>
+                                        class="{{-- hidden --}} bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
                                 </form>
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
+                        <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
                     </tr>
                 @endforelse
             </table>
@@ -245,7 +280,6 @@
             id2Input.value = "";
             id3Input.value = "";
             id4Input.value = "";
-
         }
 
         function saveTask() {
@@ -290,6 +324,7 @@
             }
         }
     </script>
+
 </body>
 
 </html>

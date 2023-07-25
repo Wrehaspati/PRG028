@@ -9,6 +9,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Models\Assignment;
+use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -36,47 +37,68 @@ Route::get('/admin', function () {
 
 Route::middleware('auth')->group(function () {
 
+    // Routes for verification
     Route::get('verification', [DashboardController::class, 'verificationForm'])->name('user.verification');
     Route::get('verification/teacher', [DashboardController::class, 'teacherVerification'])->name('teacher.verification');
     Route::post('verification/request', [DashboardController::class, 'verificationRequest'])->name('verification.request');
     Route::put('verification/verify/{student}', [StudentController::class, 'verify'])->name('verify.request');
 
+    // Dashboard Routes
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', [DashboardController::class,'index'])->name('course.index');
         Route::get('/{grade}/subject/{subject}', [SubjectController::class, 'show'])->name('course.show');
     });
 
-    Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('course.assignment');
-    Route::get('course/{grade}/subject/{subject}/{assignment_id}/edit', [AssignmentController::class, 'editAsTeacher'])->name('course.edit');
-    Route::put('assignments/update/{assignment}', [AssignmentController::class, 'updateAsTeacher'])->name('assignment.updateasteacher');
+    // Assignments Routes 
+    Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('assignment.show');
+    Route::get('course/{grade}/subject/{subject}/{assignment_id}/edit', [AssignmentController::class, 'edit'])->name('assignment.edit');
+    Route::put('assignments/update/{assignment}', [AssignmentController::class, 'update'])->name('assignment.update');
     Route::post('course/{assignment_id}', [AssignmentController::class, 'close'])->name('assignment.close');
-
-    Route::resources([
-        'assignments' => AssignmentController::class,
-        'subjects' => SubjectController::class,
-        'teachers' => TeacherController::class,
-        'grades' => GradeController::class,
-        'students' => StudentController::class,
-        'files'  => FileController::class
+    Route::resource('assignment', AssignmentController::class)->only([
+        'store', 'destroy'
     ]);
 
+    // Files Routes
+    Route::resource('files', FileController::class);
+
+    // Route for input grade of the assignments
     Route::post('file/grade', [FileController::class, 'grade'])->name('file.grade');
 
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Middleware for admin, only can be accessed by admins
     Route::middleware('admin')->group(function () {
         Route::prefix('/manage')->group(function () {
             Route::get('grades', [GradeController::class, 'index'])->name('management.kelas');
-
             Route::get('students', [StudentController::class, 'index'])->name('management.siswa');
-
             Route::get('teachers', [TeacherController::class, 'index'])->name('management.guru');
-
             Route::get('subjects', [SubjectController::class, 'index'])->name('management.matapembelajaran');
         });
+        Route::prefix('/request')->group(function () {
 
+            // Subjects Routes
+            Route::resource('subject', SubjectController::class)->only([
+                'store', 'destroy', 'edit', 'update'
+            ]);
+
+            // Teachers Routes
+            Route::resource('teacher', TeacherController::class)->only([
+                'store', 'destroy', 'edit', 'update'
+            ]);
+
+            // Grades Routes
+            Route::resource('grade', GradeController::class)->only([
+                'store', 'destroy', 'edit', 'update'
+            ]);
+
+            // Students Routes
+            Route::resource('student', StudentController::class)->only([
+                'destroy', 'edit', 'update'
+            ]);
+        });
     });
 
 });

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Student extends Model
 {
+    protected $fillable = ['id', 'student_name', 'user_id', 'status'];
+
     use HasFactory;
 
     public function grade(): BelongsToMany

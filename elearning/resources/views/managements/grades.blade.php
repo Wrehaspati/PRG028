@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>E-learning </title>
-</head>
 
-<body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         .color {
@@ -19,7 +17,6 @@
             justify-content: center;
             align-items: center;
             margin: 0 auto;
-
         }
 
         table {
@@ -27,9 +24,7 @@
             border-collapse: collapse;
             width: 80%;
             margin: 0 auto;
-
         }
-
 
         th,
         td {
@@ -58,7 +53,6 @@
             padding: 6px 12px;
             cursor: pointer;
         }
-
 
         .kanan {
             text-align: right;
@@ -152,91 +146,82 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
     </style>
+</head>
 
-
+<body>
+    <div class="color"></div>
     <x-app-layout>
-        <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Guru') }}
+                {{ __('E-Learning | Management Kelas') }}
             </h2>
         </x-slot>
 
         <div style="background-color: #FFFF" class="min-h-screen">
-            @if (Auth::user()->role)
-                <div class="flex justify-center w-full">
-                    <div class="w-[80%] flex justify-between">
-                        @if (Session::has('msg'))
-                            <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
-                                {{ Session::get('msg') }}
-                            </div>
-                        @else
-                            <div></div>
-                        @endif
-                        <div class="">
-                            <button class="button" onclick="openModal()">Create</button>
+            <div class="flex justify-center w-full">
+                <div class="w-[80%] flex justify-between">
+                    @if (Session::has('msg'))
+                        <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
+                            {{ Session::get('msg') }}
                         </div>
+                    @else
+                        <div></div>
+                    @endif
+                    <div class="">
+                        <button class="button" onclick="openModal()">Create</button>
                     </div>
                 </div>
+            </div>
 
-                <div id="myModal" class="modal">
-                    <div class="modal-content w-fit">
-                        <form action="{{ Route('teachers.store') }}" method="POST">
-                            @csrf
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            <div class="px-20 py-10">
-                                <div class="mt-4" style="">
-                                    <label for="name" class="block font-bold">Nama Guru <span
-                                            class="text-red-500">*</span></label>
-                                    <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
-                                        name="name" placeholder="Masukan Nama Guru" required>
-                                    <input type="hidden" value="{{ md5(rand(1, 10) . microtime()) }}" name="token">
-                                </div>
+            <div id="myModal" class="modal">
+                <div class="modal-content w-fit">
+                    <form action="{{ Route('grade.store') }}" method="POST">
+                        @csrf
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <div class="px-20 py-10">
+                            <div class="" style="">
+                                <label for="id" class="block font-bold">Id Kelas <span
+                                        class="text-red-500">*</span></label>
+                                <input type="text" class="w-80 rounded focus:border-cyan-500" id="id"
+                                    name="id" placeholder="Masukan ID kelas" required>
                             </div>
-                            <div class="flex justify-center w-full gap-2">
-                                <button class="button bg-red-500 hover:bg-red-700 rounded" type="reset">Reset</button>
-                                <button class="button bg-green-500 hover:bg-green-700 rounded"
-                                    type="submit">Submit</button>
+
+                            <div class="mt-4" style="">
+                                <label for="name" class="block font-bold">Nama Kelas <span
+                                        class="text-red-500">*</span></label>
+                                <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
+                                    name="name" placeholder="Masukan Nama Kelas" required>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="flex justify-center w-full gap-2">
+                            <button class="button bg-red-500 hover:bg-red-700 rounded" type="reset">Reset</button>
+                            <button class="button bg-green-500 hover:bg-green-700 rounded"
+                                type="submit">Submit</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-            @endif
             <br>
-
-
-            <!--Tabel-->
             <table class="tengah">
                 <tr>
                     <th>Id</th>
-                    <th>Nama</th>
-                    <th>Status</th>
-                    <th>Token Verifikasi</th>
+                    <th>Kelas</th>
+                    <th>Jumlah Siswa</th>
                     <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
-                @forelse ($teachers as $teacher)
-                    <tr>
-                        <td>{{ $teacher->id }}</td>
-                        <td>{{ $teacher->teacher_name }}</td>
-                        <td>
-                            @if ($teacher->user_id)
-                                Terdaftar
-                            @else
-                                Belum Terverifikasi
-                            @endif
-                        </td>
-                        <td>
-                            {{ $teacher->token }}
-                        </td>
 
-                        <td>{{ $teacher->updated_at }}</td>
+                @forelse ($grades as $grade)
+                    <tr>
+                        <td>{{ $grade->id }}</td>
+                        <td>{{ $grade->grade_name }}</td>
+                        <td>{{ $grade->jumlah_siswa }}</td>
+                        <td>{{ $grade->updated_at }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
-                                <!-- Tombol aksi -->
-                                <button class="edit-button">Edit</button>
-                                <form action="{{ Route('teachers.destroy', $teacher->id) }}" method="POST">
+                                <a href="{{ route('grade.edit', $grade->id) }}" class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+                                <form action="{{ Route('grade.destroy', $grade->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -251,6 +236,8 @@
                     </tr>
                 @endforelse
             </table>
+
+
         </div>
     </x-app-layout>
 
@@ -265,28 +252,29 @@
             modal.style.display = "none";
         }
 
-        function deleteRow(button) {
-            var row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
+        function deleteTask() {
+            var taskDescription = document.getElementById("taskDescription");
+            taskDescription.value = "";
+
+            var fileInput = document.getElementById("fileInput");
+            fileInput.value = "";
         }
 
         function deleteTulisan() {
             var id1Input = document.getElementById("id1");
             var id2Input = document.getElementById("id2");
             var id3Input = document.getElementById("id3");
-            var id4Input = document.getElementById("id4");
 
             id1Input.value = "";
             id2Input.value = "";
             id3Input.value = "";
-            id4Input.value = "";
+
         }
 
         function saveTask() {
             var id1 = document.getElementById("id1").value;
             var id2 = document.getElementById("id2").value;
             var id3 = document.getElementById("id3").value;
-            var id4 = document.getElementById("id4").value;
 
             var table = document.getElementsByTagName("table")[0];
             var newRow = table.insertRow(table.rows.length);
@@ -296,14 +284,12 @@
             var cell3 = newRow.insertCell(2);
             var cell4 = newRow.insertCell(3);
             var cell5 = newRow.insertCell(4);
-            var cell6 = newRow.insertCell(5);
 
             cell1.innerHTML = id1;
             cell2.innerHTML = id2;
             cell3.innerHTML = id3;
-            cell4.innerHTML = id4;
-            cell5.innerHTML = "Waktu saat ini";
-            cell6.innerHTML = `
+            cell4.innerHTML = "Waktu saat ini";
+            cell5.innerHTML = `
                 <button class="edit-button">Edit</button>
                 <button class="delete-button" onclick="deleteRow(this)">Hapus</button>
             `;
@@ -324,7 +310,6 @@
             }
         }
     </script>
-
 </body>
 
 </html>

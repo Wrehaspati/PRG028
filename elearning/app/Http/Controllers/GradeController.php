@@ -20,7 +20,7 @@ class GradeController extends Controller
                     ->groupBy('a.id', 'a.grade_name', 'a.created_at', 'a.updated_at')
                     ->get();
 
-        return view('management/grades', ['grades' => $grades]);
+        return view('managements/grades', ['grades' => $grades]);
     }
 
     /**
@@ -62,7 +62,7 @@ class GradeController extends Controller
      */
     public function edit(grade $grade)
     {
-        //
+        return view('managements/edit-pages/edit-grades', ['grade' => $grade]);
     }
 
     /**
@@ -70,7 +70,9 @@ class GradeController extends Controller
      */
     public function update(Request $request, grade $grade)
     {
-        //
+        $grade->update(['id' => $request->id, 'grade_name' => $request->grade_name]);
+
+        return redirect()->route('management.kelas')->with('msg', 'Berhasil mengedit id:'.$request->id);
     }
 
     /**

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Subject extends Model
 {
+    protected $fillable = ['id', 'subject_name', 'day', 'time_start', 'time_end', 'grade_id', 'teacher_id'];
+
     use HasFactory;
 
     public function assignments(): HasMany

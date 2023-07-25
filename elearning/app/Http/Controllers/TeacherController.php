@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Subject;
 use App\Models\teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,7 @@ class TeacherController extends Controller
                     ->leftJoin('roles as b', 'a.user_id', '=', 'b.user_id')
                     ->get();
 
-        return view('management/teachers', ['teachers' => $teachers]);
+        return view('managements/teachers', ['teachers' => $teachers]);
     }
 
     /**
@@ -75,7 +76,8 @@ class TeacherController extends Controller
      */
     public function edit(teacher $teacher)
     {
-        //
+        $users = User::all();
+        return view('managements/edit-pages/edit-teachers', ['teacher' => $teacher, 'users' => $users]);
     }
 
     /**
@@ -83,7 +85,9 @@ class TeacherController extends Controller
      */
     public function update(Request $request, teacher $teacher)
     {
-        //
+        $teacher->update(['id' => $request->id, 'teacher_name' => $request->teacher_name, 'user_id' => $request->user_id, 'token' => $request->token]);
+
+        return redirect()->route('management.guru')->with('msg', 'Berhasil mengedit id:'.$request->id);
     }
 
     /**

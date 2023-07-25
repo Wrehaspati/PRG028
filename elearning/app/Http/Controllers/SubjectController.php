@@ -55,7 +55,7 @@ class SubjectController extends Controller
 
         $teachers = Teacher::all();
 
-        return view('management/subjects', ['subjects' => $subjects, 'grades' => $grades, 'teachers' => $teachers]);
+        return view('managements/subjects', ['subjects' => $subjects, 'grades' => $grades, 'teachers' => $teachers]);
     }
 
     /**
@@ -117,7 +117,9 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
+        $grades = Grade::all();
+        $teachers = Teacher::all();
+        return view('managements/edit-pages/edit-subjects', ['subject' => $subject, 'grades' => $grades, 'teachers' => $teachers]);
     }
 
     /**
@@ -125,7 +127,9 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $subject->update(['id' => $request->id, 'subject_name' => $request->subject_name, 'day' => $request->day, 'time_start' => $request->time_start, 'time_end' => $request->time_end, 'grade_id' => $request->grade_id, 'teacher_id' => $request->teacher_id]);
+
+        return redirect()->route('management.matapembelajaran')->with('msg', 'Berhasil mengedit id:'.$request->id);
     }
 
     /**

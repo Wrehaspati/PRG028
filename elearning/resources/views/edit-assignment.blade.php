@@ -81,7 +81,7 @@
                 E-Learning | Edit Assignment
             </h2>
             <div>
-                <a href="{{ route('course.assignment', [$grade, Str::slug($subject->subject_name), $assignment->id]) }}" class="text-blue-500 underline">
+                <a href="{{ route('assignment.show', [$grade, Str::slug($subject->subject_name), $assignment->id]) }}" class="text-blue-500 underline">
                     < Back to Subject Page
                 </a>
             </div>
@@ -100,17 +100,17 @@
                         @else 
                             <label for="" class="font-bold">Perubahan terakhir pada {{ date('d M Y - h:i:s', strtotime($assignment->updated_at)) }}</label>
                         @endif
-                        <form action="{{ route('assignment.updateasteacher', $assignment->id) }}" method="POST" class="w-full border border-gray-400 rounded p-5">
+                        <form action="{{ route('assignment.update', $assignment->id) }}" method="POST" class="w-full border border-gray-400 rounded p-5">
                             @csrf
                             @method('PUT')
                             <div class="text-lg font-bold">
                                 <label for="title">Title / Judul</label>
-                                <input class="w-full border border-gray-400 rounded" type="text" name="title"
+                                <input class="w-full border border-gray-400 rounded" type="text" name="title" required
                                     value="{{ $assignment->assignment_title }}" id="title">
                             </div>
                             <div class="text-lg mt-5">
                                 <label for="" class="font-bold">Description / Deskripsi</label>
-                                <textarea name="description" class="w-full border border-gray-400 rounded" id="" cols="30" rows="10">{{ $assignment->description }}</textarea>
+                                <textarea name="description" class="w-full border border-gray-400 rounded" required id="" cols="30" rows="10">{{ $assignment->description }}</textarea>
                             </div>
                             <div class="w-full justify-end flex gap-2 mt-2">
                                 <button class="button bg-cyan-500 hover:bg-cyan-700 rounded text-white px-5 py-2" type="submit">Update</button>

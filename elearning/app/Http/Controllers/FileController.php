@@ -18,7 +18,7 @@ class FileController extends Controller
     public function index()
     {
         $files = FileModel::all();
-        return view('management/files', ['files' => $files]);
+        return view('managements/files', ['files' => $files]);
     }
 
     /**

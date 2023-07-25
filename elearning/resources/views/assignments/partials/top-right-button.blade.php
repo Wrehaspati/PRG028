@@ -51,7 +51,7 @@
     <div class="flex justify-end gap-2 h-fit">
         @if (Auth::user()->role)
             @if (count($files) == 0)
-                <form action="{{ Route('assignments.destroy', $assignment->id) }}" method="POST">
+                <form action="{{ Route('assignment.destroy', $assignment->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
@@ -75,7 +75,7 @@
             @if (count($teacher_files) == 0)
                 <a class="button m-0" onclick="openModal()">Upload Files</a>
             @else
-                <a class="button m-0" href="{{ route('course.edit', [$subject->grade_id, Str::slug($subject->subject_name), $assignment->id] ) }}">Edit Assignment</a>
+                <a class="button m-0" href="{{ route('assignment.edit', [$subject->grade_id, Str::slug($subject->subject_name), $assignment->id] ) }}">Edit Assignment</a>
             @endif
         @endif
     </div>

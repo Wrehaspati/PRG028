@@ -64,22 +64,6 @@ class AssignmentController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * close an assignment. mark it as a completed
      */
     public function close($assignment_id, Request $request)
@@ -150,7 +134,7 @@ class AssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function editAsTeacher($grade, $subject,  $assigment_id)
+    public function edit($grade, $subject,  $assigment_id)
     {
         $subject_id = $this->urlConvertion($subject, $grade);
         
@@ -172,31 +156,15 @@ class AssignmentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified resource in storage.
      */
-    public function updateAsTeacher(Request $request, assignment $assignment)
+    public function update(Request $request, assignment $assignment)
     {
         $assignment->assignment_title = $request->title;
         $assignment->description = $request->description;
         $assignment->save();
 
         return redirect()->back()->with('msg', 'Title dan/atau Description');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(assignment $assignment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, assignment $assignment)
-    {
-        //
     }
 
     /**

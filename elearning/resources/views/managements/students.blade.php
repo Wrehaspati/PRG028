@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>E-learning </title>
-
+    <title>E-learning</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         .color {
@@ -153,91 +152,70 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Kelas') }}
+                {{ __('E-Learning | Management Siswa') }}
             </h2>
         </x-slot>
 
-        <div style="background-color: #FFFF" class="min-h-screen">
-            <div class="flex justify-center w-full">
-                <div class="w-[80%] flex justify-between">
-                    @if (Session::has('msg'))
-                        <div class="bg-cyan-500 text-white px-5 py-2 rounded w-2/5">
-                            {{ Session::get('msg') }}
-                        </div>
-                    @else
-                        <div></div>
-                    @endif
-                    <div class="">
-                        <button class="button" onclick="openModal()">Create</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="myModal" class="modal">
-                <div class="modal-content w-fit">
-                    <form action="{{ Route('grades.store') }}" method="POST">
-                        @csrf
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="px-20 py-10">
-                            <div class="" style="">
-                                <label for="id" class="block font-bold">Id Kelas <span
-                                        class="text-red-500">*</span></label>
-                                <input type="text" class="w-80 rounded focus:border-cyan-500" id="id"
-                                    name="id" placeholder="Masukan ID kelas" required>
-                            </div>
-
-                            <div class="mt-4" style="">
-                                <label for="name" class="block font-bold">Nama Kelas <span
-                                        class="text-red-500">*</span></label>
-                                <input type="text" class="w-80 rounded focus:border-cyan-500" id="name"
-                                    name="name" placeholder="Masukan Nama Kelas" required>
-                            </div>
-                        </div>
-                        <div class="flex justify-center w-full gap-2">
-                            <button class="button bg-red-500 hover:bg-red-700 rounded" type="reset">Reset</button>
-                            <button class="button bg-green-500 hover:bg-green-700 rounded"
-                                type="submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
+        <div style="background-color: #FFFF"  class="min-h-screen">
+         
             <br>
+
             <table class="tengah">
                 <tr>
                     <th>Id</th>
+                    <th>Nama</th>
                     <th>Kelas</th>
-                    <th>Jumlah Siswa</th>
+                    <th>Id User</th>
+                    <th>Status</th>
                     <th>Terakhir Diubah</th>
                     <th>Aksi</th>
                 </tr>
 
-                @forelse ($grades as $grade)
+                @forelse ($students as $student)
                     <tr>
-                        <td>{{ $grade->id }}</td>
-                        <td>{{ $grade->grade_name }}</td>
-                        <td>{{ $grade->jumlah_siswa }}</td>
-                        <td>{{ $grade->updated_at }}</td>
+                        <td>{{ $student->id }}</td>
+                        <td>{{ $student->student_name }}</td>
+                        <td>{{ $student->grade_name }}</td>
+                        <td>{{ $student->user_id }}</td>
+                        <td>
+                            @if ($student->status === 'pending') 
+                                <div class="text-white bg-red-500 px-2 rounded-lg">
+                                    {{ $student->status }}
+                                </div>
+                            @else 
+                                <div class="text-white bg-green-500 px-2 rounded-lg">
+                                    {{ $student->status }}
+                                </div>
+                            @endif
+                        </td>
+                        <td>{{ $student->updated_at }}</td>
                         <td>
                             <div class="flex justify-center gap-2">
-                                <button class="edit-button">Edit</button>
-                                <form action="{{ Route('grades.destroy', $grade->id) }}" method="POST">
+                                @if ($student->status === 'pending') 
+                                    <form action="{{ route('verify.request', $student->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        {{-- <input type="hidden" name="id" value="{{ $student->id }}"> --}}
+                                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Approve</button>
+                                    </form>
+                                @else 
+                                    <a href="{{ route('student.edit', $student->id) }}" class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+                                @endif
+                                <form action="{{ Route('student.destroy', $student->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="{{-- hidden --}} bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Hapus</button>
+                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="return confirm('Konfirmasi penghapusan?')">Hapus</button>
                                 </form>
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
+                        <td colspan="6">Data tidak ditemukan... Tabel dalam keadaan kosong.</td>
                     </tr>
                 @endforelse
             </table>
-
-
         </div>
     </x-app-layout>
 
@@ -252,22 +230,21 @@
             modal.style.display = "none";
         }
 
-        function deleteTask() {
-            var taskDescription = document.getElementById("taskDescription");
-            taskDescription.value = "";
-
-            var fileInput = document.getElementById("fileInput");
-            fileInput.value = "";
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
         }
 
         function deleteTulisan() {
             var id1Input = document.getElementById("id1");
             var id2Input = document.getElementById("id2");
             var id3Input = document.getElementById("id3");
+            var id4Input = document.getElementById("id4");
 
             id1Input.value = "";
             id2Input.value = "";
             id3Input.value = "";
+            id4Input.value = "";
 
         }
 
@@ -275,6 +252,7 @@
             var id1 = document.getElementById("id1").value;
             var id2 = document.getElementById("id2").value;
             var id3 = document.getElementById("id3").value;
+            var id4 = document.getElementById("id4").value;
 
             var table = document.getElementsByTagName("table")[0];
             var newRow = table.insertRow(table.rows.length);
@@ -284,12 +262,14 @@
             var cell3 = newRow.insertCell(2);
             var cell4 = newRow.insertCell(3);
             var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
 
             cell1.innerHTML = id1;
             cell2.innerHTML = id2;
             cell3.innerHTML = id3;
-            cell4.innerHTML = "Waktu saat ini";
-            cell5.innerHTML = `
+            cell4.innerHTML = id4;
+            cell5.innerHTML = "Waktu saat ini";
+            cell6.innerHTML = `
                 <button class="edit-button">Edit</button>
                 <button class="delete-button" onclick="deleteRow(this)">Hapus</button>
             `;

@@ -182,7 +182,7 @@
 
                 <div id="myModal" class="modal">
                     <div class="modal-content w-fit">
-                        <form action="{{ Route('subjects.store') }}" method="POST">
+                        <form action="{{ Route('subject.store') }}" method="POST">
                             @csrf
                             <span class="close" onclick="closeModal()">&times;</span>
                             <div class="px-20 py-10 gap-2">
@@ -276,8 +276,8 @@
                         <td>
                             <div class="flex justify-center gap-2">
                                 <!-- Tombol aksi -->
-                                <button class="edit-button">Edit</button>
-                                <form action="{{ Route('subjects.destroy', $subject->id) }}" method="POST">
+                                <a href="{{ route('subject.edit', $subject->id) }}" class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+                                <form action="{{ Route('subject.destroy', $subject->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
