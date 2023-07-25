@@ -113,15 +113,17 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-            {{ __('E-Learning | ' . $subject->subject_name.' | '.$subject->grade_name) }}
-            <div class="flex">
-                <div>{{ $subject->day }}&nbsp;</div>
-                <div>
-                    {{ ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }}
-                </div>
-            </div>
-            {{ $subject->teacher_name }}
+            {{ __('E-Learning | ' . $subject->subject_name . ' | ' . $subject->grade_name) }}
+
         </h2>
+        <p>
+        <div class="flex">
+            <div>{{ $subject->day }}&nbsp;</div>
+            <div>
+                {{ ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
+            </div>
+        </div>
+        </p>
     </x-slot>
 
     <div style="background-color: #FFFF" class="w-4/5 mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
