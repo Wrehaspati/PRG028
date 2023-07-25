@@ -208,23 +208,27 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | ' . $subject->subject_name.' | '.$subject->grade_name ) }}
-                <div>
-                    {{ $subject->day .' > '. Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }} 
-                </div>
-                {{ $subject->teacher_name }}
+                {{ __('E-Learning | ' . $subject->subject_name . ' | ' . $subject->grade_name) }}
+
             </h2>
+
+            <p>
+            <div>
+                {{ $subject->day . ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
+            </div>
+
+            </p>
         </x-slot>
 
         <div style="background-color: #FFFF">
             <div class="w-full flex justify-center">
                 <div class="flex justify-between w-4/5 pt-5">
                     <section class="w-3/5">
-                        @if (Session::has('msg')) 
+                        @if (Session::has('msg'))
                             <div class="bg-green-500 text-white px-5 py-2 rounded mb-2">
                                 <div>
                                     {{ date('d M Y - h:i:s', strtotime($assignment->updated_at)) }}
-                                </div> 
+                                </div>
                                 Berhasil untuk '{{ Session::get('msg') }}'
                             </div>
                         @endif
@@ -295,12 +299,12 @@
                             @endforeach
                         @endif
                     </section>
-                    
+
                     @include('assignments/partials/top-right-button')
 
                 </div>
-            </div>        
-            
+            </div>
+
             @include('assignments/partials/upload-modal')
 
             @include('assignments/partials/datatable')
