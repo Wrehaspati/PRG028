@@ -208,7 +208,12 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | ' . $subject->subject_name ) }}{{ ' | ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }} </h2>
+                {{ __('E-Learning | ' . $subject->subject_name.' | '.$subject->grade_name ) }}
+                <div>
+                    {{ $subject->day .' > '. Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) }} 
+                </div>
+                {{ $subject->teacher_name }}
+            </h2>
         </x-slot>
 
         <div style="background-color: #FFFF">

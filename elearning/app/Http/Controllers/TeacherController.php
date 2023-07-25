@@ -16,12 +16,14 @@ class TeacherController extends Controller
      */
     public static function isTeacher($subject_id)
     {
-        if(Auth::user()->role->role == 'teacher'):
-            $teacher = Teacher::where('user_id', Auth::user()->id)->first();
-            $subject = Subject::find($subject_id)->first();
-
-            if(!$teacher || $teacher->id != $subject->teacher_id)
-                abort(401);
+        if(Auth::user()->role):
+            if(Auth::user()->role->role == 'teacher'):
+                $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+                $subject = Subject::find($subject_id)->first();
+    
+                if(!$teacher || $teacher->id != $subject->teacher_id)
+                    abort(401);
+            endif;
         endif;
     }
 

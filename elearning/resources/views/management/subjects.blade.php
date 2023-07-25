@@ -158,7 +158,7 @@
         <div class="color"></div>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Mata Pembelajaran | Halo Admin !') }}
+                {{ __('E-Learning | Management Mata Pembelajaran') }}
             </h2>
         </x-slot>
 

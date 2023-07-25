@@ -152,7 +152,7 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Siswa | Halo Admin!') }}
+                {{ __('E-Learning | Management Siswa') }}
             </h2>
         </x-slot>
 

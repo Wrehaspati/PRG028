@@ -153,7 +153,7 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-                {{ __('E-Learning | Management Kelas | Halo ' . Auth::user()->name . ' !') }}
+                {{ __('E-Learning | Management Kelas') }}
             </h2>
         </x-slot>
 
