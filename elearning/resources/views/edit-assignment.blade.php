@@ -86,10 +86,10 @@
                 </a>
             </div>
         </x-slot>
-        <div style="background-color: #FFFF">
+        <div style="background-color: #FFFF" class="overflow-x-hidden">
             <div class="w-full flex justify-center">
                 <div class="flex justify-center w-4/5 pt-5">
-                    <section class="w-3/5">
+                    <section class="md:w-3/5">
                         @if (Session::has('msg')) 
                             <div class="bg-green-500 text-white px-5 py-2 rounded mb-2">
                                 <div>
@@ -116,14 +116,14 @@
                                 <button class="button bg-cyan-500 hover:bg-cyan-700 rounded text-white px-5 py-2" type="submit">Update</button>
                             </div>
                         </form>
-                        <div class="text-lg border border-gray-400 rounded p-5 mt-5">
+                        <div class="text-lg border border-gray-400 rounded p-5 mt-5 overflow-x-auto">
+                            <label for="" class="font-bold">Files</label>
                             @forelse ($teacher_files as $file)
                                 @if ($file->assign_by == 'teacher')
                                     <form action="{{ Route('files.destroy', $file->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <label for="" class="font-bold">Files</label>
-                                        <div class="flex flex-row gap-2">
+                                        <div class="flex flex-row gap-2 mb-4">
                                             <div class="py-2 px-10 w-fit bg-gray-100 rounded-lg text-md">
                                                 <a class="text-blue-700 hover:text-blue-900 underline" target="_blank"
                                                     href="{{ asset($file->path . $file->filename) }}">{{ $file->filename }}</a>
@@ -153,7 +153,7 @@
                                     <input type="hidden" name="unique_subject_id" value="{{ $subject->id }}">
                     
                                     <div class="input-group hdtuto control-group lst increment">
-                                        <input type="file" name="filenames[]" class="myfrm form-control">
+                                        <input type="file" name="filenames[]" class="myfrm form-control md:max-w-[100%] max-w-[20rem]">
                                         <div class="input-group-btn">
                                             <button class="btn-success button bg-green-500 text-white rounded my-2 px-4 py-2" type="button"><i
                                                     class="fldemo glyphicon glyphicon-plus"></i>Add More Files</button>
