@@ -13,7 +13,7 @@
 @if(!Auth::user()->role && $assignment->status == 'reserve')
     <div class="select-none">
         <div class="card-body py-2">
-            <div class="card bg-gray-200 flex flex-row justify-between" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 8px; ">
+            <div class="card bg-gray-200 flex md:flex-row flex-col md:gap-0 gap-2 justify-between" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 8px; ">
                 <div>
                     {{ $assignment->assignment_title }}
                 </div>

@@ -211,19 +211,17 @@
                 {{ __('E-Learning | ' . $subject->subject_name . ' | ' . $subject->grade_name) }}
 
             </h2>
-
             <p>
-            <div>
-                {{ $subject->day . ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
-            </div>
-
+                <div>
+                    {{ $subject->day . ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
+                </div>
             </p>
         </x-slot>
 
-        <div style="background-color: #FFFF">
+        <div style="background-color: #FFFF" class="overflow-x-hidden">
             <div class="w-full flex justify-center">
-                <div class="flex justify-between w-4/5 pt-5">
-                    <section class="w-3/5">
+                <div class="flex md:flex-row flex-col md:gap-0 gap-5 justify-between w-4/5 pt-5">
+                    <section class="md:w-3/5">
                         @if (Session::has('msg'))
                             <div class="bg-green-500 text-white px-5 py-2 rounded mb-2">
                                 <div>
@@ -299,15 +297,16 @@
                             @endforeach
                         @endif
                     </section>
-
-                    @include('assignments/partials/top-right-button')
+                        @include('assignments/partials/top-right-button')
 
                 </div>
             </div>
 
             @include('assignments/partials/upload-modal')
 
-            @include('assignments/partials/datatable')
+            <div class="overflow-x-auto">
+                @include('assignments/partials/datatable')
+            </div>
 
         </div>
     </x-app-layout>

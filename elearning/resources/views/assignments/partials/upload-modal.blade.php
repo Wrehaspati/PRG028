@@ -26,7 +26,7 @@
     <div id="myModal" class="modal overflow-hidden">
         <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="modal-content w-2/5">
+            <div class="modal-content md:w-2/5">
                 <span class="close" onclick="closeModal()">&times;</span>
 
                 <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
@@ -39,14 +39,14 @@
                 <div class="w-full flex justify-center">
                     <div
                         class="file-drop-area border-2 border-gray-300 border-dashed rounded-md min-h-[14rem] w-fit px-10 pr-20 hover:border-gray-400 focus:outline-none">
-                        <span class="fake-btn text-small">Choose files</span>
+                        <span class="fake-btn text-small hidden md:block">Choose files</span>
                         <span class="file-msg">or drag and drop files here</span>
                         <input class="file-input" name="filenames[]" type="file" {{-- multiple --}} required>
                     </div>
                 </div>
 
                 <div class="w-full flex justify-center gap-3 pt-10">
-                    <button class="button bg-red-500 hover:bg-red-700" type="reset"
+                    <button class="button bg-red-500 hover:bg-red-700 hidden md:block" type="reset"
                         onclick="resetInput()">Batal</button>
                     @if (count($files) == 0)
                         <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">Upload</button>

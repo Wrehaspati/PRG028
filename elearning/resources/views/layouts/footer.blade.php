@@ -1,5 +1,5 @@
 <hr>
-<section style="padding-bottom: 50px; padding-top : 30px; padding-left : 110px;">
+<section class="md:ml-[6rem] ml-4" style="padding-bottom: 50px; padding-top : 30px;">
     <div class="d-flex align-items-center">
         <span class="me-4">Connect with us:</span>
         <a href="https://www.instagram.com/akun_instagram" target="_blank">

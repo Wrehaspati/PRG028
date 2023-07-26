@@ -46,10 +46,10 @@
                     @csrf
                     <span class="close" onclick="closeGradeModal()">&times;</span>
                     <h2>Grades</h2>
-                    <input type="number" max="100" min="0" class="w-1/5" id="grade-input" name="grade"
+                    <input type="number" max="100" min="0" class="md:w-1/5" id="grade-input" name="grade"
                         class="grade-input" placeholder="Enter grade" />
                     <input type="hidden" id="form-hidden-id" name="file_id">
-                    <button class="button" onclick="saveGrade()">OK</button>
+                    <button class="button md:mt-0 mt-2" onclick="saveGrade()">OK</button>
                 </form>
             </div>
         </div>

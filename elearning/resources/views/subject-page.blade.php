@@ -118,9 +118,8 @@
         </h2>
         <p>
         <div class="flex">
-            <div>{{ $subject->day }}&nbsp;</div>
             <div>
-                {{ ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
+                {{ $subject->day.' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
             </div>
         </div>
         </p>
@@ -138,14 +137,18 @@
                     <span class="close" onclick="closeModal()">&times;</span>
                     <form action="{{ route('assignment.store') }}" method="POST">
                         @csrf
-                        <h2>Judul <span class="text-red-500">*</span></h2>
-                        <input type="hidden" name="subject" value="{{ $subject->id }}">
-                        <input type="text" required name="title" placeholder="Tambahkan judul..."
-                            class="w-2/3 mb-5 shadow-md rounded border border-gray-200">
-                        <h2>Deskripsi atau Petunjuk <span class="text-red-500">*</span></h2>
-                        <textarea id="taskDescription" class="w-2/3 mb-5" name="description" required rows="4" cols="50"
-                            placeholder="Tambahkan teks deskripsi ataupun petunjuk..."></textarea>
-                        <div class="flex flex-row gap-10">
+                        <div class="flex flex-col w-full">
+                            <h2>Judul <span class="text-red-500">*</span></h2>
+                            <input type="hidden" name="subject" value="{{ $subject->id }}">
+                            <input type="text" required name="title" placeholder="Tambahkan judul..."
+                                class="md:w-2/3 w-full mb-5 shadow-md rounded border border-gray-200">
+                        </div>
+                        <div>
+                            <h2>Deskripsi atau Petunjuk <span class="text-red-500">*</span></h2>
+                            <textarea id="taskDescription" class="md:w-2/3 w-full mb-5" name="description" required rows="4" cols="50"
+                                placeholder="Tambahkan teks deskripsi ataupun petunjuk..."></textarea>
+                        </div>
+                        <div class="flex md:flex-row flex-col md:gap-10 gap-5">
                             <div>
                                 <h2>Waktu Dibukanya Pengajuan</h2>
                                 <input type="datetime-local" class="shadow-md rounded border border-gray-200"
@@ -177,11 +180,13 @@
                                 ajaran')</label>
                         </div>
                         <p class="mt-5"><span class="text-red-500">*</span> wajib untuk diisi</p>
-                        <div class="kanan mt-10">
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                type="reset">Delete</button>
-                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                                type="submit">OK</button>
+                        <div class="w-full mt-10 flex justify-end">
+                            <div>
+                                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                    type="reset">Delete</button>
+                                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                    type="submit">OK</button>
+                            </div>
                         </div>
                     </form>
                 </div>
