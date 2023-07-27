@@ -84,7 +84,7 @@
         <div style="background-color: #FFFF">
             <div class="w-full flex justify-center">
                 <div class="flex justify-center w-4/5 pt-5">
-                    <section class="w-3/5">
+                    <section class="md:w-3/5">
                         @if (Session::has('msg')) 
                             <div class="bg-green-500 text-white px-5 py-2 rounded mb-2">
                                 <div>
