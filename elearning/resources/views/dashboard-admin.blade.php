@@ -47,9 +47,8 @@
             {{ __('E-Learning | Dashboard Admin') }}
         </h2>
     </x-slot>
-    <div style="background-color: #FFFF" class="h-2/5">
-
-        <div class="tengah">
+    <div style="background-color: #FFFF" class="h-2/5 overflow-x-hidden flex justify-center">
+        <div class="flex flex-row md:justify-center justify-start gap-3 overflow-x-auto">
             <a href="{{ Route('management.kelas') }}" class="card">
                 <img src="https://ouch-cdn2.icons8.com/-ndYHeBSrcrOouvEnXsy6uOKNWSLihJ2STG50VGMI1Q/rs:fit:256:182/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTU3/L2FhODZlY2RjLTdi/NGItNDA2YS04MTZh/LTQ2NTk5NDk4ZmEx/MC5wbmc.png"
                     alt="Management Kelas">
