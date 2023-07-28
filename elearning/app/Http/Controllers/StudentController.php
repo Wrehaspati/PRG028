@@ -84,6 +84,6 @@ class StudentController extends Controller
     public function destroy(student $student)
     {
         student::destroy($student->id);
-        return back();
+        return back()->with('msg', 'Berhasil menghapus id:'.$student->id);
     }
 }

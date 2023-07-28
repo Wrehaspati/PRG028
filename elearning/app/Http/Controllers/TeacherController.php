@@ -98,6 +98,6 @@ class TeacherController extends Controller
         Role::where('user_id',$teacher->user_id)->delete();
         teacher::destroy($teacher->id);
 
-        return back();
+        return back()->with('msg', 'Berhasil menghapus id:'.$teacher->id);
     }
 }

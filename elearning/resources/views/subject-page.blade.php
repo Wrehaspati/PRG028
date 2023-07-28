@@ -228,47 +228,47 @@
         const uploadSuccess = document.getElementById('upload-success');
 
         // Mengatur event listener untuk tombol Upload
-        uploadButton.addEventListener('click', function() {
-            fileInput.click();
-        });
+        // uploadButton.addEventListener('click', function() {
+        //     fileInput.click();
+        // });
 
         // Mengatur event listener untuk perubahan input file
-        fileInput.addEventListener('change', function() {
-            const selectedFile = fileInput.files[0];
+        // fileInput.addEventListener('change', function() {
+        //     const selectedFile = fileInput.files[0];
 
-            if (selectedFile) {
-                // Proses upload file di sini
-                console.log('File yang dipilih:', selectedFile);
+        //     if (selectedFile) {
+        //         // Proses upload file di sini
+        //         console.log('File yang dipilih:', selectedFile);
 
-                // Menampilkan nama file pada kotak bayangan
-                fileName.textContent = `File Upload | ${selectedFile.name}`;
+        //         // Menampilkan nama file pada kotak bayangan
+        //         fileName.textContent = `File Upload | ${selectedFile.name}`;
 
-                // Mengaktifkan tombol Remove setelah berhasil upload
-                removeButton.disabled = false;
+        //         // Mengaktifkan tombol Remove setelah berhasil upload
+        //         removeButton.disabled = false;
 
-                // Menampilkan notifikasi file berhasil diunggah
-                uploadSuccess.textContent = 'File berhasil diunggah.';
-                uploadSuccess.style.display = 'block';
-            }
-        });
+        //         // Menampilkan notifikasi file berhasil diunggah
+        //         uploadSuccess.textContent = 'File berhasil diunggah.';
+        //         uploadSuccess.style.display = 'block';
+        //     }
+        // });
 
         // Mengatur event listener untuk tombol Remove
-        removeButton.addEventListener('click', function() {
-            // Proses penghapusan file di sini
-            console.log('File dihapus.');
+        // removeButton.addEventListener('click', function() {
+        //     // Proses penghapusan file di sini
+        //     console.log('File dihapus.');
 
-            // Mengosongkan nilai input file
-            fileInput.value = '';
+        //     // Mengosongkan nilai input file
+        //     fileInput.value = '';
 
-            // Menonaktifkan tombol Remove
-            removeButton.disabled = true;
+        //     // Menonaktifkan tombol Remove
+        //     removeButton.disabled = true;
 
-            // Mengembalikan teks pada kotak bayangan ke keadaan semula
-            fileName.textContent = 'File Upload |';
+        //     // Mengembalikan teks pada kotak bayangan ke keadaan semula
+        //     fileName.textContent = 'File Upload |';
 
-            // Menghilangkan notifikasi file berhasil diunggah
-            uploadSuccess.style.display = 'none';
-        });
+        //     // Menghilangkan notifikasi file berhasil diunggah
+        //     uploadSuccess.style.display = 'none';
+        // });
 
 
         // js tombol create

@@ -52,9 +52,18 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-            {{ __('E-Learning | File Tersimpan') }}
-        </h2>
+        <div class="w-full flex justify-between">
+            <div class="">
+                <h2 class="font-semibold text-xl text-gray-500 leading-tight">
+                    {{ __('E-Learning | Management File Tersimpan') }}
+                </h2>
+            </div>
+                @if (Session::has('msg')) 
+                    <div class="w-fit bg-cyan-500 text-white px-5 py-2 rounded mb-2">
+                        {{ Session::get('msg') }}
+                    </div>
+                @endif
+        </div>
     </x-slot>
 
     <div style="background-color: #FFFF" class="min-h-screen overflow-x-hidden">

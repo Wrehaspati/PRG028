@@ -332,9 +332,9 @@
         const uploadSuccess = document.getElementById('upload-success');
 
         // Mengatur event listener untuk tombol Upload
-        uploadButton.addEventListener('click', function() {
-            fileInput.click();
-        });
+        // uploadButton.addEventListener('click', function() {
+        //     fileInput.click();
+        // });
 
         // Mengatur event listener untuk perubahan input file
         // fileInput.addEventListener('change', function() {

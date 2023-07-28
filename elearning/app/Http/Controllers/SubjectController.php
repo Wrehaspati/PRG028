@@ -138,6 +138,6 @@ class SubjectController extends Controller
     public function destroy(Subject $subject)
     {
         Subject::destroy($subject->id);
-        return back();
+        return back()->with('msg', 'Berhasil menghapus id:'.$subject->id);
     }
 }

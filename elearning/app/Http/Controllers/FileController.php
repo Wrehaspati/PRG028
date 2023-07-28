@@ -141,6 +141,6 @@ class FileController extends Controller
         }
 
         FileModel::destroy($file->id);
-        return back()->with('msg', 'Hapus File');
+        return back()->with('msg', 'Hapus File (id:'.$file->id.')');
     }
 }

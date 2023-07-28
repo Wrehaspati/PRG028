@@ -140,9 +140,13 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-500 leading-tight">
-            {{ __('E-Learning | Management Kelas') }}
-        </h2>
+        <div class="w-full flex justify-between">
+            <div class="">
+                <h2 class="font-semibold text-xl text-gray-500 leading-tight">
+                    {{ __('E-Learning | Management Kelas') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
 
     <div style="background-color: #FFFF" class="min-h-screen overflow-x-hidden">
