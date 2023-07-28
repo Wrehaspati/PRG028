@@ -1,4 +1,3 @@
-<title>E-learning</title>
 <x-guest-layout>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -50,7 +49,7 @@
         }
     </style>
 
-    <body class="antialiased w-full">
+    <div class="w-full bg-white">
         <nav class="navbar navbar-expand-lg navbar-dark bg-custom p-3">
             <div class="container-fluid">
                 <a class="navbar-brand" href="javascript:history.go(0)">
@@ -195,5 +194,5 @@
                 <span>You are not logged in. (<a href="{{ route('login') }}">Log in</a>)</span>
             </div>
         </footer>
-
+    </div>
 </x-guest-layout>
