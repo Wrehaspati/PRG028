@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\assignment;
+use App\Models\Assignment;
 use App\Models\File;
 use App\Models\Subject;
 use App\View\Components\AssignmentCard;

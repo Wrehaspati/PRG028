@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
-use App\Models\file as FileModel;
+use App\Models\File as FileModel;
 use Faker\Core\File as CoreFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
