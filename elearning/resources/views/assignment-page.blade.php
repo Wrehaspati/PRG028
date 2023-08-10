@@ -216,6 +216,11 @@
                     {{ $subject->day . ' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
                 </div>
             </p>
+            <div>
+                <a href="{{ route('course.show', [$subject->id_grade, Str::slug($subject->subject_name)]) }}" class="text-blue-500 underline">
+                    < Back to Subject Page
+                </a>
+            </div>
         </x-slot>
 
         <div style="background-color: #FFFF" class="overflow-x-hidden">

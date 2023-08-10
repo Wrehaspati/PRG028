@@ -25,12 +25,16 @@
                     @endif
                 </td>
                 <td>
-                    @if ($file->grade && $file->grade != '')
-                        <button class="grade-button rounded"
-                            onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit nilai</button>
+                    @if (Auth::user()->role->role == 'teacher')
+                        @if ($file->grade && $file->grade != '')
+                            <button class="grade-button rounded"
+                                onclick="showGradeModal({{ $file->id }}, {{ $file->grade }})">Edit nilai</button>
+                        @else
+                            <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }})">Beri
+                                nilai</button>
+                        @endif
                     @else
-                        <button class="grade-button rounded" onclick="showGradeModal({{ $file->id }})">Beri
-                            nilai</button>
+                        -
                     @endif
                 </td>
             </tr>
@@ -39,19 +43,21 @@
                 <td colspan="6">Belum ada file yang terkirim</td>
             </tr>
         @endforelse
-
-        <div id="grade-modal" class="modal">
-            <div class="modal-content">
-                <form action="{{ route('file.grade') }}" method="POST">
-                    @csrf
-                    <span class="close" onclick="closeGradeModal()">&times;</span>
-                    <h2>Grades</h2>
-                    <input type="number" max="100" min="0" class="md:w-1/5" id="grade-input" name="grade"
-                        class="grade-input" placeholder="Enter grade" />
-                    <input type="hidden" id="form-hidden-id" name="file_id">
-                    <button class="button md:mt-0 mt-2" onclick="saveGrade()">OK</button>
-                </form>
+        
+        @if (Auth::user()->role->role == 'teacher')
+            <div id="grade-modal" class="modal">
+                <div class="modal-content">
+                    <form action="{{ route('file.grade') }}" method="POST">
+                        @csrf
+                        <span class="close" onclick="closeGradeModal()">&times;</span>
+                        <h2>Grades</h2>
+                        <input type="number" max="100" min="0" class="md:w-1/5" id="grade-input" name="grade"
+                            class="grade-input" placeholder="Enter grade" />
+                        <input type="hidden" id="form-hidden-id" name="file_id">
+                        <button class="button md:mt-0 mt-2" onclick="saveGrade()">OK</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        @endif
     </table>
 @endif

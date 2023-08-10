@@ -117,17 +117,23 @@
 
         </h2>
         <p>
-        <div class="flex">
-            <div>
-                {{ $subject->day.' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
+            <div class="flex">
+                <div>
+                    {{ $subject->day.' > ' . Str::substr($subject->time_start, 0, 5) . ' - ' . Str::substr($subject->time_end, 0, 5) . ' | ' . $subject->teacher_name }}
+                </div>
             </div>
-        </div>
         </p>
+        <div>
+            <a href="{{ route('course.index') }}" class="text-blue-500 underline">
+                < Back to Dashboard
+            </a>
+        </div>
     </x-slot>
 
     <div style="background-color: #FFFF" class="w-4/5 mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
         {{--  tombol di dashboard file matematika --}}
         @if (Auth::user()->role)
+            @if (Auth::user()->role->role == 'teacher')
             <div class="justify-end flex w-full mb-2">
                 <button class="button" onclick="openModal()">Create</button>
                 {{-- <button class="button" onclick="openModal()">Edit</button> --}}
@@ -194,6 +200,7 @@
 
             {{-- buat naruh hasil/tulisan dari tombol create --}}
             <div id="card" style="display: none;"> </div>
+            @endif
         @endif
 
         <!--Card kelas-->

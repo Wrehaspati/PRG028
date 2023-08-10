@@ -153,6 +153,11 @@
                 </h2>
             </div>
         </div>
+        <div>
+            <a href="{{ route('course.index') }}" class="text-blue-500 underline">
+                < Back to Dashboard
+            </a>
+        </div>
     </x-slot>
 
     <div style="background-color: #FFFF" class="min-h-screen overflow-x-hidden">

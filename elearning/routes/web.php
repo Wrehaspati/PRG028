@@ -13,6 +13,7 @@ use App\Models\Grade;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -44,14 +45,11 @@ Route::middleware('auth')->group(function () {
     Route::put('verification/verify/{student}', [StudentController::class, 'verify'])->name('verify.request');
 
     // Dashboard Routes
-    Route::prefix('/dashboard')->group(function () {
-        Route::get('/', [DashboardController::class,'index'])->name('course.index');
-        Route::get('/{grade}/subject/{subject}', [SubjectController::class, 'show'])->name('course.show');
-    });
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('course.index');
 
     // Assignments Routes 
     Route::get('course/{grade}/subject/{subject}/{assignment_id}', [AssignmentController::class, 'show'])->name('assignment.show');
-    Route::get('course/{grade}/subject/{subject}/{assignment_id}/edit', [AssignmentController::class, 'edit'])->name('assignment.edit');
+    Route::get('course/{grade}/subject/{subject}', [SubjectController::class, 'show'])->name('course.show');
     Route::put('assignments/update/{assignment}', [AssignmentController::class, 'update'])->name('assignment.update');
     Route::post('course/{assignment_id}', [AssignmentController::class, 'close'])->name('assignment.close');
     Route::resource('assignment', AssignmentController::class)->only([
@@ -101,6 +99,16 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    // Middleware for teacher, only can be accessed by teachers
+    Route::middleware('teacher')->group(function () {
+        Route::get('course/{grade}/subject/{subject}/{assignment_id}/edit', [AssignmentController::class, 'edit'])->name('assignment.edit');
+    });
+
+});
+
+Route::get('/linkstorage', function () {
+    $exitCode = Artisan::call('storage:link', [] );
+    echo $exitCode; // 0 exit code for no errors.
 });
 
 require __DIR__.'/auth.php';

@@ -50,32 +50,34 @@
     </div>
     <div class="flex justify-end gap-2 h-fit">
         @if (Auth::user()->role)
-            @if (count($files) == 0)
-                <form action="{{ Route('assignment.destroy', $assignment->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
-                </form>
-            @endif
-            <form action="{{ Route('assignment.close', $assignment->id) }}" method="POST">
-                @csrf
-                @if ($assignment->status == 'closed')
-                    <input type="hidden" name="status" value="open">
-                    <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">
-                        Buka Kunci Pengajuan
-                    </button>
-                @else
-                    <input type="hidden" name="status" value="closed">
-                    <button class="button bg-green-500 hover:bg-green-700" type="submit">
-                        Kunci Pengajuan
-                    </button>
+            @if (Auth::user()->role->role == 'teacher')
+                @if (count($files) == 0)
+                    <form action="{{ Route('assignment.destroy', $assignment->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="button bg-red-500 hover:bg-red-700" onclick="">Delete</button>
+                    </form>
                 @endif
-            </form>
+                <form action="{{ Route('assignment.close', $assignment->id) }}" method="POST">
+                    @csrf
+                    @if ($assignment->status == 'closed')
+                        <input type="hidden" name="status" value="open">
+                        <button class="button bg-cyan-500 hover:bg-cyan-700" type="submit">
+                            Buka Kunci Pengajuan
+                        </button>
+                    @else
+                        <input type="hidden" name="status" value="closed">
+                        <button class="button bg-green-500 hover:bg-green-700" type="submit">
+                            Kunci Pengajuan
+                        </button>
+                    @endif
+                </form>
 
-            @if (count($teacher_files) == 0)
-                <a class="button m-0" onclick="openModal()">Upload Files</a>
-            @else
-                <a class="button m-0" href="{{ route('assignment.edit', [$subject->grade_id, Str::slug($subject->subject_name), $assignment->id] ) }}">Edit Assignment</a>
+                @if (count($teacher_files) == 0)
+                    <a class="button m-0" onclick="openModal()">Upload Files</a>
+                @else
+                    <a class="button m-0" href="{{ route('assignment.edit', [$subject->grade_id, Str::slug($subject->subject_name), $assignment->id] ) }}">Edit Assignment</a>
+                @endif
             @endif
         @endif
     </div>

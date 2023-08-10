@@ -59,41 +59,43 @@
         </form>
     </div>
 @else
-    {{-- Modal milik roles guru --}}
-    <div id="myModal" class="modal">
-        <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
-            @csrf
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Materials/Files</h2>
-                <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
-                <input type="hidden" name="assign_by" value="teacher">
-                <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
-                <input type="hidden" name="unique_subject_name" value="{{ $subject->subject_name }}">
-                <input type="hidden" name="unique_subject_id" value="{{ $subject->id }}">
+    @if (Auth::user()->role->role = 'teacher')
+        {{-- Modal milik roles guru --}}
+        <div id="myModal" class="modal">
+            <form action="{{ route('files.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2>Materials/Files</h2>
+                    <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
+                    <input type="hidden" name="assign_by" value="teacher">
+                    <input type="hidden" name="unique_grade_id" value="{{ $subject->grade_id }}">
+                    <input type="hidden" name="unique_subject_name" value="{{ $subject->subject_name }}">
+                    <input type="hidden" name="unique_subject_id" value="{{ $subject->id }}">
 
-                <div class="input-group hdtuto control-group lst increment">
-                    <input type="file" name="filenames[]" class="myfrm form-control">
-                    <div class="input-group-btn">
-                        <button class="btn-success button bg-green-500 my-2 px-4 py-2" type="button"><i
-                                class="fldemo glyphicon glyphicon-plus"></i>Add More Files</button>
-                    </div>
-                </div>
-                <div class="clone hidden">
-                    <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                    <div class="input-group hdtuto control-group lst increment">
                         <input type="file" name="filenames[]" class="myfrm form-control">
                         <div class="input-group-btn">
-                            <button class="button bg-red-500 hover:bg-red-800 my-2 px-4 py-2 btn-danger"
-                                type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                            <button class="btn-success button bg-green-500 my-2 px-4 py-2" type="button"><i
+                                    class="fldemo glyphicon glyphicon-plus"></i>Add More Files</button>
                         </div>
                     </div>
-                </div>
+                    <div class="clone hidden">
+                        <div class="hdtuto control-group lst input-group" style="margin-top:10px">
+                            <input type="file" name="filenames[]" class="myfrm form-control">
+                            <div class="input-group-btn">
+                                <button class="button bg-red-500 hover:bg-red-800 my-2 px-4 py-2 btn-danger"
+                                    type="button"><i class="fldemo glyphicon glyphicon-remove"></i> Remove</button>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="kanan">
-                    <button class="button-delete" onclick="deleteTask()">Delete</button>
-                    <button class="button" onclick="saveTask()">Upload</button>
+                    <div class="kanan">
+                        <button class="button-delete" onclick="deleteTask()">Delete</button>
+                        <button class="button" onclick="saveTask()">Upload</button>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    @endif
 @endif

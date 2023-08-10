@@ -82,7 +82,7 @@
             </h2>
             <div>
                 <a href="{{ route('assignment.show', [$grade, Str::slug($subject->subject_name), $assignment->id]) }}" class="text-blue-500 underline">
-                    < Back to Subject Page
+                    < Back to Assignment Page
                 </a>
             </div>
         </x-slot>
