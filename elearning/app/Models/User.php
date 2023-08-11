@@ -46,12 +46,12 @@ class User extends Authenticatable
     
     public function role(): HasOne
     {
-        return $this->hasOne(role::class);
+        return $this->hasOne(Role::class);
     }
 
     public function studentData(): HasOne
     {
-        return $this->hasOne(student::class);
+        return $this->hasOne(Student::class);
     }
 
     public function teacherData(): HasOne
