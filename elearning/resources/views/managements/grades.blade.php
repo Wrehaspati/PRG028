@@ -175,7 +175,7 @@
                 <form action="{{ Route('grade.store') }}" method="POST">
                     @csrf
                     <span class="close" onclick="closeModal()">&times;</span>
-                    <div class="md:px-20 md:py-10">
+                    <div class="md:px-0 sm:px-20 md:py-10">
                         <div class="" style="">
                             <label for="id" class="block font-bold">Id Kelas <span
                                     class="text-red-500">*</span></label>
